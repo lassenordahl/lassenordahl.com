@@ -10,6 +10,8 @@
     "gatsby-plugin-postcss": "2.1.16",
     "gatsby-plugin-purgecss": "4.0.1",
     "gatsby-plugin-react-helmet": "3.1.16",
+    "gatsby-source-filesystem": "^2.1.42",
+    "gatsby-transformer-remark": "^2.6.42",
     "graphql": "14.5.8",
     "prop-types": "15.7.2",
     "react": "16.12.0",
