@@ -68,7 +68,7 @@ p {
 }
 /* Blockquotes */
 .markdown blockquote {
-  @apply p-0 p-2 mx-6 mb-4 border-l-4 border-gray-400 italic;
+  @apply p-0 p-2 mx-6 mb-4 border-l-4 italic;
 }
 .markdown blockquote > p {
   @apply mb-0;
@@ -77,9 +77,6 @@ p {
 .markdown td,
 .markdown th {
   @apply px-2 py-1 border;
-}
-.markdown tr:nth-child(odd) {
-  @apply bg-gray-100;
 }
 .markdown table {
   @apply mb-6;
