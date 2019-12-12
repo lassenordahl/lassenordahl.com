@@ -17,17 +17,23 @@ function Header() {
 
   return (
     <header>
-      <div className="flex flex-wrap items-center justify-between mx-auto p-8">
-        <div className="w-full px-8 py-8 flex justify-between content-between">
-          <div className="mr-auto">
-            <h1 className="text-6xl">
+      <div className="flex flex-wrap items-center justify-between mx-auto p-16">
+        <div className="w-full flex justify-between content-between">
+          <div className="mr-auto flex flex-col items-start justify-center">
+            <h1 className="text-6xl my-0 font-bold">
               Lasse Nordahl
             </h1>
-            <h3 className="text-3xl">
+            <h3 className="text-3xl my-0 text-grey">
               Software Engineering Intern
             </h3>
+            <h4 className="text-2xl my-4 text-grey">
+              Greater Los Angeles
+            </h4>
+            {/* 💻  */}
           </div>
-          <img alt="" className="block w-40 rounded-full"  src={profile}></img>
+          <div className="m-auto flex items-center justify-center">
+            <img alt="" className="block w-64 rounded-full"  src={profile}></img>
+          </div>
         </div>
        
       </div>

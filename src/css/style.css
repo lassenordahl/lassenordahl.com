@@ -2,6 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
+h1 {
+  @apply text-6xl font-bold my-8;
+}
+
+h2 {
+  @apply text-5xl my-6;
+}
+
+h3 {
+  @apply text-2xl my-6;
+}
+
+p {
+  @apply text-xl my-4;
+}
+
 /* purgecss start ignore */
 /* Markdown Styles */
 /* Global */
@@ -15,7 +31,9 @@
 .markdown h2 {
   @apply text-3xl my-6 font-bold;
 }
-.markdown h3,
+.markdown h3 {
+  @apply text-xl my-6 font-bold;
+}
 .markdown h4,
 .markdown h5,
 .markdown h6 {
@@ -23,14 +41,14 @@
 }
 /* Links */
 .markdown a {
-  @apply text-blue-600;
+  @apply;
 }
 .markdown a:hover {
   @apply underline;
 }
 /* Paragraph */
 .markdown p {
-  @apply mb-4;
+  @apply text-xl mb-4;
 }
 /* Lists */
 .markdown ul,
@@ -50,7 +68,7 @@
 }
 /* Blockquotes */
 .markdown blockquote {
-  @apply p-0 p-2 mx-6 bg-gray-100 mb-4 border-l-4 border-gray-400 italic;
+  @apply p-0 p-2 mx-6 mb-4 border-l-4 border-gray-400 italic;
 }
 .markdown blockquote > p {
   @apply mb-0;
@@ -58,12 +76,21 @@
 /* Tables */
 .markdown td,
 .markdown th {
-  @apply px-2 py-1 border border-gray-400;
+  @apply px-2 py-1 border;
 }
 .markdown tr:nth-child(odd) {
   @apply bg-gray-100;
 }
 .markdown table {
   @apply mb-6;
+}
+
+.markdown img {
+  @apply m-32 w-4/5;
+}
+
+.markdown img + p {
+  text-align: center;
+  color: blue;
 }
 /* purgecss end ignore */
