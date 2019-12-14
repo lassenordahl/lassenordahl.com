@@ -16,21 +16,9 @@ const projects = [
   },
   {
     path: `projects/anteater-hydroponics`,
-    title: `TIPPERS Applications`,
-    description: `Assisting research in the UCI IoT Department`,
-    imgUrl: `https://user-images.githubusercontent.com/13127625/70756473-84448300-1cf1-11ea-9a75-ac78731a35a2.png`
-  },
-  {
-    path: `projects/anteater-hydroponics`,
     title: `Impulse`,
     description: `Internship application management program using Gmail API's and NLP`,
     imgUrl: `https://user-images.githubusercontent.com/13127625/70756241-e51f8b80-1cf0-11ea-9ce1-a8d7354d97f8.png`
-  },
-  {
-    path: `projects/anteater-hydroponics`,
-    title: `PXL`,
-    description: `LED Matrix map for concerts using smartphones`,
-    imgUrl: `https://user-images.githubusercontent.com/13127625/70756395-46dff580-1cf1-11ea-97a1-3c3bd1777f5d.png`
   },
   {
     path: `projects/anteater-hydroponics`,
@@ -38,6 +26,21 @@ const projects = [
     description: `Developing websites for advertising Orange County's largest hackathon`,
     imgUrl: `https://user-images.githubusercontent.com/13127625/70756428-5e1ee300-1cf1-11ea-8959-f740b651b14e.png`
   }
+]
+
+const projectsTwo = [
+  {
+    path: `projects/anteater-hydroponics`,
+    title: `TIPPERS Applications`,
+    description: `Assisting research in the UCI IoT Department`,
+    imgUrl: `https://user-images.githubusercontent.com/13127625/70756473-84448300-1cf1-11ea-9a75-ac78731a35a2.png`
+  },
+  {
+    path: `projects/anteater-hydroponics`,
+    title: `PXL`,
+    description: `LED Matrix map for concerts using smartphones`,
+    imgUrl: `https://user-images.githubusercontent.com/13127625/70756395-46dff580-1cf1-11ea-97a1-3c3bd1777f5d.png`
+  },
 ]
 
 const image_links = [
@@ -65,18 +68,19 @@ function IndexPage() {
         title="Home"
       />
       <section>
-        <h1 className="text-5xl font-bold my-8">
+        {/* <h1 className="text-5xl font-bold my-8"> */}
+        <h2>
           About Me 📓
-        </h1>
+        </h2>
         <p>
           I'm Lasse Nordahl, a senior attending UC Irvine pursuing a B.S. in Computer Science. After a few internships and fun side projects, I've started to specialize in full-stack development focused on Web Design. In my free time I'm either rock climbing, exploring LA, drawing corgis on work resources, or doing photography. Feel free to explore the site to learn more about me.
           {/* I'm Lasse Nordahl, a rising Junior attending UC Irvine pursuing a B.S. in Computer Science with a specialization in Intelligent Systems. My expertise lies in full stack development and I intend on developing my education in Machine Learning/Artificial Intelligence. */}
         </p>
       </section>
       <section>
-        <h1 className="text-5xl font-bold my-8">
+        <h2>
           Resume 📝
-        </h1>
+        </h2>
         <p>
           Below is my up-to-date resume focused on my biggest projects and most prominant work experience.
         </p>
@@ -87,9 +91,9 @@ function IndexPage() {
         </div>
       </section>
       <section>
-        <h1 className="text-5xl font-bold my-8">
+        <h2>
           Experience 💈
-        </h1>
+        </h2>
         <h3 className="text-2xl font-bold my-6">
           Beyond Limits
         </h3>
@@ -124,10 +128,53 @@ function IndexPage() {
         </p>
       </section>
       <section>
-        <h1 className="text-5xl font-bold my-8">
+        <h2>
           Projects 🧗
-        </h1>
-        <div className="flex flex-wrap">
+        </h2>
+        <div className="flex flex-col lg:flex-row xl:flex-row sm:flex-col xs:flex-col md:flex-col">
+          <div className="lg:w-1/2 xl:w-1/2">
+            { projects.map(function(project) {
+                return (
+                  <Link to={project.path}>
+                    <div className="shadow-xl hover:shadow-2xl w-full mh-card mb-16">
+                    <img alt={1} className="w-full" src={project.imgUrl}></img>
+                    <div className="p-8">
+                      <h3 className="my-0 font-bold">
+                        {project.title}
+                      </h3>
+                      <p className="mb-0">
+                        {project.description}
+                      </p>
+                    </div>
+                    </div>
+                  </Link>
+                );
+              })
+            }
+          </div>
+          <div className="xs:w-0 sm:w-0 md:w-0 lg:w-16 xl:w-16"/>
+          <div className="lg:w-1/2 xl:w-1/2">
+          { projectsTwo.map(function(project) {
+              return (
+                <Link to={project.path}>
+                  <div className="shadow-xl hover:shadow-2xl w-full mh-card mb-16">
+                  <img alt={1} className="w-full" src={project.imgUrl}></img>
+                  <div className="p-8">
+                    <h3 className="my-0 font-bold">
+                      {project.title}
+                    </h3>
+                    <p className="mb-0">
+                      {project.description}
+                    </p>
+                  </div>
+                  </div>
+                </Link>
+              );
+            })
+          }
+          </div>
+        </div>
+        {/* <div className="flex flex-wrap">
           {projects.map(function(project) {
             return (
               <div className="my-8 px-8 w-full xs:w-full sm:w-full md:w-full lg:w-1/2 xl:w-1/2">
@@ -147,12 +194,12 @@ function IndexPage() {
               </div>
             );
           })}
-        </div>
+        </div> */}
       </section>
       <section>
-        <h1 className="text-5xl font-bold my-8">
+        <h2>
           Photography 📷
-        </h1>
+        </h2>
         <p>
           In my free time I do some photography to capture memories, spend some time outdoors, and see some pretty colors. Below are some of my favorite photos from the last few months.
         </p>
