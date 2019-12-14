@@ -29,6 +29,20 @@ function Header() {
             <h4 className="text-xl sm:text-2xl my-0 text-grey1">
               Greater Los Angeles
             </h4>
+            <div className="my-0 flex flex-row text-2xl">
+              <a href="mailto:lnordahl@uci.edu">
+                <i class="far fa-envelope m-4 hover:text-grey1"></i>
+              </a>
+              <a href="http://github.com/LasseNordahl" target="_blank">
+                <i className="fab fa-github m-4 hover:text-grey1" href=""></i>
+              </a>
+              <a href="http://linkedin.com/in/lassenordahl" target="_blank">
+                <i className="fab fa-linkedin m-4 hover:text-grey1"></i>
+              </a>
+              <a href="https://www.instagram.com/lassenordahl/" target="_blank">
+                <i className="fab fa-instagram m-4 hover:text-grey1"></i>
+              </a>
+            </div>
             {/* 💻  */}
           </div>
           <div className="m-auto flex items-center justify-center">

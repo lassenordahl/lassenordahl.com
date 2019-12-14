@@ -76,6 +76,20 @@ function IndexPage() {
           I'm Lasse Nordahl, a senior attending UC Irvine pursuing a B.S. in Computer Science. After a few internships and fun side projects, I've started to specialize in full-stack development focused on Web Design. In my free time I'm either rock climbing, exploring LA, drawing corgis on work resources, or doing photography. Feel free to explore the site to learn more about me.
           {/* I'm Lasse Nordahl, a rising Junior attending UC Irvine pursuing a B.S. in Computer Science with a specialization in Intelligent Systems. My expertise lies in full stack development and I intend on developing my education in Machine Learning/Artificial Intelligence. */}
         </p>
+        <div className="w-full flex flex-col">
+          <h4>
+            Interests
+          </h4>
+          <div className="w-full flex flex-row">
+            <div className="w-full lg:w-1/2">
+              
+            </div>
+            <div className="w-16"></div>
+            <div className="w-full lg:w-1/2">
+
+            </div>
+          </div>
+        </div>
       </section>
       <section>
         <h2>
@@ -97,13 +111,17 @@ function IndexPage() {
         <h3 className="text-2xl font-bold my-6">
           Beyond Limits
         </h3>
-        <p>
-          Developed features on an autonomous robotics project utilizing computer vision for corrosion detection.
-        
-          Integrated robotics framework and Web-GUI to display progress alerts, lidar streams, and video feeds.
-        
-          Built full-stack configuration tool that manages the setting of environment variables and mapping data to improve testing workflow.
-        </p>
+        <ul>
+          <li>
+            Developed features on an autonomous robotics project utilizing computer vision for corrosion detection.
+          </li>
+          <li>
+            Integrated robotics framework and Web-GUI to display progress alerts, lidar streams, and video feeds.
+          </li>
+          <li>
+            Built full-stack configuration tool that manages the setting of environment variables and mapping data to improve testing workflow.
+          </li>
+        </ul>
         <h3 className="text-2xl font-bold my-6">
           IoT Research at UC Irvine 
         </h3>

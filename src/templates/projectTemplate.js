@@ -9,7 +9,7 @@ export default function Template({
   const { frontmatter, html } = markdownRemark
   return (
     <div className="flex flex-col font-sans items-center min-h-screen text-gray-900 bg-main">
-      <div className="flex flex-col w-3/6 min-h-screen my-24">
+      <div className="flex flex-col w-4/5 lg:w-1/2 min-h-screen my-24">
         <div
           className="markdown"
           dangerouslySetInnerHTML={{ __html: html }}
