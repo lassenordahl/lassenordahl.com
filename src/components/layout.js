@@ -7,9 +7,9 @@ import styles from "./../css/style.css";
 function Layout({ children }) {
   return (
     <div className="app flex flex-col font-sans items-center min-h-screen bg-main">
-      <div className="flex flex-col lg:w-3/5 md:w-4/5 sm:w-4/5 min-h-screen">
+      <div className="flex flex-col w-4/5 lg:w-1/2 min-h-screen">
         <Header />
-        <main className="flex flex-col flex-1 mx-auto w-full px-16">
+        <main className="flex flex-col flex-1 mx-auto w-full">
           {children}
         </main>
 
