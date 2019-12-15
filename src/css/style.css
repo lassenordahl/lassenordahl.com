@@ -86,7 +86,7 @@
 }
 
 .markdown img {
-  @apply m-32 w-4/5;
+  @apply w-full;
 }
 
 .markdown img + p {
