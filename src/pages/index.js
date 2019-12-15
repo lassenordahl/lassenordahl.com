@@ -23,7 +23,7 @@ const projects = [
     imgUrl: `https://user-images.githubusercontent.com/13127625/70756241-e51f8b80-1cf0-11ea-9ce1-a8d7354d97f8.png`
   },
   {
-    path: `projects/anteater-hydroponics`,
+    path: `projects/hackuci`,
     title: `HackUCI Involvement`,
     description: `Developing websites for advertising Orange County's largest hackathon`,
     imgUrl: `https://user-images.githubusercontent.com/13127625/70756428-5e1ee300-1cf1-11ea-8959-f740b651b14e.png`
