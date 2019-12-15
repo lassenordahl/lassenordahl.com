@@ -7,6 +7,8 @@ import catAndHumanIllustration from "../images/cat-and-human-illustration.svg";
 
 import { Link } from "gatsby";
 
+import resume from "./../assets/lassenordahl_resume.pdf";
+
 const projects = [
   {
     path: `projects/anteater-hydroponics`,
@@ -76,20 +78,28 @@ function IndexPage() {
           I'm Lasse Nordahl, a senior attending UC Irvine pursuing a B.S. in Computer Science. After a few internships and fun side projects, I've started to specialize in full-stack development focused on Web Design. In my free time I'm either rock climbing, exploring LA, drawing corgis on work resources, or doing photography. Feel free to explore the site to learn more about me.
           {/* I'm Lasse Nordahl, a rising Junior attending UC Irvine pursuing a B.S. in Computer Science with a specialization in Intelligent Systems. My expertise lies in full stack development and I intend on developing my education in Machine Learning/Artificial Intelligence. */}
         </p>
-        <div className="w-full flex flex-col">
-          <h4>
+        {/* <div className="w-full flex flex-col items-center text-grey1">
+          <h4 className="italic font-bold">
             Interests
           </h4>
           <div className="w-full flex flex-row">
-            <div className="w-full lg:w-1/2">
-              
+            <div className="w-full lg:w-1/2 flex items-center text-center">
+              <p>
+
+              </p>
+              <p>
+
+              </p>
+              <p className="w-full">
+                Skiing
+              </p>
             </div>
             <div className="w-16"></div>
-            <div className="w-full lg:w-1/2">
+            <div className="w-full lg:w-1/2 flex items-center">
 
             </div>
           </div>
-        </div>
+        </div> */}
       </section>
       <section>
         <h2>
@@ -99,19 +109,30 @@ function IndexPage() {
           Below is my up-to-date resume focused on my biggest projects and most prominant work experience.
         </p>
         <div className="flex flex-col items-center justify-center w-full h-24">
-          <button className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow">
-            🧻 &nbsp; Resume Link
-          </button>
+            <a href="https://drive.google.com/file/d/10Tn5dYbFRafcYeFxl37C5aZIPWeXvPwf/view?usp=sharing" target="_blank">
+              <button className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow">
+                🧻 &nbsp; Resume Link
+              </button>
+            </a>
+            
         </div>
       </section>
       <section>
         <h2>
-          Experience 💈
+          Experience &nbsp;💈
         </h2>
-        <h3 className="text-2xl font-bold my-6">
-          Beyond Limits
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between">
+          <h3 className="text-2xl font-bold mt-0 mb-0">
+            Beyond Limits &nbsp;🚀
+          </h3>
+          <h4 className="italic text-grey1 my-0 md:mb-1">
+            January 2019 - Present
+          </h4>
+        </div>
+        <h3 className="italic my-0 mb-6">
+          Software Engineering Intern 
         </h3>
-        <ul>
+        <ul className="list-disc pl-8">
           <li>
             Developed features on an autonomous robotics project utilizing computer vision for corrosion detection.
           </li>
@@ -122,28 +143,65 @@ function IndexPage() {
             Built full-stack configuration tool that manages the setting of environment variables and mapping data to improve testing workflow.
           </li>
         </ul>
-        <h3 className="text-2xl font-bold my-6">
-          IoT Research at UC Irvine 
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between">
+          <h3 className="text-2xl font-bold mt-6 mb-0">
+            IoT Research at UC Irvine &nbsp;🐜 🍴
+          </h3>
+          <h4 className="italic text-grey1 my-0 md:mb-1">
+            January 2019 - Present
+          </h4>
+        </div>
+        <h3 className="italic my-0 mb-6 mt-0">
+          Student Developer
         </h3>
         <p>
           Currently designing and developing IoT applications for the TIPPERS research team at UCI. Responsibilities include wire-framing and building user interfaces, improving information security through OAuth, and contributing to larger architecture design between IoT APIs and their applications.
         </p>
-        <h3 className="text-2xl font-bold my-6">
-          Intel
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between">
+          <h3 className="text-2xl font-bold mt-6 mb-0">
+            Intel &nbsp;💻
+          </h3>
+          <h4 className="italic text-grey1 my-0 md:mb-1">
+            February 2018 - September 2019
+          </h4>
+        </div>
+        <h3 className="italic my-0 mb-6 mt-0">
+          Student Developer
         </h3>
-        <p>
-          Developed modules and implemented features within an internal test-automation codebase using AngularJS and Flask.
+        <ul className="list-disc pl-8">
+          <li>
+            Developed modules and implemented features within an internal test-automation codebase using AngularJS and Flask.
+          </li>
+          <li>
+            Redesigned and optimized data visualization tools resulting in faster loading times and a significantly improved user experience.
+          </li>
+          <li>
+            Oversaw and mentored a team of three interns, managing work distribution to meet quarterly deadlines.
+          </li>
+        </ul>
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between">
+          <h3 className="text-2xl font-bold mt-6 mb-0">
+            Intel &nbsp;💻
+          </h3>
+          <h4 className="italic text-grey1 my-0 md:mb-1">
+            June 2017 - February 2018
+          </h4>
+        </div>
+        <h3 className="italic my-0 mb-6 mt-0">
+          Software Engineering Intern 
+        </h3>
+        <ul className="list-disc pl-8">
+          <li>
+            Architected and deployed an AngularJS web application that handled requesting and scheduling of memory product tests for 200+ employees.
+          </li>
+          <li>
+            Implemented real-time and historical data visualization of equipment efficiency to maximize equipment utilization using D3.
+          </li>
+          <li>
+            Platform streamlined test scheduling and communication resulting in accelerated roadmap completion.
+          </li>
+        </ul>
 
-          Redesigned and optimized data visualization tools resulting in faster loading times and a significantly improved user experience.
-
-          Oversaw and mentored a team of three interns, managing work distribution to meet quarterly deadlines.
-          
-          Architected and deployed an AngularJS web application that handled requesting and scheduling of memory product tests for 200+ employees.
-
-          Implemented real-time and historical data visualization of equipment efficiency to maximize equipment utilization using D3.
-
-          Platform streamlined test scheduling and communication resulting in accelerated roadmap completion.
-        </p>
       </section>
       <section>
         <h2>
