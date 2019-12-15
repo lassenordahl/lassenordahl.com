@@ -84,28 +84,6 @@ function IndexPage() {
           I'm Lasse Nordahl, a senior attending UC Irvine pursuing a B.S. in Computer Science. After a few internships and fun side projects, I've started to specialize in full-stack development focused on Web Design. In my free time I'm either rock climbing, exploring LA, drawing corgis on work resources, or doing photography. Feel free to explore the site to learn more about me.
           {/* I'm Lasse Nordahl, a rising Junior attending UC Irvine pursuing a B.S. in Computer Science with a specialization in Intelligent Systems. My expertise lies in full stack development and I intend on developing my education in Machine Learning/Artificial Intelligence. */}
         </p>
-        {/* <div className="w-full flex flex-col items-center text-grey1">
-          <h4 className="italic font-bold">
-            Interests
-          </h4>
-          <div className="w-full flex flex-row">
-            <div className="w-full lg:w-1/2 flex items-center text-center">
-              <p>
-
-              </p>
-              <p>
-
-              </p>
-              <p className="w-full">
-                Skiing
-              </p>
-            </div>
-            <div className="w-16"></div>
-            <div className="w-full lg:w-1/2 flex items-center">
-
-            </div>
-          </div>
-        </div> */}
       </section>
       <section>
         <h2>
@@ -125,7 +103,7 @@ function IndexPage() {
       </section>
       <section>
         <h2>
-          Experience &nbsp;💈
+          Experience 💈
         </h2>
         <div className="flex flex-col md:flex-row md:items-end md:justify-between">
           <h3 className="text-2xl font-bold mt-0 mb-0">

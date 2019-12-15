@@ -1,7 +1,7 @@
 ---
 path: "/projects/anteater-hydroponics"
 date: "2019-05-04"
-title: "My first blog post"
+title: "Anteater Hydroponics"
 ---
 
 # CS147 Project - Anteater Hydroponics

@@ -22,6 +22,14 @@
   background: url("https://user-images.githubusercontent.com/13127625/70859550-6d0cbd80-1eca-11ea-83f9-e5aa94b9e76f.jpg");
 }
 
+.center-plant > div {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: -50px;
+}
+
 /* purgecss start ignore */
 /* Markdown Styles */
 /* Global */
