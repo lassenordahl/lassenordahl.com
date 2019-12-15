@@ -18,6 +18,10 @@
   @apply text-base my-4;
 }
 
+.leigh-wants-background {
+  background: url("https://user-images.githubusercontent.com/13127625/70859550-6d0cbd80-1eca-11ea-83f9-e5aa94b9e76f.jpg");
+}
+
 /* purgecss start ignore */
 /* Markdown Styles */
 /* Global */

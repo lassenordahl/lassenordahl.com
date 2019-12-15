@@ -17,7 +17,7 @@ const projects = [
     imgUrl: `https://user-images.githubusercontent.com/13127625/70379600-92eefc80-18e3-11ea-8891-d19285089f47.png`
   },
   {
-    path: `projects/anteater-hydroponics`,
+    path: `projects/impulse`,
     title: `Impulse`,
     description: `Internship application management program using Gmail API's and NLP`,
     imgUrl: `https://user-images.githubusercontent.com/13127625/70756241-e51f8b80-1cf0-11ea-9ce1-a8d7354d97f8.png`
@@ -32,17 +32,23 @@ const projects = [
 
 const projectsTwo = [
   {
-    path: `projects/anteater-hydroponics`,
+    path: `projects/tippers-development`,
     title: `TIPPERS Applications`,
     description: `Assisting research in the UCI IoT Department`,
     imgUrl: `https://user-images.githubusercontent.com/13127625/70756473-84448300-1cf1-11ea-9a75-ac78731a35a2.png`
   },
   {
-    path: `projects/anteater-hydroponics`,
+    path: `projects/pxl`,
     title: `PXL`,
     description: `LED Matrix map for concerts using smartphones`,
     imgUrl: `https://user-images.githubusercontent.com/13127625/70756395-46dff580-1cf1-11ea-97a1-3c3bd1777f5d.png`
   },
+  {
+    path: `projects/orhx`,
+    title: `ORHX`,
+    description: `Oak Ridge Hacks, my first web development project`,
+    imgUrl: `https://user-images.githubusercontent.com/13127625/70867193-9576d500-1f27-11ea-9915-e9f744c28cbc.png`
+  }
 ]
 
 const image_links = [
@@ -154,9 +160,14 @@ function IndexPage() {
         <h3 className="italic my-0 mb-6 mt-0">
           Student Developer
         </h3>
-        <p>
-          Currently designing and developing IoT applications for the TIPPERS research team at UCI. Responsibilities include wire-framing and building user interfaces, improving information security through OAuth, and contributing to larger architecture design between IoT APIs and their applications.
-        </p>
+        <ul className="list-disc pl-8">
+          <li>
+            Currently designing and developing IoT applications for the TIPPERS research team at UCI.
+          </li>
+          <li>
+            Responsibilities include wire-framing and building user interfaces, improving information security through OAuth, and contributing to larger architecture design between IoT APIs and their applications.
+          </li>
+        </ul>
         <div className="flex flex-col md:flex-row md:items-end md:justify-between">
           <h3 className="text-2xl font-bold mt-6 mb-0">
             Intel &nbsp;💻
