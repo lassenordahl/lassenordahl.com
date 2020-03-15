@@ -1,10 +1,10 @@
 import React, { useState } from "react"
 import { graphql } from "gatsby"
 
-// import Slider from 'rc-slider';
-// import 'rc-slider/assets/index.css';
-// import P5Wrapper from 'react-p5-wrapper';
-// import sketch from './../sketches/sketch';
+import Slider from 'rc-slider';
+import 'rc-slider/assets/index.css';
+import P5Wrapper from 'react-p5-wrapper';
+import sketch from './../sketches/sketch';
 
 export default function Template({
   data, // this prop will be injected by the GraphQL query below.
@@ -17,7 +17,7 @@ export default function Template({
   return (
     <div className="flex flex-col font-sans items-center min-h-screen text-gray-900 bg-main">
       <div className="flex flex-col w-4/5 lg:w-1/2 min-h-screen my-24">
-          {/* { frontmatter.title === `Anteater Hydroponics` ?
+          { frontmatter.title === `Anteater Hydroponics` ?
             <div className="w-full flex flex-col items-center">
               <div className="center-plant">
                 <P5Wrapper sketch={sketch(plantHealth)}></P5Wrapper>
@@ -28,7 +28,7 @@ export default function Template({
               </div>
             </div>
             : null
-          } */}
+          }
         <div
           className="markdown"
           dangerouslySetInnerHTML={{ __html: html }}
