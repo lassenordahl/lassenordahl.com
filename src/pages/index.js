@@ -155,7 +155,7 @@ function IndexPage() {
           </h4>
         </div>
         <h3 className="italic my-0 mb-6 mt-0">
-          Student Developer
+          Software Engineering Intern
         </h3>
         <ul className="list-disc pl-8">
           <li>
