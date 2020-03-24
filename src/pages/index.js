@@ -11,6 +11,12 @@ import resume from "./../assets/lassenordahl_resume.pdf";
 
 const projects = [
   {
+    path: `projects/checkmate`,
+    title: `Checkmate`,
+    description: `Intelligent Task Planning`,
+    imgUrl: `https://user-images.githubusercontent.com/13127625/77372194-5de7a800-6d22-11ea-8405-33cf4184ce84.png`
+  },
+  {
     path: `projects/anteater-hydroponics`,
     title: `Anteater Hydroponics`,
     description: `IoT Plant Monitoring Application`,
