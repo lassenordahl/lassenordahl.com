@@ -2,12 +2,8 @@ import React from "react";
 
 import Layout from "../components/layout";
 import SEO from "../components/seo";
-import Template from "../templates/projectTemplate";
-import catAndHumanIllustration from "../images/cat-and-human-illustration.svg";
 
 import { Link } from "gatsby";
-
-import resume from "./../assets/lassenordahl_resume.pdf";
 
 const projects = [
   {
@@ -78,7 +74,7 @@ function IndexPage() {
   return (
     <Layout>
       <SEO
-        keywords={[`Lasse`, `Nordahl`, `Lasse Nordahl`, `tailwindcss`]}
+        keywords={[`Lasse`, `Nordahl`, `Lasse Nordahl`, `developer`, `tailwindcss`]}
         title="Home"
       />
       <section>
@@ -87,8 +83,7 @@ function IndexPage() {
           About Me 📓
         </h2>
         <p>
-          I'm Lasse Nordahl, a senior attending UC Irvine pursuing a B.S. in Computer Science. After a few internships and fun side projects, I've started to specialize in full-stack development focused on Web Design. In my free time I'm either rock climbing, exploring LA, drawing corgis on work resources, or doing photography. Feel free to explore the site to learn more about me.
-          {/* I'm Lasse Nordahl, a rising Junior attending UC Irvine pursuing a B.S. in Computer Science with a specialization in Intelligent Systems. My expertise lies in full stack development and I intend on developing my education in Machine Learning/Artificial Intelligence. */}
+          I'm Lasse Nordahl, a senior attending UC Irvine pursuing a B.S. in Computer Science with a specialization in AI/ML. After a few internships and fun side projects, I've started to specialize in full-stack development focused on Web Design. In my free time I'm either rock climbing, exploring LA, drawing corgis on work resources, or doing photography. Feel free to explore the site to learn more about me.
         </p>
       </section>
       <section>
@@ -96,15 +91,19 @@ function IndexPage() {
           Resume 📝
         </h2>
         <p>
-          Below is my up-to-date resume focused on my biggest projects and most prominant work experience.
+          Below are my up-to-date resumes focused on my biggest projects and most prominant work experience for either field.
         </p>
-        <div className="flex flex-col items-center justify-center w-full h-24">
-            <a href="https://drive.google.com/file/d/10Tn5dYbFRafcYeFxl37C5aZIPWeXvPwf/view?usp=sharing" target="_blank">
+        <div className="flex flex-row items-center justify-center w-full h-24">
+            <a className="m-2" href="https://drive.google.com/file/d/1rqpnFaBTW_X_q24sz_Hq4pz6sz1sHj7_/view?usp=sharing" target="_blank">
               <button className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow">
-                🧻 &nbsp; Resume Link
+                💾 &nbsp; SWE Resume Link
               </button>
             </a>
-            
+            <a className="m-2" href="https://drive.google.com/file/d/1m5JlhCy-YCGmjgkYhWhxjGZTs3bW3n2v/view?usp=sharing" target="_blank">
+              <button className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow">
+                🧮 &nbsp; Data Science Resume Link
+              </button>
+            </a>
         </div>
       </section>
       <section>
@@ -116,7 +115,29 @@ function IndexPage() {
             Beyond Limits &nbsp;🚀
           </h3>
           <h4 className="italic text-grey1 my-0 md:mb-1">
-            January 2019 - Present
+            June 2020 - August 2020
+          </h4>
+        </div>
+        <h3 className="italic my-0 mb-6">
+          Software Engineering Intern 
+        </h3>
+        <ul className="list-disc pl-8 mb-6">
+          <li>
+            Developed core features and data analytics pages for a cognitive oil formulation advisors MVP delivery using React, FeathersJS, PostgreSQL, E-Charts.
+          </li>
+          <li>
+            Built historical data analysis tool for analyzing previously created lubricant blends by the advisor.
+          </li>
+          <li>
+            Published JS modules to company NPM nexus for use across different projects.
+          </li>
+        </ul>
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between">
+          <h3 className="text-2xl font-bold mt-0 mb-0">
+            Beyond Limits &nbsp;🚀
+          </h3>
+          <h4 className="italic text-grey1 my-0 md:mb-1">
+            June 2019 - August 2019
           </h4>
         </div>
         <h3 className="italic my-0 mb-6">
@@ -135,10 +156,10 @@ function IndexPage() {
         </ul>
         <div className="flex flex-col md:flex-row md:items-end md:justify-between">
           <h3 className="text-2xl font-bold mt-6 mb-0">
-            IoT Research at UC Irvine &nbsp;🐜 🍴
+            IoT Research &nbsp;🐜 🍴
           </h3>
           <h4 className="italic text-grey1 my-0 md:mb-1">
-            January 2019 - Present
+            January 2019 - June 2020
           </h4>
         </div>
         <h3 className="italic my-0 mb-6 mt-0">
@@ -245,27 +266,6 @@ function IndexPage() {
           }
           </div>
         </div>
-        {/* <div className="flex flex-wrap">
-          {projects.map(function(project) {
-            return (
-              <div className="my-8 px-8 w-full xs:w-full sm:w-full md:w-full lg:w-1/2 xl:w-1/2">
-                <Link to={project.path}>
-                  <div className="shadow-xl hover:shadow-2xl w-full mh-card">
-                    <img alt={1} className="w-full" src={project.imgUrl}></img>
-                    <div className="p-8">
-                      <h3 className="text-2xl font-bold">
-                        {project.title}
-                      </h3>
-                      <p className="">
-                        {project.description}
-                      </p>
-                    </div>
-                  </div>
-                </Link>
-              </div>
-            );
-          })}
-        </div> */}
       </section>
       <section>
         <h2>

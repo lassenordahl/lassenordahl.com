@@ -27,7 +27,7 @@ function Header() {
               Software Engineering Intern
             </h4>
             <h4 className="text-xl sm:text-2xl my-0 text-grey1">
-              Greater Los Angeles
+              Northern California
             </h4>
             <div className="my-0 flex flex-row text-2xl">
               <a href="mailto:lnordahl@uci.edu">
