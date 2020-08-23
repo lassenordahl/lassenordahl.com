@@ -1,10 +1,10 @@
 import React, { useState } from "react"
 import { graphql } from "gatsby"
 
-import Slider from 'rc-slider';
-import 'rc-slider/assets/index.css';
-import P5Wrapper from 'react-p5-wrapper';
-import sketch from './../sketches/sketch';
+// import 'rc-slider/assets/index.css';
+// import Slider from 'rc-slider';
+// import P5Wrapper from 'react-p5-wrapper';
+// import sketch from './../sketches/sketch';
 
 export default function Template({
   data, // this prop will be injected by the GraphQL query below.
