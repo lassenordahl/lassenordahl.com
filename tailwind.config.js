@@ -11,7 +11,7 @@ module.exports = {
       card: `480px`
     },
     fontFamily: {
-      'sans': [`Open Sans`, `Roboto`, `Arial`]
+      'sans': [`Helvetica Neue`, `Roboto`, `Arial`]
     },
     backgroundColor: theme => ({
       ...theme(`colors`),
