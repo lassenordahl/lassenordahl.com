@@ -91,133 +91,15 @@ function IndexPage() {
           Resume 📝
         </h2>
         <p>
-          Below are my up-to-date resumes focused on my biggest projects and most prominant work experience for either field.
+          Below is my up-to-date resume focused on my biggest projects and most prominant work experience for either field.
         </p>
         <div className="flex flex-row items-center justify-center w-full h-24">
-            <a className="m-2" href="https://drive.google.com/file/d/1rqpnFaBTW_X_q24sz_Hq4pz6sz1sHj7_/view?usp=sharing" target="_blank">
+            <a className="m-2" href="https://drive.google.com/file/d/1Se-k1CUUt9J26cWO-Ol66MNkZMXqbJ8U/view?usp=sharing" target="_blank">
               <button className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow">
                 💾 &nbsp; SWE Resume Link
               </button>
             </a>
-            <a className="m-2" href="https://drive.google.com/file/d/1m5JlhCy-YCGmjgkYhWhxjGZTs3bW3n2v/view?usp=sharing" target="_blank">
-              <button className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow">
-                🧮 &nbsp; Data Science Resume Link
-              </button>
-            </a>
         </div>
-      </section>
-      <section>
-        <h2>
-          Experience 💈
-        </h2>
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between">
-          <h3 className="text-2xl font-bold mt-0 mb-0">
-            Beyond Limits &nbsp;🚀
-          </h3>
-          <h4 className="italic text-grey1 my-0 md:mb-1">
-            June 2020 - August 2020
-          </h4>
-        </div>
-        <h3 className="italic my-0 mb-6">
-          Software Engineering Intern 
-        </h3>
-        <ul className="list-disc pl-8 mb-6">
-          <li>
-            Developed core features and data analytics pages for a cognitive oil formulation advisors MVP delivery using React, FeathersJS, PostgreSQL, E-Charts.
-          </li>
-          <li>
-            Built historical data analysis tool for analyzing previously created lubricant blends by the advisor.
-          </li>
-          <li>
-            Published JS modules to company NPM nexus for use across different projects.
-          </li>
-        </ul>
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between">
-          <h3 className="text-2xl font-bold mt-0 mb-0">
-            Beyond Limits &nbsp;🚀
-          </h3>
-          <h4 className="italic text-grey1 my-0 md:mb-1">
-            June 2019 - August 2019
-          </h4>
-        </div>
-        <h3 className="italic my-0 mb-6">
-          Software Engineering Intern 
-        </h3>
-        <ul className="list-disc pl-8">
-          <li>
-            Developed features on an autonomous robotics project utilizing computer vision for corrosion detection.
-          </li>
-          <li>
-            Integrated robotics framework and Web-GUI to display progress alerts, lidar streams, and video feeds.
-          </li>
-          <li>
-            Built full-stack configuration tool that manages the setting of environment variables and mapping data to improve testing workflow.
-          </li>
-        </ul>
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between">
-          <h3 className="text-2xl font-bold mt-6 mb-0">
-            IoT Research &nbsp;🐜 🍴
-          </h3>
-          <h4 className="italic text-grey1 my-0 md:mb-1">
-            January 2019 - June 2020
-          </h4>
-        </div>
-        <h3 className="italic my-0 mb-6 mt-0">
-          Undergraduate Research Assistant
-        </h3>
-        <ul className="list-disc pl-8">
-          <li>
-            Currently designing and developing IoT applications for the TIPPERS research team at UCI.
-          </li>
-          <li>
-            Responsibilities include wire-framing and building user interfaces, improving information security through OAuth, and contributing to larger architecture design between IoT APIs and their applications.
-          </li>
-        </ul>
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between">
-          <h3 className="text-2xl font-bold mt-6 mb-0">
-            Intel &nbsp;💻
-          </h3>
-          <h4 className="italic text-grey1 my-0 md:mb-1">
-            February 2018 - September 2019
-          </h4>
-        </div>
-        <h3 className="italic my-0 mb-6 mt-0">
-          Software Engineering Intern
-        </h3>
-        <ul className="list-disc pl-8">
-          <li>
-            Developed modules and implemented features within an internal test-automation codebase using AngularJS and Flask.
-          </li>
-          <li>
-            Redesigned and optimized data visualization tools resulting in faster loading times and a significantly improved user experience.
-          </li>
-          <li>
-            Oversaw and mentored a team of three interns, managing work distribution to meet quarterly deadlines.
-          </li>
-        </ul>
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between">
-          <h3 className="text-2xl font-bold mt-6 mb-0">
-            Intel &nbsp;💻
-          </h3>
-          <h4 className="italic text-grey1 my-0 md:mb-1">
-            June 2017 - February 2018
-          </h4>
-        </div>
-        <h3 className="italic my-0 mb-6 mt-0">
-          Software Engineering Intern 
-        </h3>
-        <ul className="list-disc pl-8">
-          <li>
-            Architected and deployed an AngularJS web application that handled requesting and scheduling of memory product tests for 200+ employees.
-          </li>
-          <li>
-            Implemented real-time and historical data visualization of equipment efficiency to maximize equipment utilization using D3.
-          </li>
-          <li>
-            Platform streamlined test scheduling and communication resulting in accelerated roadmap completion.
-          </li>
-        </ul>
-
       </section>
       <section>
         <h2>
