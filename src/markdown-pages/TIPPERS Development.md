@@ -26,7 +26,7 @@ You can see my name at the bottom!
 
 Right now I'm working on a generalized occupancy application for the system. The goal of this is to showcase a lot of the data that the system collected over the summer of 2019. In the app, you can load onto a campus, building, or floor, and click through to deeper sub-levels, viewing occupancy data each level you go down. It's expected to utilize real-time data, with date ranges available if you wanted to see how an area looked a week ago for example.
 
-Below is an older screenshot of the application, showing the global view of UCI's campus with some dummy data for occupancies.
+Below is an older screenshot of the application, showing the global view of UCI's campus with the data that was available at that time.
 
 ### Global View
 
@@ -40,7 +40,7 @@ Working on this application throughout the Fall of 2019 to the present has been 
 2. Geolocation types with non-geolocation sub types (Ex: Donald Bren Hall)
 3. Non-geolocation types with non-geolocation sub types (Ex: Floor One of Donald Bren Hall)
 
-What does this mean? Honestly I've been trying to figure this out myself. Throughout the last month we've generalized the types to the above three. This means you could load the application with a root type, and it would automatically load from there, with availability to click to deeper sub-levels. The best way to see this is to look through the pictures below. (Again using dummy data for now)
+What does this mean? Honestly I've been trying to figure this out myself. Throughout the last month we've generalized the types to the above three. This means you could load the application with a root type, and it would automatically load from there, with availability to click to deeper sub-levels. The best way to see this is to look through the pictures below.
 
 ### Detailed View
 
