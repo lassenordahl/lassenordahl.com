@@ -30,7 +30,7 @@ Below is an older screenshot of the application, showing the global view of UCI'
 
 ### Global View
 
-![https://user-images.githubusercontent.com/13127625/70858853-a50e0380-1ebe-11ea-82a0-c8837c72de16.png](https://user-images.githubusercontent.com/13127625/70858853-a50e0380-1ebe-11ea-82a0-c8837c72de16.png)
+![https://user-images.githubusercontent.com/13127625/70858853-a50e0380-1ebe-11ea-82a0-c8837c72de16.png](https://user-images.githubusercontent.com/13127625/79298585-6309c400-7e96-11ea-842f-762aceccac8d.png)
 
 Working on this application throughout the Fall of 2019 to the present has been one of the more challenging projects that I've taken on. TIPPERS as an API aims to be flexible, and thus the applications built upon it needs to focus less on the names of entities that record data (buildings, campuses, rooms) and more on the hierarchy of the entities. Theoretically you could show anything on this application provided it fits into one of the three categories for data types.
 
@@ -44,11 +44,11 @@ What does this mean? Honestly I've been trying to figure this out myself. Throug
 
 ### Detailed View
 
-![https://user-images.githubusercontent.com/13127625/70858955-6d07c000-1ec0-11ea-852a-0377b9dc7b21.png](https://user-images.githubusercontent.com/13127625/70858955-6d07c000-1ec0-11ea-852a-0377b9dc7b21.png)
+![https://user-images.githubusercontent.com/13127625/70858955-6d07c000-1ec0-11ea-852a-0377b9dc7b21.png](https://user-images.githubusercontent.com/13127625/93947596-fcb08980-fcf0-11ea-8e6d-765f4d571628.png)
 
 ### Floor View
 
-![https://user-images.githubusercontent.com/13127625/70858961-8d377f00-1ec0-11ea-884b-cda6d6fedcf7.png](https://user-images.githubusercontent.com/13127625/70858961-8d377f00-1ec0-11ea-884b-cda6d6fedcf7.png)
+![https://user-images.githubusercontent.com/13127625/70858961-8d377f00-1ec0-11ea-884b-cda6d6fedcf7.png](https://user-images.githubusercontent.com/13127625/93947702-426d5200-fcf1-11ea-9a90-993fef7f17d4.png)
 
 Right now we're still in the stage of connecting everything, as some work needs to be done on the API's end before it can be linked up to the application. So far though, I think it's been an interesting architectural design challenge and helped me beef up my experience with React's context API.
 

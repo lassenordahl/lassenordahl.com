@@ -37,7 +37,7 @@ const projectsTwo = [
     path: `projects/tippers-development`,
     title: `TIPPERS Applications`,
     description: `Assisting research in the UCI IoT Department`,
-    imgUrl: `https://user-images.githubusercontent.com/13127625/70756473-84448300-1cf1-11ea-9a75-ac78731a35a2.png`
+    imgUrl: `https://user-images.githubusercontent.com/13127625/79298585-6309c400-7e96-11ea-842f-762aceccac8d.png`
   },
   {
     path: `projects/pxl`,
@@ -112,7 +112,7 @@ function IndexPage() {
                   <Link to={project.path}>
                     <div className="shadow-xl hover:shadow-2xl w-full mh-card mb-16">
                     <img alt={1} className="w-full" src={project.imgUrl}></img>
-                    <div className="p-8">
+                    <div className="p-6">
                       <h3 className="my-0 font-bold">
                         {project.title}
                       </h3>
@@ -133,7 +133,7 @@ function IndexPage() {
                 <Link to={project.path}>
                   <div className="shadow-xl hover:shadow-2xl w-full mh-card mb-16">
                   <img alt={1} className="w-full" src={project.imgUrl}></img>
-                  <div className="p-8">
+                  <div className="p-6">
                     <h3 className="my-0 font-bold">
                       {project.title}
                     </h3>

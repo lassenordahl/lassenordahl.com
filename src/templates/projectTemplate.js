@@ -12,7 +12,7 @@ export default function Template({
   const { markdownRemark } = data // data.markdownRemark holds your post data
   const { frontmatter, html } = markdownRemark
 
-  const [plantHealth, setPlantHealth] = useState(50);
+  // const [plantHealth, setPlantHealth] = useState(50);
 
   return (
     <div className="flex flex-col font-sans items-center min-h-screen text-gray-900 bg-main">
