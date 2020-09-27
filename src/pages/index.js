@@ -70,20 +70,25 @@ function IndexPage() {
         {/* <h1 className="text-5xl font-bold my-8"> */}
         <h2>About Me 📓</h2>
         <p>
-          I'm Lasse Nordahl, a senior attending UC Irvine pursuing a B.S. in
-          Computer Science with a specialization in AI/ML. After a few
-          internships and fun side projects, I've started to specialize in
-          full-stack development focused on Web Design. In my free time I'm
-          either rock climbing, exploring LA, drawing corgis on work resources,
-          or doing photography. Feel free to explore the site to learn more
-          about me.
+          <span>
+            I'm Lasse Nordahl, a senior attending UC Irvine pursuing a B.S. in
+            Computer Science with a specialization in AI/ML. After a few
+            internships and fun side projects, I've started to specialize in
+            full-stack development focused on Web Design. In my free time I'm
+            either rock climbing, exploring LA, drawing corgis on work resources,
+            or doing photography. Feel free to explore the site to learn more
+            about me.
+          </span>
         </p>
       </section>
       <section>
         <h2>Resume 📝</h2>
         <p>
-          Below is my up-to-date resume focused on my biggest projects and most
-          prominant work experience.
+          <span>
+            Below is my up-to-date resume focused on my biggest projects and most
+            prominant work experience.
+          </span>
+          
         </p>
         <div className="flex flex-row items-center justify-center w-full h-24">
           <a
@@ -91,9 +96,11 @@ function IndexPage() {
             href="https://drive.google.com/file/d/1Se-k1CUUt9J26cWO-Ol66MNkZMXqbJ8U/view?usp=sharing"
             target="_blank"
           >
-            <button className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow">
-              💾 &nbsp; SWE Resume Link
-            </button>
+            <div className="bg-white" style={{background: "#ffffff"}}>
+              <button className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow">
+                💾 &nbsp; SWE Resume Link
+              </button>
+            </div>
           </a>
         </div>
       </section>
