@@ -21,7 +21,7 @@ const projects = [
   {
     path: `projects/impulse`,
     title: `Impulse`,
-    description: `Internship application management program using Gmail API's and NLP`,
+    description: `Internship application management program, winner of HackTech 2018`,
     imgUrl: `https://user-images.githubusercontent.com/13127625/70756241-e51f8b80-1cf0-11ea-9ce1-a8d7354d97f8.png`,
   },
   {
