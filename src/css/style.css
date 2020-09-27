@@ -50,6 +50,7 @@
 /* Global */
 .markdown {
   @apply leading-relaxed text-lg;
+  color: #37352e;
 }
 /* Headers */
 .markdown h1 {
