@@ -81,4 +81,7 @@ Ask me about..
 ### Jesse Chong
 
 Ask me about..
+* Arduino integration to AWS
+* Naive Bayes Models and predicting plant health
+* Arduino sensors
 
