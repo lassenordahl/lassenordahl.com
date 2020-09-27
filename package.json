@@ -25,6 +25,7 @@
     "react-dom": "16.12.0",
     "react-helmet": "^5.2.1",
     "react-p5-wrapper": "^2.0.0",
+    "react-reveal": "^1.2.2",
     "react-scrollmonitor": "^0.1.0",
     "scrollmonitor": "^1.2.4"
   },
