@@ -186,7 +186,7 @@ function IndexPage() {
       <section>
         <h2>Videos 📹</h2>
         <p>Sometimes I make small videos for fun with friends, and once I was in a Pepsi commercial!</p>
-        <h3>Pepsi Commeical</h3>
+        <h3>Pepsi Commercial</h3>
         <div className="video-container">
           <iframe className="m-auto" src="https://www.youtube.com/embed/ziDx-n3ffmk" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         </div>
