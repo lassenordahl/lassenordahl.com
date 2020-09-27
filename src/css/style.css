@@ -6,8 +6,17 @@
   @apply text-6xl font-bold my-8;
 } */
 
+.app {
+  background: #ffffff;
+  color: #37352e;
+}
+
 .app h2 {
   @apply text-3xl font-bold my-6;
+}
+
+.app h3 {
+  @apply text-2xl font-bold my-6;
 }
 
 .app h3 {
@@ -21,6 +30,10 @@
 
 .leigh-wants-background {
   background: url("https://user-images.githubusercontent.com/13127625/70859550-6d0cbd80-1eca-11ea-83f9-e5aa94b9e76f.jpg");
+}
+
+.link {
+  color: #2b6cb0;
 }
 
 .center-plant > div {
@@ -69,6 +82,7 @@
 .markdown ul,
 .markdown ol {
   @apply mb-4 ml-8;
+  color: #454545;
 }
 .markdown li > p,
 .markdown li > ul,
