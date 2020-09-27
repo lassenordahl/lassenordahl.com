@@ -184,6 +184,19 @@ function IndexPage() {
         </div>
       </section>
       <section>
+        <h2>Videos 📹</h2>
+        <p>Sometimes I make small videos for fun with friends, and once I was in a Pepsi commercial!</p>
+        <h3>Pepsi Commeical</h3>
+        <div className="video-container">
+          <iframe className="m-auto" src="https://www.youtube.com/embed/ziDx-n3ffmk" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <h3>Day in the Life</h3>
+        <div className="video-container">
+          <iframe className="m-auto" width="560" height="315" src="https://www.youtube.com/embed/6AumCANs7Gg" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+      </section>
+
+      <section>
         <h2>Photography 📷</h2>
         <p>
           In my free time I do some photography to capture memories, spend some

@@ -45,6 +45,12 @@
   margin-top: -50px;
 }
 
+.video-container iframe {
+  display: block;
+  width: 80%;
+  height: 300px;
+}
+
 /* purgecss start ignore */
 /* Markdown Styles */
 /* Global */
