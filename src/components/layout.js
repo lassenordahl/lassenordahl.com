@@ -20,8 +20,8 @@ function Layout({ children }) {
 
           <footer className="flex items-center justify-center">
             <div className="text-grey1 px-8 py-8">
-              <p>
-                Made with ❤️ in Irvine, CA
+              <p className="text-sm">
+                Notion I love you don't sue me for this design ❤️
               </p>
             </div>
           </footer>
