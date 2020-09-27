@@ -34,6 +34,7 @@
 
 .link {
   color: #2b6cb0;
+  word-wrap: break-word
 }
 
 .center-plant > div {
