@@ -68,35 +68,39 @@ function IndexPage() {
       />
       <section>
         {/* <h1 className="text-5xl font-bold my-8"> */}
-        <h2>About Me 📓</h2>
-        <p>
-          <span>
+        <h2 className="mb-1">About Me 📓</h2>
+        <div style={{ backgroundColor: "#fff", paddingTop: "0.25rem", paddingBottom: "0.25rem" }}>
+          <p>
             I'm Lasse Nordahl, a senior attending UC Irvine pursuing a B.S. in
             Computer Science with a specialization in AI/ML. After a few
             internships and fun side projects, I've started to specialize in
             full-stack development focused on Web Design. In my free time I'm
-            either rock climbing, exploring LA, drawing corgis on work resources,
-            or doing photography. Feel free to explore the site to learn more
-            about me.
-          </span>
-        </p>
+            either rock climbing, exploring LA, drawing corgis on work
+            resources, or doing photography. Feel free to explore the site to
+            learn more about me.
+          </p>
+          <p>
+            Right now I'm taking a quarter break from school to intern at{" "}
+            <a className="link" target="_blank" href="https://rd.nytimes.com/">The New York Times</a> as an R&D
+            Intern.
+          </p>
+        </div>
       </section>
       <section>
-        <h2>Resume 📝</h2>
-        <p>
-          <span>
-            Below is my up-to-date resume focused on my biggest projects and most
-            prominant work experience.
-          </span>
-          
-        </p>
+        <h2 className="mt-1 mb-1">Resume 📝</h2>
+        <div style={{ backgroundColor: "#fff", paddingTop: "0.25rem", paddingBottom: "0.25rem" }}>
+          <p>
+            Below is my up-to-date resume focused on my biggest projects and
+            most prominant work experience.
+          </p>
+        </div>
         <div className="flex flex-row items-center justify-center w-full h-24">
           <a
             className="m-2"
             href="https://drive.google.com/file/d/1Se-k1CUUt9J26cWO-Ol66MNkZMXqbJ8U/view?usp=sharing"
             target="_blank"
           >
-            <div className="bg-white" style={{background: "#ffffff"}}>
+            <div className="bg-white" style={{ background: "#ffffff" }}>
               <button className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow">
                 💾 &nbsp; SWE Resume Link
               </button>
@@ -150,7 +154,11 @@ function IndexPage() {
       </section>
       <section>
         <h2>Research 🔬</h2>
-        <p>While I haven't been directly involved with writing papers myself, I've contributed to a few pieces of research through developing assistive programs or applications using researched technologies.</p>
+        <p>
+          While I haven't been directly involved with writing papers myself,
+          I've contributed to a few pieces of research through developing
+          assistive programs or applications using researched technologies.
+        </p>
         <h3>Papers</h3>
         <div className="shadow-xl w-full mh-card mb-16 p-6 rounded-lg">
           <h4 className="font-bold text-2xl">
@@ -173,7 +181,9 @@ function IndexPage() {
             SemIoTic: Bridging the Semantic Gap in IoT Spaces
           </h4>
           <p>
-            Developed several applications that utilized the TIPPER's API. An IoT middlewear system for building complicated entity relationships. I'm on the poster!
+            Developed several applications that utilized the TIPPER's API. An
+            IoT middlewear system for building complicated entity relationships.
+            I'm on the poster!
           </p>
           <a
             className="link"
@@ -181,7 +191,7 @@ function IndexPage() {
           >
             https://tippersweb.ics.uci.edu/research/semioticbuildsysdemo.pdf
           </a>
-          <p/>
+          <p />
           <a
             className="link"
             href="https://tippersweb.ics.uci.edu/research/semioticbuildsysdemoposter.pdf"
@@ -192,14 +202,31 @@ function IndexPage() {
       </section>
       <section>
         <h2>Videos 📹</h2>
-        <p>Sometimes I make small videos for fun with friends, and once I was in a Pepsi commercial!</p>
+        <p>
+          Sometimes I make small videos for fun with friends, and once I was in
+          a Pepsi commercial!
+        </p>
         <h3>Pepsi Commercial</h3>
         <div className="video-container">
-          <iframe className="m-auto" src="https://www.youtube.com/embed/ziDx-n3ffmk" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          <iframe
+            className="m-auto"
+            src="https://www.youtube.com/embed/ziDx-n3ffmk"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+          ></iframe>
         </div>
         <h3>Day in the Life</h3>
         <div className="video-container">
-          <iframe className="m-auto" width="560" height="315" src="https://www.youtube.com/embed/6AumCANs7Gg" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          <iframe
+            className="m-auto"
+            width="560"
+            height="315"
+            src="https://www.youtube.com/embed/6AumCANs7Gg"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+          ></iframe>
         </div>
       </section>
 
