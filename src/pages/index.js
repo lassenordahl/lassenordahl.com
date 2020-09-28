@@ -6,6 +6,10 @@ import SEO from "../components/seo";
 import { Link } from "gatsby";
 import Fade from "react-reveal/Fade";
 
+import intel from "../assets/intel.png"
+import bl from "../assets/bl.png"
+import nyt from "../assets/nyt.png"
+
 const projects = [
   {
     path: `projects/checkmate`,
@@ -73,6 +77,7 @@ function IndexPage() {
             `new york times`,
             `react`,
             `gatsby`,
+
             `tailwindcss`,
           ]}
           title="Home"
@@ -87,6 +92,7 @@ function IndexPage() {
               backgroundColor: "#fff",
               paddingTop: "0.25rem",
               paddingBottom: "0.25rem",
+              paddingLeft: "0.25rem",
             }}
           >
             <p>
@@ -94,9 +100,8 @@ function IndexPage() {
               Computer Science with a specialization in AI/ML. After a few
               internships and fun side projects, I've started to specialize in
               full-stack development focused on Web Design. In my free time I'm
-              either rock climbing, exploring LA, drawing corgis on work
-              resources, or doing photography. Feel free to explore the site to
-              learn more about me.
+              either rock climbing, drawing corgis on work resources, or doing
+              photography. Feel free to explore the site to learn more about me.
             </p>
             <p>
               Right now I'm taking a quarter break from school to intern at{" "}
@@ -141,6 +146,36 @@ function IndexPage() {
             </a>
           </div>
         </section>
+      </Fade>
+      <Fade>
+        <section>
+          <h2 className="mb-2">Experience 💼</h2>
+          <div className="flex flex-row flex-wrap items-center justify-center experience-cards">
+            <a href="http://www.intel.com" target="_blank" className="w-48 m-4 h-auto bg-white">
+              <div className="shadow-xl hover:shadow-2xl flex flex-col items-center p-4 rounded-lg text-center">
+                <img className="w-20 mt-6 rounded-lg" src={intel}/>
+                <h4 className="text-xl font-semibold mb-0 mt-6">Intel</h4>
+                <p className="mt-0 mb-0 text-sm">2017 - 2018</p>
+              </div>
+            </a>
+            <a href="http://www.beyond.ai" target="_blank" className="w-48 m-4 h-auto bg-white">
+              <div className="shadow-xl hover:shadow-2xl flex flex-col items-center p-4 rounded-lg text-center">
+                <img className="w-20 mt-6 rounded-lg" src={bl}/>
+                <h4 className="text-xl font-semibold mb-0 mt-6">Beyond Limits</h4>
+                <p className="mt-0 mb-0 text-sm">2019 - 2020</p>
+              </div>
+            </a>
+            <a href="https://rd.nytimes.com/" target="_blank" className="w-48 m-4 h-auto bg-white">
+              <div className="shadow-xl hover:shadow-2xl flex flex-col items-center p-4 rounded-lg text-center">
+                <img className="w-20 mt-6 rounded-lg" src={nyt}/>
+                <h4 className="text-xl font-semibold mb-0 mt-6">New York Times</h4>
+                <p className="mt-0 mb-0 text-sm">2020 - Present</p>
+              </div>
+            </a>
+          </div>
+        </section>
+      </Fade>
+      <Fade>
         <section>
           <h2>Projects 🧗</h2>
           <div className="flex flex-col lg:flex-row xl:flex-row sm:flex-col xs:flex-col md:flex-col">
@@ -202,7 +237,7 @@ function IndexPage() {
             <p>
               Developed a program that parsed names and publish dates from PDF's
               of astrophysics research papers and mapped publish time between
-              genders a Gender API. I'm in the acknowledgements.
+              genders a Gender API. I'm in the acknowledgements!
             </p>
             <a
               className="link"
