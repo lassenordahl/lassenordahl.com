@@ -237,7 +237,7 @@ function IndexPage() {
             <p>
               Developed a program that parsed names and publish dates from PDF's
               of astrophysics research papers and mapped publish time between
-              genders a Gender API. I'm in the acknowledgements!
+              genders using a Gender API. I'm in the acknowledgements!
             </p>
             <a
               className="link"
