@@ -6,9 +6,9 @@ import SEO from "../components/seo";
 import { Link } from "gatsby";
 import Fade from "react-reveal/Fade";
 
-import intel from "../assets/intel.png"
-import bl from "../assets/bl.png"
-import nyt from "../assets/nyt.png"
+import intel from "../assets/intel.png";
+import bl from "../assets/bl.png";
+import nyt from "../assets/nyt.png";
 
 const projects = [
   {
@@ -38,6 +38,13 @@ const projects = [
 ];
 
 const projectsTwo = [
+  {
+    path: `https://hackuci.github.io/ZotHacks-Site/`,
+    title: `ZotHacks`,
+    description: `Advertising HackUCI's beginner hackathon`,
+    imgUrl: `https://user-images.githubusercontent.com/13127625/94630093-8aecb880-0279-11eb-8445-7fbbc4f8e487.png`,
+    external: true,
+  },
   {
     path: `projects/tippers-development`,
     title: `TIPPERS Applications`,
@@ -151,24 +158,40 @@ function IndexPage() {
         <section>
           <h2 className="mb-2">Experience 💼</h2>
           <div className="flex flex-row flex-wrap items-center justify-center experience-cards">
-            <a href="http://www.intel.com" target="_blank" className="w-48 m-4 h-auto bg-white">
+            <a
+              href="http://www.intel.com"
+              target="_blank"
+              className="w-48 m-4 h-auto bg-white"
+            >
               <div className="shadow-xl hover:shadow-2xl flex flex-col items-center p-4 rounded-lg text-center">
-                <img className="w-20 mt-6 rounded-lg" src={intel}/>
+                <img className="w-20 mt-6 rounded-lg" src={intel} />
                 <h4 className="text-xl font-semibold mb-0 mt-6">Intel</h4>
                 <p className="mt-0 mb-0 text-sm">2017 - 2018</p>
               </div>
             </a>
-            <a href="http://www.beyond.ai" target="_blank" className="w-48 m-4 h-auto bg-white">
+            <a
+              href="http://www.beyond.ai"
+              target="_blank"
+              className="w-48 m-4 h-auto bg-white"
+            >
               <div className="shadow-xl hover:shadow-2xl flex flex-col items-center p-4 rounded-lg text-center">
-                <img className="w-20 mt-6 rounded-lg" src={bl}/>
-                <h4 className="text-xl font-semibold mb-0 mt-6">Beyond Limits</h4>
+                <img className="w-20 mt-6 rounded-lg" src={bl} />
+                <h4 className="text-xl font-semibold mb-0 mt-6">
+                  Beyond Limits
+                </h4>
                 <p className="mt-0 mb-0 text-sm">2019 - 2020</p>
               </div>
             </a>
-            <a href="https://rd.nytimes.com/" target="_blank" className="w-48 m-4 h-auto bg-white">
+            <a
+              href="https://rd.nytimes.com/"
+              target="_blank"
+              className="w-48 m-4 h-auto bg-white"
+            >
               <div className="shadow-xl hover:shadow-2xl flex flex-col items-center p-4 rounded-lg text-center">
-                <img className="w-20 mt-6 rounded-lg" src={nyt}/>
-                <h4 className="text-xl font-semibold mb-0 mt-6">New York Times</h4>
+                <img className="w-20 mt-6 rounded-lg" src={nyt} />
+                <h4 className="text-xl font-semibold mb-0 mt-6">
+                  New York Times
+                </h4>
                 <p className="mt-0 mb-0 text-sm">2020 - Present</p>
               </div>
             </a>
@@ -201,21 +224,39 @@ function IndexPage() {
             <div className="xs:w-0 sm:w-0 md:w-0 lg:w-16 xl:w-16" />
             <div className="lg:w-1/2 xl:w-1/2">
               {projectsTwo.map(function(project) {
-                return (
-                  <Link to={project.path}>
-                    <div className="shadow-xl hover:shadow-2xl w-full mh-card mb-16 rounded-lg">
-                      <img
-                        alt={1}
-                        className="w-full rounded-tr-lg rounded-tl-lg"
-                        src={project.imgUrl}
-                      ></img>
-                      <div className="p-6">
-                        <h3 className="my-0 font-bold">{project.title}</h3>
-                        <p className="mt-1 mb-0">{project.description}</p>
+                if (project.external) {
+                  return (
+                    <a href={project.path}>
+                      <div className="shadow-xl hover:shadow-2xl w-full mh-card mb-16 rounded-lg">
+                        <img
+                          alt={1}
+                          className="w-full rounded-tr-lg rounded-tl-lg"
+                          src={project.imgUrl}
+                        ></img>
+                        <div className="p-6">
+                          <h3 className="my-0 font-bold">{project.title}</h3>
+                          <p className="mt-1 mb-0">{project.description}</p>
+                        </div>
                       </div>
-                    </div>
-                  </Link>
-                );
+                    </a>
+                  );
+                } else {
+                  return (
+                    <Link to={project.path}>
+                      <div className="shadow-xl hover:shadow-2xl w-full mh-card mb-16 rounded-lg">
+                        <img
+                          alt={1}
+                          className="w-full rounded-tr-lg rounded-tl-lg"
+                          src={project.imgUrl}
+                        ></img>
+                        <div className="p-6">
+                          <h3 className="my-0 font-bold">{project.title}</h3>
+                          <p className="mt-1 mb-0">{project.description}</p>
+                        </div>
+                      </div>
+                    </Link>
+                  );
+                }
               })}
             </div>
           </div>
