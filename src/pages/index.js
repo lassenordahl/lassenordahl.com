@@ -39,6 +39,13 @@ const projects = [
 
 const projectsTwo = [
   {
+    path: `https://lassenordahl.com`,
+    title: `This site!`,
+    description: `Personal site built with GatsbyJS`,
+    imgUrl: `https://user-images.githubusercontent.com/13127625/94859805-fd7ca600-03e9-11eb-9b69-517822a4ad6c.png`,
+    external: true
+  },
+  {
     path: `https://hackuci.github.io/ZotHacks-Site/`,
     title: `ZotHacks`,
     description: `Advertising HackUCI's beginner hackathon`,
