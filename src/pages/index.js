@@ -24,6 +24,13 @@ const projects = [
     imgUrl: `https://user-images.githubusercontent.com/13127625/70379600-92eefc80-18e3-11ea-8891-d19285089f47.png`,
   },
   {
+    path: `https://drive.google.com/file/d/1eczh-NJcibQgJZhq_FZSTB8b86lpbmeq/view?usp=sharing`,
+    title: `Pneumonia Classification`,
+    description: `Lung abnormality analysis using CNN's`,
+    imgUrl: `https://user-images.githubusercontent.com/13127625/96016314-740f9f80-0dfd-11eb-98d2-2d1daa57f3f1.png`,
+    external: true
+  },
+  {
     path: `projects/impulse`,
     title: `Impulse`,
     description: `Internship application management program, winner of HackTech 2018`,
@@ -210,22 +217,40 @@ function IndexPage() {
           <h2>Projects 🧗</h2>
           <div className="flex flex-col lg:flex-row xl:flex-row sm:flex-col xs:flex-col md:flex-col">
             <div className="lg:w-1/2 xl:w-1/2">
-              {projects.map(function(project) {
-                return (
-                  <Link to={project.path}>
-                    <div className="shadow-xl hover:shadow-2xl w-full mh-card mb-16 rounded-lg">
-                      <img
-                        alt={1}
-                        className="w-full rounded-tr-lg rounded-tl-lg"
-                        src={project.imgUrl}
-                      ></img>
-                      <div className="p-6 rounded-lg">
-                        <h3 className="my-0 font-bold">{project.title}</h3>
-                        <p className="mt-1 mb-0">{project.description}</p>
+            {projects.map(function(project) {
+                if (project.external) {
+                  return (
+                    <a href={project.path}>
+                      <div className="shadow-xl hover:shadow-2xl w-full mh-card mb-16 rounded-lg">
+                        <img
+                          alt={1}
+                          className="w-full rounded-tr-lg rounded-tl-lg"
+                          src={project.imgUrl}
+                        ></img>
+                        <div className="p-6">
+                          <h3 className="my-0 font-bold">{project.title}</h3>
+                          <p className="mt-1 mb-0">{project.description}</p>
+                        </div>
                       </div>
-                    </div>
-                  </Link>
-                );
+                    </a>
+                  );
+                } else {
+                  return (
+                    <Link to={project.path}>
+                      <div className="shadow-xl hover:shadow-2xl w-full mh-card mb-16 rounded-lg">
+                        <img
+                          alt={1}
+                          className="w-full rounded-tr-lg rounded-tl-lg"
+                          src={project.imgUrl}
+                        ></img>
+                        <div className="p-6">
+                          <h3 className="my-0 font-bold">{project.title}</h3>
+                          <p className="mt-1 mb-0">{project.description}</p>
+                        </div>
+                      </div>
+                    </Link>
+                  );
+                }
               })}
             </div>
             <div className="xs:w-0 sm:w-0 md:w-0 lg:w-16 xl:w-16" />
