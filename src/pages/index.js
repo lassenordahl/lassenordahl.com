@@ -54,7 +54,7 @@ const projectsTwo = [
   },
   {
     path: `https://hackuci.github.io/ZotHacks-Site/`,
-    title: `ZotHacks`,
+    title: `ZotHacks.com`,
     description: `Advertising HackUCI's beginner hackathon`,
     imgUrl: `https://user-images.githubusercontent.com/13127625/94630093-8aecb880-0279-11eb-8445-7fbbc4f8e487.png`,
     external: true,
