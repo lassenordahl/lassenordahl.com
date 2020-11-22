@@ -24,10 +24,10 @@ function Header() {
               Lasse Nordahl
             </h1>
             <h4 className="text-xl sm:text-2xl my-0 text-grey1">
-              R&D and SWE Intern
+              Software Engineer
             </h4>
             <h4 className="text-xl sm:text-2xl my-0 text-grey1">
-              Northern California
+              California, eventually NYC
             </h4>
             <div className="my-0 flex flex-row text-2xl">
               <a href="mailto:lnordahl@uci.edu">

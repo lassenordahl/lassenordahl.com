@@ -28,7 +28,7 @@ const projects = [
     title: `Pneumonia Classification`,
     description: `Lung abnormality analysis using CNN's`,
     imgUrl: `https://user-images.githubusercontent.com/13127625/96016314-740f9f80-0dfd-11eb-98d2-2d1daa57f3f1.png`,
-    external: true
+    external: true,
   },
   {
     path: `projects/impulse`,
@@ -50,7 +50,7 @@ const projectsTwo = [
     title: `This site!`,
     description: `Personal site built with GatsbyJS`,
     imgUrl: `https://user-images.githubusercontent.com/13127625/94859805-fd7ca600-03e9-11eb-9b69-517822a4ad6c.png`,
-    external: true
+    external: true,
   },
   {
     path: `https://hackuci.github.io/ZotHacks-Site/`,
@@ -120,7 +120,7 @@ function IndexPage() {
               I'm Lasse Nordahl, a senior attending UC Irvine pursuing a B.S. in
               Computer Science with a specialization in AI/ML. After a few
               internships and fun side projects, I've started to specialize in
-              full-stack development focused on Web Design. In my free time I'm
+              full-stack development and computer vision. In my free time I'm
               either rock climbing, drawing corgis on work resources, or doing
               photography. Feel free to explore the site to learn more about me.
             </p>
@@ -133,7 +133,19 @@ function IndexPage() {
               >
                 The New York Times
               </a>{" "}
-              as an R&D Intern.
+              as an R&D Intern. Currently I'm trying to digitize the NYT
+              Archives using OCR and Natural Language Processing.
+            </p>
+            <p>
+              Starting Fall 2021 I'll be joining {" "}
+              <a
+                className="link"
+                target="_blank"
+                href="https://www.cockroachlabs.com/"
+              >
+                Cockroach Labs
+              </a>{" "}
+              as a new grad Software Engineer!
             </p>
           </div>
         </section>
@@ -217,7 +229,7 @@ function IndexPage() {
           <h2>Projects 🧗</h2>
           <div className="flex flex-col lg:flex-row xl:flex-row sm:flex-col xs:flex-col md:flex-col">
             <div className="lg:w-1/2 xl:w-1/2">
-            {projects.map(function(project) {
+              {projects.map(function(project) {
                 if (project.external) {
                   return (
                     <a href={project.path}>
