@@ -381,7 +381,7 @@ template {
   padding: 3vw;
 	background: linear-gradient(
     180deg,
-    rgba(0, 0, 30, 0.35) 20.59%,
+    rgba(0, 0, 30, 0.18) 20.59%,
     rgba(255, 255, 255, 0.00) 70.63%
   );
   backdrop-filter: blur(8px);

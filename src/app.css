@@ -25,7 +25,7 @@
   padding: 3vw;
 	background: linear-gradient(
     180deg,
-    rgba(0, 0, 30, 0.35) 20.59%,
+    rgba(0, 0, 30, 0.18) 20.59%,
     rgba(255, 255, 255, 0.00) 70.63%
   );
   backdrop-filter: blur(8px);
@@ -40,11 +40,11 @@ h3 {
 }
 
 h1 {
-	font-size: 7vw;
+	font-size: 6vw;
 }
 
 h3 {
-	font-size: 1.5vw;
+	font-size: 1.2vw;
   font-weight: 400;
   margin: 8px 8px 8px 0;
 }
@@ -88,7 +88,7 @@ I have't stolen anything since though.
 		font-size: 6vw !important;
 	}
 	h3 {
-		font-size: 1.3vw !important;
+		font-size: 1.2vw !important;
 	}
 }
 

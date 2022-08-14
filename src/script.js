@@ -10,10 +10,10 @@ import blobVertex from "./shaders/blob/vertex.glsl";
 import blobFragment from "./shaders/blob/fragment.glsl";
 
 import one from "./../static/images/01.png";
-import two from "./../static/images/02.png";
 import three from "./../static/images/03.png";
 import four from "./../static/images/04.png";
 import five from "./../static/images/05.png";
+import six from "./../static/images/06.png";
 
 // Canvas
 const canvas = document.querySelector("canvas.webgl");
@@ -31,7 +31,6 @@ const resetCameraPosition = () => {
   const currentRatio = sizes.width / sizes.height;
 
   const diff = idealRatio - currentRatio;
-  console.log(diff);
   camera.position.z = diff > 0.54 ? diff * 24 : 0.54 * 24;
 };
 
@@ -103,7 +102,7 @@ tick();
 var index = 0;
 
 document.getElementsByClassName("webgl")[0].addEventListener("click", () => {
-  const images = [one, three, five, four];
+  const images = [one, six, three, five, four];
 
   index += 1;
   material.uniforms.uTexture.value = new THREE.TextureLoader().load(
