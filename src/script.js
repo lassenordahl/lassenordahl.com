@@ -55,6 +55,7 @@ const material = new THREE.ShaderMaterial({
   uniforms: {
     uTime: { value: 0.0 },
     uTexture: { value: new THREE.TextureLoader().load(one) },
+    uIntensity: 2.0
   },
   wireframe: false,
 });
