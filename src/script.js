@@ -2,18 +2,11 @@ import "./style.css";
 import "./app.css";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
-import * as dat from "lil-gui";
 
 import vertexShader from "./shaders/test/vertex.glsl";
 import fragmentShader from "./shaders/test/fragment.glsl";
-import blobVertex from "./shaders/blob/vertex.glsl";
-import blobFragment from "./shaders/blob/fragment.glsl";
 
-import one from "./../static/images/01.png";
-import three from "./../static/images/03.png";
-import four from "./../static/images/04.png";
-import five from "./../static/images/05.png";
-import six from "./../static/images/06.png";
+import one from "./../static/images/01.webp";
 
 // Canvas
 const canvas = document.querySelector("canvas.webgl");
@@ -98,14 +91,3 @@ const tick = () => {
 };
 
 tick();
-
-var index = 0;
-
-document.getElementsByClassName("webgl")[0].addEventListener("click", () => {
-  const images = [one, six, three, five, four];
-
-  index += 1;
-  material.uniforms.uTexture.value = new THREE.TextureLoader().load(
-    images[index % images.length]
-  );
-});

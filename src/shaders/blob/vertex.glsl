@@ -15,13 +15,13 @@ void main() {
     vUv = uv;
 
     float t = uTime * uSpeed;
-    float distortion = pnoise((normal + t) * uNoiseDensity, vec3(3.0)) * uNoiseStrength - .3;
+    float distortion = pnoise((normal + t) * uNoiseDensity, vec3(3.0)) * uNoiseStrength;
 
     vec3 pos = position + (normal * distortion);
     float angle = sin(uv.y * uFrequency + t) * uAmplitude;
-    pos = rotateY(pos, angle);    
+    pos = rotateY(pos, angle);
 
     vDistort = distortion;
 
     gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.);
-}  
+}

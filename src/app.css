@@ -1,7 +1,7 @@
 .webgl {
   outline: none;
   position: absolute;
-	cursor: pointer;
+  cursor: pointer;
 }
 
 .container {
@@ -9,28 +9,30 @@
   width: 100vw;
   height: 100vh;
   background-color: white;
-	align-items: center;
-	justify-content: flex-start;
-	position: relative;
+  align-items: center;
+  justify-content: flex-start;
+  position: relative;
 }
 
 .content {
   z-index: 10;
   display: flex;
   flex-direction: column;
-  font-family: "Poppins";
+  font-family: "Poppins", sans-serif;
   display: flex;
   align-items: flex-start;
   justify-content: center;
   padding: 3vw;
-	background: linear-gradient(
+  background: linear-gradient(
     180deg,
     rgba(0, 0, 30, 0.18) 20.59%,
-    rgba(255, 255, 255, 0.00) 70.63%
+    rgba(255, 255, 255, 0) 70.63%
   );
-  backdrop-filter: blur(8px);
-	left: 0;
-	position: absolute;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+  border-radius: 6px;
+  backdrop-filter: blur(20px);
+  left: 0;
+  position: absolute;
 }
 
 h1,
@@ -40,11 +42,11 @@ h3 {
 }
 
 h1 {
-	font-size: 6vw;
+  font-size: 5.5vw;
 }
 
 h3 {
-	font-size: 1.2vw;
+  font-size: 1.2vw;
   font-weight: 400;
   margin: 8px 8px 8px 0;
 }
@@ -56,10 +58,10 @@ h3 {
 
 .icons {
   color: white;
-	display: flex;
-	padding: 8px 8px 8px 0px;
-	gap: 16px;
-	font-size: 24px;
+  display: flex;
+  padding: 8px 8px 8px 0px;
+  gap: 16px;
+  font-size: 24px;
 }
 
 i {
@@ -67,14 +69,14 @@ i {
 }
 
 .click {
-	position: absolute;
-	color: white;
-	bottom: 12px;
-	right: 12px;
-	font-family: "Poppins";
+  position: absolute;
+  color: white;
+  bottom: 12px;
+  right: 12px;
+  font-family: "Poppins";
 }
 
-/* 
+/*
 If you decided to look through my CSS for this website, please look away
 immediately. I could make up some lie that I'll update it to be better practice later,
 but most likely I'll have a new website idea before I have the motivation to
@@ -84,35 +86,35 @@ and lied that I didn't know where it was. It was a nice pen. I lost it 2 weeks l
 I have't stolen anything since though.
 */
 @media only screen and (min-width: 2000px) {
-	h1 {
-		font-size: 6vw !important;
-	}
-	h3 {
-		font-size: 1.2vw !important;
-	}
+  h1 {
+    font-size: 6vw !important;
+  }
+  h3 {
+    font-size: 1.2vw !important;
+  }
 }
 
 @media only screen and (max-width: 500px) {
-	.webgl {
-		display: none;
-	}
+  .webgl {
+    display: none;
+  }
 
-	.content {
-		width: 100vw;
-		height: 100vh;
-		background-color: black;
-		padding: 16px;
-	}
+  .content {
+    width: 100vw;
+    height: 100vh;
+    background-color: black;
+    padding: 16px;
+  }
 
-	h1 {
-		font-size: 36px;
-	}
+  h1 {
+    font-size: 36px;
+  }
 
-	h3 {
-		font-size: 11px;
-	}
+  h3 {
+    font-size: 11px;
+  }
 
-	.icons {
-		font-size: 20px;
-	}
+  .icons {
+    font-size: 20px;
+  }
 }
