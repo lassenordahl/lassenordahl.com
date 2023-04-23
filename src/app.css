@@ -1,3 +1,7 @@
+html {
+  background: black;
+}
+
 .webgl {
   outline: none;
   position: absolute;
