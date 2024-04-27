@@ -56,6 +56,15 @@ module.exports = {
         },
       },
 
+      // Files (pdf)
+      {
+        test: /\.(pdf)$/,
+        type: "asset/resource",
+        generator: {
+          filename: "assets/[hash][ext]",
+        },
+      },
+
       // Fonts
       {
         test: /\.(ttf|eot|woff|woff2)$/,

@@ -1,5 +1,21 @@
 /*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */
 
+@font-face {
+  font-family: "Berkeley Mono Regular";
+  src: url("./../static/fonts/BerkeleyMono-Regular.woff2") format("woff2"),
+    url("./../static/fonts/BerkeleyMono-Regular.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Berkeley Mono Bold";
+  src: url("./../static/fonts/BerkeleyMono-Bold.woff2") format("woff2"),
+    url("./../static/fonts/BerkeleyMono-Bold.woff") format("woff");
+  font-weight: bold;
+  font-style: normal;
+}
+
 /* Document
    ========================================================================== */
 
@@ -44,6 +60,8 @@ main {
 h1 {
   font-size: 2em;
   margin: 0.67em 0;
+
+  font-family: "Berkeley Mono Bold", monospace;
 }
 
 /* Grouping content
