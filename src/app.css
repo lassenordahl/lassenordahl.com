@@ -2,60 +2,66 @@ html {
   background: black;
 }
 
+.container {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  height: max-content;
+  align-items: flex-start;
+  justify-content: center;
+  position: relative;
+}
+
+.scale {
+  @media (max-width: 700px) {
+    transform: scale(0.75);
+  }
+
+  @media (max-width: 500px) {
+    transform: scale(0.6);
+  }
+
+  @media (max-width: 400px) {
+    transform: scale(0.5);
+  }
+}
+
 .webgl {
   outline: none;
   position: absolute;
   cursor: pointer;
 }
 
-.container {
-  display: flex;
-  width: 100vw;
-  height: 100vh;
-  background-color: white;
-  align-items: center;
-  justify-content: flex-start;
-  position: relative;
+.gap {
+  width: 640px;
+  height: 464px;
 }
 
 .content {
+  width: calc(640px - 16px);
   z-index: 10;
   display: flex;
   flex-direction: column;
-  font-family: "Poppins", sans-serif;
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  padding: 3vw;
-  background: linear-gradient(
-    180deg,
-    rgba(0, 0, 30, 0.18) 20.59%,
-    rgba(255, 255, 255, 0) 70.63%
-  );
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
-    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
-  border-radius: 6px;
-  backdrop-filter: blur(20px);
-  left: 0;
-  position: absolute;
-
+  gap: 12px;
   font-family: "Berkeley Mono Regular", monospace;
+  padding-left: 16px;
 }
 
-h1,
-h3 {
+h1, h2, h3, h4, h5, h6 {
   color: white;
   margin: 0;
 }
 
 h1 {
-  font-size: 5vw;
+  font-size: 1rem;
+}
+
+h2 {
+  font-size: 0.8rem;
 }
 
 h3 {
-  font-size: 1.2vw;
-  font-weight: 400;
-  margin: 8px 8px 8px 0;
+  font-size: 0.8rem;
 }
 
 .link {
@@ -68,7 +74,7 @@ h3 {
   display: flex;
   padding: 8px 8px 8px 0px;
   gap: 16px;
-  font-size: 24px;
+  font-size: 18px;
 }
 
 i {
@@ -81,47 +87,4 @@ i {
   bottom: 12px;
   right: 12px;
   font-family: "Poppins";
-}
-
-/*
-If you decided to look through my CSS for this website, please look away
-immediately. I could make up some lie that I'll update it to be better practice later,
-but most likely I'll have a new website idea before I have the motivation to
-spend a Sunday making yet another one. Thank you for making it this far though!
-In my thanks, I'll leave a confession. I stole a (cheap) pen from my 7th grade english teacher
-and lied that I didn't know where it was. It was a nice pen. I lost it 2 weeks later.
-I have't stolen anything since though.
-*/
-@media only screen and (min-width: 2000px) {
-  h1 {
-    font-size: 6vw !important;
-  }
-  h3 {
-    font-size: 1.2vw !important;
-  }
-}
-
-@media only screen and (max-width: 500px) {
-  .webgl {
-    display: none;
-  }
-
-  .content {
-    width: 100vw;
-    height: 100vh;
-    background-color: black;
-    padding: 16px;
-  }
-
-  h1 {
-    font-size: 36px;
-  }
-
-  h3 {
-    font-size: 11px;
-  }
-
-  .icons {
-    font-size: 20px;
-  }
 }

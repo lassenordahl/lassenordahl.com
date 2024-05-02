@@ -15,36 +15,12 @@ const canvas = document.querySelector("canvas.webgl");
 const scene = new THREE.Scene();
 
 const sizes = {
-  width: window.innerWidth,
-  height: window.innerHeight,
+  width: 640,
+  height: 480,
 };
-
-const resetCameraPosition = () => {
-  const idealRatio = 16 / 9;
-  const currentRatio = sizes.width / sizes.height;
-
-  const diff = idealRatio - currentRatio;
-  camera.position.z = diff > 0.54 ? diff * 24 : 0.54 * 24;
-};
-
-window.addEventListener("resize", () => {
-  // Update sizes
-  sizes.width = window.innerWidth;
-  sizes.height = window.innerHeight;
-
-  // Update camera
-  camera.aspect = sizes.width / sizes.height;
-  camera.updateProjectionMatrix();
-
-  // Update renderer
-  renderer.setSize(sizes.width, sizes.height);
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-
-  resetCameraPosition();
-});
 
 const camera = new THREE.PerspectiveCamera(50, sizes.width / sizes.height);
-resetCameraPosition();
+camera.position.z = 11;
 scene.add(camera);
 
 // Objects
@@ -64,7 +40,6 @@ scene.add(mesh);
 
 // Controls
 const controls = new OrbitControls(camera, canvas);
-controls.enableDamping = true;
 controls.enableRotate = false;
 controls.enableZoom = false;
 
