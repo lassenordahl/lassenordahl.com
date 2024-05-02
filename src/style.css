@@ -27,6 +27,8 @@
 html {
   line-height: 1.15; /* 1 */
   -webkit-text-size-adjust: 100%; /* 2 */
+
+  font-family: "Berkeley Mono Regular", monospace;
 }
 
 /* Sections
@@ -38,10 +40,6 @@ html {
 
 body {
   margin: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
 }
 
 /**
@@ -62,6 +60,15 @@ h1 {
   margin: 0.67em 0;
 
   font-family: "Berkeley Mono Bold", monospace;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Berkeley Mono Regular", monospace;
 }
 
 /* Grouping content

@@ -1,15 +1,29 @@
+/*
+Note to reader: This CSS is bad - and that's okay! This is
+usually written at 10:30pm right before I go to bed whenever
+I decide it would be a good idea to add updates.
+*/
+
 html {
   background: black;
+}
+
+body {
+  flex-direction: column;
 }
 
 .container {
   display: flex;
   width: 100vw;
-  height: 100vh;
+  height: 100dvh;
   height: max-content;
   align-items: flex-start;
   justify-content: center;
   position: relative;
+}
+
+.container--portfolio {
+  padding: 64px 0 32px 0;
 }
 
 .scale {
@@ -38,16 +52,20 @@ html {
 }
 
 .content {
-  width: calc(640px - 16px);
+  width: calc(640px - 32px);
   z-index: 10;
   display: flex;
   flex-direction: column;
   gap: 12px;
-  font-family: "Berkeley Mono Regular", monospace;
-  padding-left: 16px;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
   color: white;
   margin: 0;
 }
@@ -62,6 +80,11 @@ h2 {
 
 h3 {
   font-size: 0.8rem;
+}
+
+p {
+  color: white;
+  font-size: 0.7rem;
 }
 
 .link {
@@ -81,10 +104,41 @@ i {
   cursor: pointer;
 }
 
-.click {
-  position: absolute;
+.more-content {
+  width: 100vw;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  margin-bottom: 64px;
+}
+
+.column {
+  width: 640px;
+  max-width: 90vw;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.line {
+  width: calc(640px - 32px);
+  height: 1px;
+  background: rgb(205, 205, 205);
+  margin-bottom: 24px;
+  max-width: calc(100vw - 48px);
+}
+
+iframe {
+  width: 640px;
+  height: 480px;
+  max-width: 90vw;
+  outline: 1px solid white;
+}
+
+.top {
+  margin-top: 12px;
+}
+
+a {
   color: white;
-  bottom: 12px;
-  right: 12px;
-  font-family: "Poppins";
 }
