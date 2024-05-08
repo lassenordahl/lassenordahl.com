@@ -16,14 +16,15 @@ body {
   display: flex;
   width: 100vw;
   height: 100dvh;
-  height: max-content;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
   position: relative;
 }
 
 .container--portfolio {
   padding: 64px 0 32px 0;
+  align-items: flex-start;
+  height: max-content;
 }
 
 .scale {
@@ -85,6 +86,7 @@ h3 {
 p {
   color: white;
   font-size: 0.7rem;
+  line-height: 1rem;
 }
 
 .link {
@@ -141,4 +143,13 @@ iframe {
 
 a {
   color: white;
+}
+
+.iframe-link {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: lightgray;
+  font-size: 12px;
 }
