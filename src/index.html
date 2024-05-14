@@ -11,15 +11,29 @@
       rel="stylesheet"
     />
     <script src="https://use.fontawesome.com/85f1ae5dd5.js"></script>
+
+    <!-- Google tag (gtag.js) -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-WWFYRZKY9N"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-WWFYRZKY9N");
+    </script>
   </head>
   <body>
     <div class="container container scale">
       <div class="content">
         <canvas class="webgl"></canvas>
         <div class="gap"></div>
-        <h1>Lasse Nordahl</h1>
+        <h1 class="name">Lasse Nordahl</h1>
         <h2>
-          software engineer @
+          senior software engineer @
           <a href="https://cockroachlabs.cloud" class="link" target="_blank"
             >Cockroach Labs</a
           >

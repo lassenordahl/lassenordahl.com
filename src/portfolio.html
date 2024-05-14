@@ -11,15 +11,29 @@
       rel="stylesheet"
     />
     <script src="https://use.fontawesome.com/85f1ae5dd5.js"></script>
+
+    <!-- Google tag (gtag.js) -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-WWFYRZKY9N"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-WWFYRZKY9N");
+    </script>
   </head>
   <body>
     <div class="container container--portfolio scale">
       <div class="content">
         <canvas class="webgl"></canvas>
         <div class="gap"></div>
-        <h1>Lasse Nordahl</h1>
+        <h1 class="name">Lasse Nordahl</h1>
         <h2>
-          software engineer @
+          senior software engineer @
           <a href="https://cockroachlabs.cloud" class="link" target="_blank"
             >Cockroach Labs</a
           >
@@ -84,7 +98,8 @@
           >
         </div>
         <p class="top">
-          The screen overlay kinda doesn't work in an iframe. @lasse plz fix.
+          The screen overlay kinda doesn't work at this iframe dimension. @lasse
+          plz fix.
         </p>
         <iframe src="https://www.david.mov" frameborder="0"></iframe>
         <div class="iframe-link">
@@ -102,9 +117,9 @@
         <img src="./../static/images/signup.webp" />
         <p>
           I worked on launching the SQL Shell as a way of improving first query
-          rates and early user retention. The SQL Shell wound up being the most
-          used feature in Cloud, recieving more requests than our ListClusters
-          endpoint.
+          rates and early user retention. The SQL Shell wound up being one of
+          the most used feature in Cloud, recieving more requests than our
+          ListClusters endpoint.
         </p>
         <p>
           Theres a
@@ -115,6 +130,14 @@
           >
         </p>
         <img src="./../static/images/shell.webp" />
+        <p>
+          Beyond that, I worked on a lot of growth work, including new
+          onboarding flows, free trials, and cluster creation views. Most of
+          that work is relatively full-stack, but I'd generally say I lean
+          frontend in terms of experience/expertise.
+        </p>
+        <img src="./../static/images/regions.webp" />
+        <img src="./../static/images/finalize.webp" />
         <h2 class="top">Papertrail - OCR Research</h2>
         <p>
           While working at
@@ -124,8 +147,8 @@
         </p>
         <p>
           We initially wanted to explore performance of new OCR models for 3
-          months, but wound up extending it to a 9 month project since we could
-          piece together articles using more-accurate location data.
+          months, but wound up extending it to a 9 month project since we found
+          out improvements in location data could fully piece-together articles.
         </p>
         <iframe
           src="https://rd.nytimes.com/projects/using-computer-vision-to-create-a-more-accurate-digital-archive/"
