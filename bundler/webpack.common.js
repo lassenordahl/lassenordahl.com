@@ -5,8 +5,7 @@ const path = require("path");
 
 module.exports = {
   entry: {
-    main: path.resolve(__dirname, "../src/script.js"), // Entry for the main page
-    portfolio: path.resolve(__dirname, "../src/script.js"), // Entry for the portfolio page, can be a different script if needed
+    main: path.resolve(__dirname, "../src/script.js"),
   },
   output: {
     hashFunction: "xxhash64",
@@ -22,12 +21,6 @@ module.exports = {
       template: path.resolve(__dirname, "../src/index.html"),
       filename: 'index.html',
       chunks: ['main'],
-      minify: true,
-    }),
-    new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, "../src/portfolio.html"),
-      filename: 'portfolio.html',
-      chunks: ['portfolio'],
       minify: true,
     }),
     new MiniCSSExtractPlugin(),
