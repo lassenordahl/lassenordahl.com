@@ -8,6 +8,20 @@ import fragmentShader from "./shaders/test/fragment.glsl";
 
 import one from "./../static/images/01.webp";
 
+// Dark mode toggle
+const darkModeToggle = document.getElementById("dark-mode-toggle");
+const isDarkMode = localStorage.getItem("darkMode") === "true";
+
+if (isDarkMode) {
+  document.documentElement.classList.add("dark-mode");
+}
+
+darkModeToggle.addEventListener("click", () => {
+  document.documentElement.classList.toggle("dark-mode");
+  const isDark = document.documentElement.classList.contains("dark-mode");
+  localStorage.setItem("darkMode", isDark);
+});
+
 // Canvas
 const canvas = document.querySelector("canvas.webgl");
 
@@ -24,7 +38,7 @@ camera.position.z = 11;
 scene.add(camera);
 
 // Objects
-const geometry = new THREE.PlaneBufferGeometry(14, 9);
+const geometry = new THREE.PlaneGeometry(14, 9);
 const material = new THREE.ShaderMaterial({
   vertexShader,
   fragmentShader,
@@ -45,6 +59,7 @@ controls.enableZoom = false;
 
 const renderer = new THREE.WebGLRenderer({
   canvas: canvas,
+  alpha: true,
 });
 renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));

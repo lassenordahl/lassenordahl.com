@@ -45,11 +45,12 @@ body {
   outline: none;
   position: absolute;
   cursor: pointer;
+  display: block;
 }
 
 .gap {
-  width: 640px;
-  height: 445px;
+  width: 608px;
+  height: 460px;
 }
 
 .content {
@@ -98,7 +99,7 @@ p {
   color: white;
   display: flex;
   padding: 8px 8px 8px 0px;
-  gap: 16px;
+  gap: 20px;
   font-size: 18px;
 }
 
@@ -156,4 +157,65 @@ a {
 
 .name {
   margin-top: 4px;
+}
+
+.dark-mode-toggle {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-size: 18px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease;
+}
+
+html.dark-mode .dark-mode-toggle {
+  color: black;
+}
+
+.dark-mode-toggle:hover {
+  transform: scale(1.1);
+}
+
+/* Dark mode styles */
+html.dark-mode {
+  background: white;
+}
+
+html.dark-mode body {
+  background: white;
+}
+
+
+html.dark-mode h1,
+html.dark-mode h2,
+html.dark-mode h3,
+html.dark-mode h4,
+html.dark-mode h5,
+html.dark-mode h6,
+html.dark-mode p {
+  color: black;
+}
+
+html.dark-mode .link {
+  color: black;
+}
+
+html.dark-mode .icons {
+  color: black;
+}
+
+html.dark-mode .line {
+  background: rgb(50, 50, 50);
+}
+
+html.dark-mode iframe {
+  outline: 1px solid black;
+}
+
+html.dark-mode .iframe-link {
+  color: gray;
 }
