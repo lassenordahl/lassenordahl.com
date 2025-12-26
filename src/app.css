@@ -377,7 +377,7 @@ a {
 
 @media (max-width: 768px) {
   .post-card {
-    gap: 4px;
+    gap: 12px;
   }
 }
 
@@ -434,7 +434,7 @@ a {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 12px;
+  padding: 0 4px 0 20px;
 }
 
 .post-icon-container svg {
@@ -573,7 +573,7 @@ a {
 
 .post-detail-title {
   font-size: 1.2rem;
-  margin-bottom: 0;
+  margin-bottom: 12px;
 }
 
 .post-detail-date {
