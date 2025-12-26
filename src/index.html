@@ -27,10 +27,12 @@
     </script>
   </head>
   <body>
-    <div class="container container scale">
+    <div class="container hero">
       <div class="content">
-        <canvas class="webgl"></canvas>
-        <div class="gap"></div>
+        <div class="glow-container">
+          <img class="glow-image" src="../static/images/01.webp" alt="" aria-hidden="true" />
+          <canvas class="webgl"></canvas>
+        </div>
         <h1 class="name">Lasse Nordahl</h1>
         <h2>
           software engineer @
@@ -39,7 +41,7 @@
           >
         </h2>
         <h3>
-          previously @
+          prev @
           <a href="https://cockroachlabs.cloud" class="link" target="_blank"
             >Cockroach Labs</a
           >
@@ -77,11 +79,33 @@
           >
             <i class="fa fa-question"></i>
           </a>
-          <button id="dark-mode-toggle" class="dark-mode-toggle" aria-label="Toggle dark mode">
-            <i class="fa fa-lightbulb-o"></i>
-          </button>
+        </div>
+      </div>
+      <button id="scroll-down" class="scroll-down" aria-label="Scroll to notes">
+        <svg width="20" height="8" viewBox="0 0 20 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M1 1L10 7L19 1" stroke="currentColor" stroke-width="1"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Blog Section -->
+    <div class="blog-section">
+      <div class="blog-content">
+        <div class="blog-header">
+          <div class="blog-title-row">
+            <h2 class="blog-title">Notes</h2>
+            <span id="latest-post-date" class="latest-post-date"></span>
+          </div>
+          <div class="blog-divider"></div>
+        </div>
+        <div class="blog-feed">
+          <div class="timeline-line"></div>
+          <div id="posts-container" class="posts-container"></div>
         </div>
       </div>
     </div>
+
+    <!-- Post Detail View (hidden by default) -->
+    <div id="post-detail" class="post-detail"></div>
   </body>
 </html>

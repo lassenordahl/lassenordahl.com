@@ -2,24 +2,26 @@ import "./style.css";
 import "./app.css";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
+import { inject } from "@vercel/analytics";
+import { injectSpeedInsights } from "@vercel/speed-insights";
 
 import vertexShader from "./shaders/test/vertex.glsl";
 import fragmentShader from "./shaders/test/fragment.glsl";
 
 import one from "./../static/images/01.webp";
+import { initBlog } from "./blog/index.js";
 
-// Dark mode toggle
-const darkModeToggle = document.getElementById("dark-mode-toggle");
-const isDarkMode = localStorage.getItem("darkMode") === "true";
+// Initialize Vercel Analytics & Speed Insights
+inject();
+injectSpeedInsights();
 
-if (isDarkMode) {
-  document.documentElement.classList.add("dark-mode");
-}
-
-darkModeToggle.addEventListener("click", () => {
-  document.documentElement.classList.toggle("dark-mode");
-  const isDark = document.documentElement.classList.contains("dark-mode");
-  localStorage.setItem("darkMode", isDark);
+// Scroll down button
+const scrollDownBtn = document.getElementById("scroll-down");
+scrollDownBtn.addEventListener("click", () => {
+  const blogSection = document.querySelector(".blog-section");
+  if (blogSection) {
+    blogSection.scrollIntoView({ behavior: "smooth" });
+  }
 });
 
 // Canvas
@@ -28,9 +30,13 @@ const canvas = document.querySelector("canvas.webgl");
 // Scene
 const scene = new THREE.Scene();
 
+// Get container size for responsive canvas
+const glowContainer = document.querySelector(".glow-container");
+const containerRect = glowContainer.getBoundingClientRect();
+
 const sizes = {
-  width: 608,
-  height: 460,
+  width: containerRect.width,
+  height: containerRect.height,
 };
 
 const camera = new THREE.PerspectiveCamera(50, sizes.width / sizes.height);
@@ -66,6 +72,23 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
 const clock = new THREE.Clock();
 
+// Handle resize
+window.addEventListener("resize", () => {
+  const containerRect = glowContainer.getBoundingClientRect();
+
+  // Update sizes
+  sizes.width = containerRect.width;
+  sizes.height = containerRect.height;
+
+  // Update camera
+  camera.aspect = sizes.width / sizes.height;
+  camera.updateProjectionMatrix();
+
+  // Update renderer
+  renderer.setSize(sizes.width, sizes.height);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+});
+
 const tick = () => {
   const elapsedTime = clock.getElapsedTime();
 
@@ -82,3 +105,6 @@ const tick = () => {
 };
 
 tick();
+
+// Initialize blog
+initBlog();
