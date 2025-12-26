@@ -426,31 +426,6 @@ a {
   }
 }
 
-/* Post Icon (alternative to thumbnail) */
-.post-icon-container {
-  width: auto;
-  height: auto;
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 4px 0 20px;
-}
-
-.post-icon-container svg {
-  width: 18px;
-  height: 18px;
-  color: white;
-  opacity: 0.8;
-  stroke-width: 1.5;
-}
-
-@media (max-width: 768px) {
-  .post-icon-container svg {
-    width: 15px;
-    height: 15px;
-  }
-}
 
 .post-info {
   display: flex;
