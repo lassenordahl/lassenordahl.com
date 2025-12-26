@@ -30,11 +30,7 @@ module.exports = merge(commonConfiguration, {
       overlay: true,
       progress: false,
     },
-    historyApiFallback: {
-      rewrites: [
-        { from: /^\/portfolio$/, to: "/portfolio.html" },
-      ],
-    },
+    historyApiFallback: true,
     setupMiddlewares: function (middlewares, devServer) {
       console.log(
         "------------------------------------------------------------"
