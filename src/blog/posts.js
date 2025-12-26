@@ -4,6 +4,26 @@
 
 export const posts = [
   {
+    slug: "yearly-theme-2026",
+    title: "Yearly Theme - Write more",
+    date: "2026-01-01"
+  },
+  {
+    slug: "yearly-theme-2025",
+    title: "Yearly Theme - Make more things",
+    date: "2025-01-01"
+  },
+  {
+    slug: "yearly-theme-2024",
+    title: "Yearly Theme - Follow through",
+    date: "2024-01-01"
+  },
+  {
+    slug: "yearly-theme-2023",
+    title: "Yearly Theme - Do more stuff",
+    date: "2023-01-01"
+  },
+  {
     slug: "rank-everything",
     title: "rank-everything.com",
     date: "2025-12-19",
