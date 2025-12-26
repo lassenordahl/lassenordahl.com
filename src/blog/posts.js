@@ -6,14 +6,14 @@ export const posts = [
     slug: "download-zip",
     title: "download.zip",
     date: "2023-03-27",
-    thumbnail: "/images/blog/download-zip.png",
+    thumbnail: "/images/blog/download-zip.webp",
     originalUrl: "http://www.download.zip/"
   },
   {
     slug: "google-new-tlds",
     title: "8 new top-level domains for dads, grads and techies",
     date: "2023-05-10",
-    thumbnail: "/images/blog/google-tlds.png",
+    thumbnail: "/images/blog/google-tlds.webp",
     originalUrl: "https://blog.google/products/registry/8-new-top-level-domains-for-dads-grads-tech/",
     content: `
 May is also the month of Google I/O, our annual developer conference. .foo, .zip, .mov and .nexus are perfect whether you're learning to code, deploying a helpful tool, building your portfolio, or starting a new community. Check out some of the websites already using these TLDs:
@@ -32,7 +32,7 @@ To learn more about pricing and our participating partners, visit registry.googl
     slug: "nyt-computer-vision-archive",
     title: "Using Computer Vision to Create A More Accurate Digital Archive",
     date: "2021-07-21",
-    thumbnail: "/images/blog/nyt-archive.jpg",
+    thumbnail: "/images/blog/nyt-archive.webp",
     originalUrl: "https://rd.nytimes.com/projects/using-computer-vision-to-create-a-more-accurate-digital-archive/",
     content: `
 In the early 2000s, The Times invested in digitizing its physical newspaper archive. Every issue of The New York Times going back to 1851 was scanned and made available through a public tool called Times Machine. In 2006, O.C.R. was applied to those scans to try to extract text from the images. We used the extracted text in our archival search index, but due to the poor quality of the existing O.C.R., it's not accurate enough to be reader-facing. We started this project to see how we could improve the quality of the text transcriptions from our archive and found that there were several promising ways to enhance the text transcription quality and recreate the structure of an article in a format similar to articles consumed digitally.

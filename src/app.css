@@ -391,7 +391,7 @@ a {
 }
 
 /* Special handling for wider aspect ratio images */
-.post-thumbnail[src*="google-tlds"] {
+.post-thumbnail[src*="google-tlds.webp"] {
   object-fit: contain;
   background-color: white;
   padding: 8px;
@@ -513,7 +513,7 @@ a {
 }
 
 /* Special handling for wider aspect ratio images */
-.post-detail-thumbnail[src*="google-tlds"] {
+.post-detail-thumbnail[src*="google-tlds.webp"] {
   object-fit: contain;
   background-color: white;
   padding: 24px;
