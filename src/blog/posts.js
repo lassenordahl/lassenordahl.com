@@ -32,7 +32,7 @@ export const posts = [
   },
   {
     slug: "yearly-theme-2023",
-    title: "Yearly Theme - Do more stuff",
+    title: "Yearly Theme - Do more random stuff",
     date: "2023-01-01",
     author: {
       name: "Lasse Nordahl",
