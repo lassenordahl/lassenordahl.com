@@ -532,6 +532,22 @@ a {
   margin-bottom: 16px;
 }
 
+.post-author {
+  font-size: 0.7rem;
+  color: #888;
+  margin-bottom: 16px;
+}
+
+.post-author a {
+  color: #aaa;
+  text-decoration: none;
+}
+
+.post-author a:hover {
+  color: white;
+  text-decoration: underline;
+}
+
 .post-original-link {
   display: inline-block;
   font-size: 0.75rem;

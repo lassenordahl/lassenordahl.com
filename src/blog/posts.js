@@ -6,22 +6,38 @@ export const posts = [
   {
     slug: "yearly-theme-2026",
     title: "Yearly Theme - Write more",
-    date: "2026-01-01"
+    date: "2026-01-01",
+    author: {
+      name: "Lasse Nordahl",
+      url: "https://x.com/lassenordahl"
+    }
   },
   {
     slug: "yearly-theme-2025",
     title: "Yearly Theme - Make more things",
-    date: "2025-01-01"
+    date: "2025-01-01",
+    author: {
+      name: "Lasse Nordahl",
+      url: "https://x.com/lassenordahl"
+    }
   },
   {
     slug: "yearly-theme-2024",
     title: "Yearly Theme - Follow through",
-    date: "2024-01-01"
+    date: "2024-01-01",
+    author: {
+      name: "Lasse Nordahl",
+      url: "https://x.com/lassenordahl"
+    }
   },
   {
     slug: "yearly-theme-2023",
     title: "Yearly Theme - Do more stuff",
-    date: "2023-01-01"
+    date: "2023-01-01",
+    author: {
+      name: "Lasse Nordahl",
+      url: "https://x.com/lassenordahl"
+    }
   },
   {
     slug: "rank-everything",
@@ -29,7 +45,11 @@ export const posts = [
     date: "2025-12-19",
     thumbnail: "/images/blog/rank-everything.png",
     originalUrl: "https://rank-everything.pages.dev/",
-    isOwnProject: true
+    isOwnProject: true,
+    author: {
+      name: "Lasse Nordahl",
+      url: "https://x.com/lassenordahl"
+    }
   },
   {
     slug: "download-zip",
@@ -37,7 +57,11 @@ export const posts = [
     date: "2023-03-27",
     thumbnail: "/images/blog/download-zip.webp",
     originalUrl: "http://www.download.zip/",
-    isOwnProject: true
+    isOwnProject: true,
+    author: {
+      name: "Lasse Nordahl",
+      url: "https://x.com/lassenordahl"
+    }
   },
   {
     slug: "google-new-tlds",
@@ -51,14 +75,22 @@ export const posts = [
     title: "Using Computer Vision to Create A More Accurate Digital Archive",
     date: "2021-07-21",
     thumbnail: "/images/blog/nyt-archive.webp",
-    originalUrl: "https://rd.nytimes.com/projects/using-computer-vision-to-create-a-more-accurate-digital-archive/"
+    originalUrl: "https://rd.nytimes.com/projects/using-computer-vision-to-create-a-more-accurate-digital-archive/",
+    author: {
+      name: "Lasse Nordahl",
+      url: "https://x.com/lassenordahl"
+    }
   },
   {
     slug: "cockroachdb-sql-in-browser",
     title: "Executing SQL queries from the browser",
     date: "2023-11-09",
     thumbnail: "/images/blog/cockroach-browser.avif",
-    originalUrl: "https://www.cockroachlabs.com/blog/cockroachdb-sql-in-browser/"
+    originalUrl: "https://www.cockroachlabs.com/blog/cockroachdb-sql-in-browser/",
+    author: {
+      name: "Lasse Nordahl",
+      url: "https://x.com/lassenordahl"
+    }
   }
 ];
 

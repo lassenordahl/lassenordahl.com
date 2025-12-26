@@ -85,6 +85,12 @@ async function renderPost(slug) {
       <h1 class="post-detail-title">${post.title}</h1>
       <span class="post-detail-date">${formatDate(post.date)}</span>
 
+      ${post.author ? `
+        <div class="post-author">
+          By <a href="${post.author.url}" target="_blank" rel="noopener noreferrer">${post.author.name}</a>
+        </div>
+      ` : ""}
+
       ${post.originalUrl ? `
         <a href="${post.originalUrl}" target="_blank" rel="noopener noreferrer" class="post-original-link">
           View Original &rarr;
