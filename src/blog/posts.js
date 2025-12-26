@@ -3,24 +3,47 @@
 
 export const posts = [
   {
-    slug: "hello-world",
-    title: "Hello World",
-    date: "2024-12-25",
+    slug: "download-zip",
+    title: "download.zip",
+    date: "2023-03-27",
+    thumbnail: "/images/blog/download-zip.png",
+    originalUrl: "http://www.download.zip/"
+  },
+  {
+    slug: "google-new-tlds",
+    title: "8 new top-level domains for dads, grads and techies",
+    date: "2023-05-10",
+    thumbnail: "/images/blog/google-tlds.png",
+    originalUrl: "https://blog.google/products/registry/8-new-top-level-domains-for-dads-grads-tech/",
     content: `
-This is my first blog post. I'm testing out the new notes section of my website.
+May is also the month of Google I/O, our annual developer conference. .foo, .zip, .mov and .nexus are perfect whether you're learning to code, deploying a helpful tool, building your portfolio, or starting a new community. Check out some of the websites already using these TLDs:
 
-## What is this?
+- **gamers.nexus**: Review computer hardware and plan your next gaming PC
+- **helloworld.foo**: Learn how to code "hello world" in each programming language
+- **url.zip**: Create short, powerful and trackable links
+- <mark>**david.mov**: Watch videos by David Imel in this liminal space</mark>
 
-A simple place to write thoughts, share projects, and document things I've learned.
+Starting today, you can register all of these new extensions as part of our Early Access Program for an additional one-time fee. This fee decreases according to a daily schedule through the end of May 10. On May 10 at 16:00 UTC, all of these domains will be publicly available at a base annual price through your registrar of choice. To make it super easy for anyone to get their website live, we've worked with Google Sites to launch new templates for graduates, professors and parents.
 
-### Code example
+To learn more about pricing and our participating partners, visit registry.google.
+    `.trim()
+  },
+  {
+    slug: "nyt-computer-vision-archive",
+    title: "Using Computer Vision to Create A More Accurate Digital Archive",
+    date: "2021-07-21",
+    thumbnail: "/images/blog/nyt-archive.jpg",
+    originalUrl: "https://rd.nytimes.com/projects/using-computer-vision-to-create-a-more-accurate-digital-archive/",
+    content: `
+In the early 2000s, The Times invested in digitizing its physical newspaper archive. Every issue of The New York Times going back to 1851 was scanned and made available through a public tool called Times Machine. In 2006, O.C.R. was applied to those scans to try to extract text from the images. We used the extracted text in our archival search index, but due to the poor quality of the existing O.C.R., it's not accurate enough to be reader-facing. We started this project to see how we could improve the quality of the text transcriptions from our archive and found that there were several promising ways to enhance the text transcription quality and recreate the structure of an article in a format similar to articles consumed digitally.
 
-\`\`\`javascript
-const greeting = "Hello, world!";
-console.log(greeting);
-\`\`\`
+Modern O.C.R. techniques make use of convolutional neural networks and long short-term memory networks, along with models that try to recognize entire lines, to extract information based on the features of the words and surrounding text. These classes of neural networks are better suited for contextual information and sequences of data, two areas that are very helpful in text recognition.
 
-More to come.
+Many of the issues with achieving human-parity text extraction from newspapers are specific to newspapers: print quality, layout, etc. Cloud-based O.C.R. services provided us high quality standard text recognition, but our team needed to develop new techniques specific to the challenges of newspaper archives. We implemented a number of procedures to enhance the quality of the newspaper scans and understand the differences between headlines, columns, paragraphs and photos. For example, we created logic to handle merging paragraphs split across columns and across pages to remove text like "Continued on Page A7," which isn't important when reading an article online.
+
+An important element of post-processing is ensuring that the information we've extracted is as close to identical to the original scan as possible. This means that we can't make liberal use of spell-checking and grammar correction as we process the data, as it could alter the original contents of the article. Overall, we have reduced text transcription errors for our use case by 50% and have achieved greater than 95% overall word accuracy compared to previous O.C.R. efforts. With this new dataset, not only can we improve products like search and publish articles as web-native text in the future, but we can open up new research possibilities for others who would benefit from a high-quality newspaper text archive going back to 1851.
+
+Special thanks to the Search, Archives, and Taxonomy team for an incredible amount of help in navigating the data and the infrastructure built around it.
     `.trim()
   },
   {

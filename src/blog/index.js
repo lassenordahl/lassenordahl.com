@@ -14,6 +14,16 @@ function formatDate(dateString) {
   });
 }
 
+// Extract domain from URL
+function getDomain(url) {
+  try {
+    const urlObj = new URL(url);
+    return urlObj.hostname.replace('www.', '');
+  } catch {
+    return '';
+  }
+}
+
 // Render the blog feed (list of posts)
 function renderFeed() {
   const posts = getSortedPosts();
@@ -32,7 +42,7 @@ function renderFeed() {
       <div class="post-info">
         <h3 class="post-title">${post.title}</h3>
         <span class="post-date">${formatDate(post.date)}</span>
-        ${post.originalUrl ? '<span class="post-external-badge">External</span>' : ""}
+        ${post.originalUrl ? `<span class="post-external-badge">External - ${getDomain(post.originalUrl)}</span>` : ""}
       </div>
     </a>
   `).join("");
