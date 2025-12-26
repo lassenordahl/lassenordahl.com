@@ -32,7 +32,7 @@ function renderFeed() {
   if (!container) return;
 
   container.innerHTML = posts.map(post => `
-    <a href="#/post/${post.slug}" class="post-card" data-slug="${post.slug}">
+    <a href="/post/${post.slug}" class="post-card" data-slug="${post.slug}">
       ${post.thumbnail ? `
         <div class="post-thumbnail-container">
           <img src="${post.thumbnail}" alt="" class="post-thumbnail-glow" aria-hidden="true" />
@@ -69,7 +69,7 @@ function renderPost(slug) {
 
   container.innerHTML = `
     <div class="post-detail-content">
-      <a href="#/" class="back-link">&larr; Back</a>
+      <a href="/" class="back-link">&larr; Back</a>
 
       ${post.thumbnail ? `
         <div class="post-detail-thumbnail-container">
@@ -112,10 +112,10 @@ function showMainView() {
 
 // Handle routing
 function handleRoute() {
-  const hash = window.location.hash;
+  const path = window.location.pathname;
 
-  if (hash.startsWith("#/post/")) {
-    const slug = hash.replace("#/post/", "");
+  if (path.startsWith("/post/")) {
+    const slug = path.replace("/post/", "");
     renderPost(slug);
   } else {
     showMainView();
@@ -139,14 +139,24 @@ export function initBlog() {
   // Handle initial route
   handleRoute();
 
-  // Listen for hash changes
-  window.addEventListener("hashchange", handleRoute);
+  // Listen for popstate (back/forward button)
+  window.addEventListener("popstate", handleRoute);
 
-  // Save scroll position when clicking a post link
+  // Handle link clicks
   document.addEventListener("click", (e) => {
     const postCard = e.target.closest(".post-card");
+    const backLink = e.target.closest(".back-link");
+
     if (postCard) {
+      e.preventDefault();
       savedScrollPosition = window.scrollY;
+      const slug = postCard.dataset.slug;
+      window.history.pushState({}, "", `/post/${slug}`);
+      handleRoute();
+    } else if (backLink) {
+      e.preventDefault();
+      window.history.pushState({}, "", "/");
+      handleRoute();
     }
   });
 }
