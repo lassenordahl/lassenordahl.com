@@ -40,6 +40,10 @@ function renderFeed() {
           <img src="${post.thumbnail}" alt="" class="post-thumbnail-glow" aria-hidden="true" />
           <img src="${post.thumbnail}" alt="${post.title}" class="post-thumbnail" />
         </div>
+      ` : post.icon ? `
+        <div class="post-icon-container">
+          <i data-lucide="${post.icon}"></i>
+        </div>
       ` : ""}
       <div class="post-info">
         <h3 class="post-title">${post.title}</h3>
@@ -48,6 +52,11 @@ function renderFeed() {
       </div>
     </a>
   `).join("");
+
+  // Initialize Lucide icons after rendering
+  if (window.lucide) {
+    window.lucide.createIcons({ icons: window.lucide.icons });
+  }
 }
 
 // Render a single post
@@ -83,13 +92,13 @@ async function renderPost(slug) {
       ` : ""}
 
       <h1 class="post-detail-title">${post.title}</h1>
-      <span class="post-detail-date">${formatDate(post.date)}</span>
-
       ${post.author ? `
         <div class="post-author">
-          By <a href="${post.author.url}" target="_blank" rel="noopener noreferrer">${post.author.name}</a>
+          <a href="${post.author.url}" target="_blank" rel="noopener noreferrer">${post.author.name}</a> on ${formatDate(post.date)}
         </div>
-      ` : ""}
+      ` : `
+        <span class="post-detail-date">${formatDate(post.date)}</span>
+      `}
 
       ${post.originalUrl ? `
         <a href="${post.originalUrl}" target="_blank" rel="noopener noreferrer" class="post-original-link">
@@ -104,6 +113,11 @@ async function renderPost(slug) {
       </div>
     </div>
   `;
+
+  // Re-initialize Lucide icons after rendering
+  if (window.lucide) {
+    window.lucide.createIcons();
+  }
 }
 
 // Show the main view (hero + feed)

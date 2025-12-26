@@ -10,6 +10,7 @@ import fragmentShader from "./shaders/test/fragment.glsl";
 
 import one from "./../static/images/01.webp";
 import { initBlog } from "./blog/index.js";
+import { createIcons, icons } from "lucide";
 
 // Initialize Vercel Analytics & Speed Insights
 inject();
@@ -106,5 +107,11 @@ const tick = () => {
 
 tick();
 
-// Initialize blog
+// Expose Lucide globally for dynamic content
+window.lucide = { createIcons, icons };
+
+// Initialize header icons immediately
+createIcons({ icons });
+
+// Initialize blog (this will call createIcons again after rendering blog content)
 initBlog();
