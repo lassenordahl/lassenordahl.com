@@ -1,5 +1,5 @@
 import { marked } from "marked";
-import { getSortedPosts, getPostBySlug } from "./posts.js";
+import { getSortedPosts, getPostBySlug, loadPostContent } from "./posts.js";
 
 // Store scroll position before navigating to a post
 let savedScrollPosition = 0;
@@ -42,14 +42,14 @@ function renderFeed() {
       <div class="post-info">
         <h3 class="post-title">${post.title}</h3>
         <span class="post-date">${formatDate(post.date)}</span>
-        ${post.originalUrl ? `<span class="post-external-badge">External - ${getDomain(post.originalUrl)}</span>` : ""}
+        ${post.originalUrl ? `<span class="post-external-badge">External${post.isOwnProject ? '' : ` - ${getDomain(post.originalUrl)}`}</span>` : ""}
       </div>
     </a>
   `).join("");
 }
 
 // Render a single post
-function renderPost(slug) {
+async function renderPost(slug) {
   const post = getPostBySlug(slug);
   const container = document.getElementById("post-detail");
   const blogSection = document.querySelector(".blog-section");
@@ -65,7 +65,9 @@ function renderPost(slug) {
   // Scroll to top
   window.scrollTo(0, 0);
 
-  const htmlContent = marked.parse(post.content);
+  // Load content from markdown file
+  const content = await loadPostContent(slug);
+  const htmlContent = content ? marked.parse(content) : '';
 
   container.innerHTML = `
     <div class="post-detail-content">
@@ -111,12 +113,12 @@ function showMainView() {
 }
 
 // Handle routing
-function handleRoute() {
+async function handleRoute() {
   const path = window.location.pathname;
 
   if (path.startsWith("/post/")) {
     const slug = path.replace("/post/", "");
-    renderPost(slug);
+    await renderPost(slug);
   } else {
     showMainView();
   }
