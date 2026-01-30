@@ -234,10 +234,10 @@ async function renderPost(slug) {
   // Scroll to top
   window.scrollTo(0, 0);
 
-  // Load content from markdown file
-  const content = await loadPostContent(slug);
-  const htmlContent = content ? marked.parse(content) : '';
+  // Update page title immediately
+  document.title = `${post.title} - lasse's website`;
 
+  // Immediately render post header (no flash of old content)
   container.innerHTML = `
     <div class="post-detail-content">
       <a href="/" class="back-link">&larr; Back</a>
@@ -266,19 +266,24 @@ async function renderPost(slug) {
 
       <div class="post-divider"></div>
 
-      <div class="post-content">
-        ${htmlContent}
-      </div>
+      <div class="post-content"></div>
     </div>
   `;
+
+  // Load and render markdown content
+  const content = await loadPostContent(slug);
+  if (content) {
+    const htmlContent = marked.parse(content);
+    const contentContainer = container.querySelector('.post-content');
+    if (contentContainer) {
+      contentContainer.innerHTML = htmlContent;
+    }
+  }
 
   // Re-initialize Lucide icons after rendering
   if (window.lucide) {
     window.lucide.createIcons();
   }
-
-  // Update page title for SEO
-  document.title = `${post.title} - lasse's website`;
 }
 
 // Show the main view (hero + feed)
