@@ -5,7 +5,7 @@
     "node": "24.x"
   },
   "scripts": {
-    "build": "webpack --config ./bundler/webpack.prod.js",
+    "build": "webpack --config ./bundler/webpack.prod.js && node scripts/generate-posts.js",
     "dev": "webpack serve --config ./bundler/webpack.dev.js"
   },
   "dependencies": {
