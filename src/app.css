@@ -654,8 +654,9 @@ a {
 .post-content img {
   width: 100%;
   height: auto;
-  margin: 0;
+  margin-bottom: 16px;
   display: block;
+  transform: rotate(90deg);
 }
 
 .post-content blockquote {
