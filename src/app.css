@@ -662,11 +662,10 @@ html.is-post-page .post-detail {
 }
 
 .post-content img {
-  width: 100%;
+  width: 80%;
   height: auto;
   margin-bottom: 16px;
   display: block;
-  transform: rotate(90deg);
 }
 
 .post-content blockquote {
