@@ -1,8 +1,13 @@
 {
+  "outputDirectory": "public",
   "rewrites": [
     {
       "source": "/post/:slug",
       "destination": "/index.html"
+    },
+    {
+      "source": "/tasks",
+      "destination": "/tasks.html"
     }
   ]
 }
