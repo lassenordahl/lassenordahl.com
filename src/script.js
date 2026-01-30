@@ -63,6 +63,7 @@ scene.add(mesh);
 const controls = new OrbitControls(camera, canvas);
 controls.enableRotate = false;
 controls.enableZoom = false;
+controls.enablePan = false;
 
 const renderer = new THREE.WebGLRenderer({
   canvas: canvas,
