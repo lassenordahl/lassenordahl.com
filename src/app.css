@@ -628,6 +628,10 @@ html.is-post-page .post-detail {
   line-height: 1.6;
 }
 
+.post-content p:has(img) {
+  text-align: center;
+}
+
 .post-content pre {
   background: #1a1a1a;
   padding: 16px;
@@ -662,10 +666,9 @@ html.is-post-page .post-detail {
 }
 
 .post-content img {
-  width: 80%;
+  max-width: 80%;
   height: auto;
-  margin: 0 auto 16px auto;
-  display: block;
+  margin-bottom: 16px;
 }
 
 .post-content blockquote {
