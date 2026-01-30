@@ -473,6 +473,16 @@ a {
   box-sizing: border-box;
 }
 
+/* Prevent flash of wrong content on direct post links */
+html.is-post-page .container.hero,
+html.is-post-page .blog-section {
+  display: none !important;
+}
+
+html.is-post-page .post-detail {
+  display: block;
+}
+
 .post-detail-content {
   width: 100%;
   max-width: 608px;

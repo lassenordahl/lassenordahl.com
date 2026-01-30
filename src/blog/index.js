@@ -276,6 +276,9 @@ async function renderPost(slug) {
   if (window.lucide) {
     window.lucide.createIcons();
   }
+
+  // Update page title for SEO
+  document.title = `${post.title} - lasse's website`;
 }
 
 // Show the main view (hero + feed)
@@ -284,9 +287,15 @@ function showMainView() {
   const blogSection = document.querySelector(".blog-section");
   const heroSection = document.querySelector(".container.hero");
 
+  // Remove post-page class when navigating back
+  document.documentElement.classList.remove('is-post-page');
+
   if (container) container.style.display = "none";
   if (heroSection) heroSection.style.display = "flex";
   if (blogSection) blogSection.style.display = "flex";
+
+  // Reset page title
+  document.title = "lasse's website";
 
   // Restore scroll position
   window.scrollTo(0, savedScrollPosition);
