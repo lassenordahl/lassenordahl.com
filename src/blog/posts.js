@@ -9,6 +9,13 @@ const AUTHOR = {
 };
 
 export const posts = [
+    {
+    slug: "egg-tarts",
+    title: "Egg Tarts",
+    date: "2026-01-11",
+    icon: "pen-line",
+    author: AUTHOR
+  },
   {
     slug: "yearly-theme-2026",
     title: "Yearly Theme - Write more",
@@ -41,8 +48,8 @@ export const posts = [
     slug: "rank-everything",
     title: "rank-everything.com",
     date: "2025-12-19",
-    thumbnail: "/images/blog/rank-everything.png",
-    originalUrl: "https://rank-everything.pages.dev/",
+    thumbnail: "/images/blog/rank-everything.avif",
+    originalUrl: "https://www.rank-everything.com/",
     isOwnProject: true,
     author: AUTHOR
   },
