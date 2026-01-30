@@ -664,7 +664,7 @@ html.is-post-page .post-detail {
 .post-content img {
   width: 80%;
   height: auto;
-  margin-bottom: 16px;
+  margin: 0 auto 16px auto;
   display: block;
 }
 
