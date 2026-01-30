@@ -2,90 +2,19 @@
 // Posts are sorted by date (newest first) when rendered
 // Content is loaded from markdown files in /content/blog/
 
-// Shared author information
-const AUTHOR = {
+import postsData from './posts.json';
+
+// Default author information
+const DEFAULT_AUTHOR = {
   name: "Lasse Nordahl",
   url: "https://x.com/lassenordahl"
 };
 
-export const posts = [
-    {
-    slug: "egg-tarts",
-    title: "Egg Tarts",
-    date: "2026-01-11",
-    icon: "pen-line",
-    author: AUTHOR
-  },
-  {
-    slug: "yearly-theme-2026",
-    title: "Yearly Theme - Write more",
-    date: "2026-01-01",
-    icon: "pen-line",
-    author: AUTHOR
-  },
-  {
-    slug: "yearly-theme-2025",
-    title: "Yearly Theme - Make more things",
-    date: "2025-01-01",
-    icon: "hammer",
-    author: AUTHOR
-  },
-  {
-    slug: "yearly-theme-2024",
-    title: "Yearly Theme - Follow through",
-    date: "2024-01-01",
-    icon: "target",
-    author: AUTHOR
-  },
-  {
-    slug: "yearly-theme-2023",
-    title: "Yearly Theme - Do more random stuff",
-    date: "2023-01-01",
-    icon: "boom-box",
-    author: AUTHOR
-  },
-  {
-    slug: "rank-everything",
-    title: "rank-everything.com",
-    date: "2025-12-19",
-    thumbnail: "/images/blog/rank-everything.avif",
-    originalUrl: "https://www.rank-everything.com/",
-    isOwnProject: true,
-    author: AUTHOR
-  },
-  {
-    slug: "download-zip",
-    title: "download.zip",
-    date: "2023-03-27",
-    thumbnail: "/images/blog/download-zip.webp",
-    originalUrl: "http://www.download.zip/",
-    isOwnProject: true,
-    author: AUTHOR
-  },
-  {
-    slug: "google-new-tlds",
-    title: "8 new top-level domains for dads, grads and techies",
-    date: "2023-05-10",
-    thumbnail: "/images/blog/google-tlds.webp",
-    originalUrl: "https://blog.google/products/registry/8-new-top-level-domains-for-dads-grads-tech/"
-  },
-  {
-    slug: "nyt-computer-vision-archive",
-    title: "Using Computer Vision to Create A More Accurate Digital Archive",
-    date: "2021-07-21",
-    thumbnail: "/images/blog/nyt-archive.webp",
-    originalUrl: "https://rd.nytimes.com/projects/using-computer-vision-to-create-a-more-accurate-digital-archive/",
-    author: AUTHOR
-  },
-  {
-    slug: "cockroachdb-sql-in-browser",
-    title: "Executing SQL queries from the browser",
-    date: "2023-11-09",
-    thumbnail: "/images/blog/cockroach-browser.avif",
-    originalUrl: "https://www.cockroachlabs.com/blog/cockroachdb-sql-in-browser/",
-    author: AUTHOR
-  }
-];
+// Add author to posts (unless hasAuthor is explicitly false)
+export const posts = postsData.map(post => ({
+  ...post,
+  author: post.hasAuthor === false ? undefined : DEFAULT_AUTHOR
+}));
 
 // Helper to get posts sorted by date (newest first)
 export function getSortedPosts() {

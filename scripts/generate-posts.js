@@ -11,94 +11,26 @@ const fs = require('fs');
 const path = require('path');
 const { marked } = require('marked');
 
-// Posts data (mirrored from src/blog/posts.js)
-const AUTHOR = {
+const rootDir = path.resolve(__dirname, '..');
+const publicDir = path.join(rootDir, 'public');
+const contentDir = path.join(rootDir, 'content', 'blog');
+
+// Load posts from the single source of truth
+const postsData = JSON.parse(
+  fs.readFileSync(path.join(rootDir, 'src', 'blog', 'posts.json'), 'utf-8')
+);
+
+// Default author
+const DEFAULT_AUTHOR = {
   name: "Lasse Nordahl",
   url: "https://x.com/lassenordahl"
 };
 
-const posts = [
-  {
-    slug: "egg-tarts",
-    title: "Egg Tarts",
-    date: "2026-01-11",
-    icon: "pen-line",
-    author: AUTHOR
-  },
-  {
-    slug: "yearly-theme-2026",
-    title: "Yearly Theme - Write more",
-    date: "2026-01-01",
-    icon: "pen-line",
-    author: AUTHOR
-  },
-  {
-    slug: "yearly-theme-2025",
-    title: "Yearly Theme - Make more things",
-    date: "2025-01-01",
-    icon: "hammer",
-    author: AUTHOR
-  },
-  {
-    slug: "yearly-theme-2024",
-    title: "Yearly Theme - Follow through",
-    date: "2024-01-01",
-    icon: "target",
-    author: AUTHOR
-  },
-  {
-    slug: "yearly-theme-2023",
-    title: "Yearly Theme - Do more random stuff",
-    date: "2023-01-01",
-    icon: "boom-box",
-    author: AUTHOR
-  },
-  {
-    slug: "rank-everything",
-    title: "rank-everything.com",
-    date: "2025-12-19",
-    thumbnail: "/images/blog/rank-everything.avif",
-    originalUrl: "https://www.rank-everything.com/",
-    isOwnProject: true,
-    author: AUTHOR
-  },
-  {
-    slug: "download-zip",
-    title: "download.zip",
-    date: "2023-03-27",
-    thumbnail: "/images/blog/download-zip.webp",
-    originalUrl: "http://www.download.zip/",
-    isOwnProject: true,
-    author: AUTHOR
-  },
-  {
-    slug: "google-new-tlds",
-    title: "8 new top-level domains for dads, grads and techies",
-    date: "2023-05-10",
-    thumbnail: "/images/blog/google-tlds.webp",
-    originalUrl: "https://blog.google/products/registry/8-new-top-level-domains-for-dads-grads-tech/"
-  },
-  {
-    slug: "nyt-computer-vision-archive",
-    title: "Using Computer Vision to Create A More Accurate Digital Archive",
-    date: "2021-07-21",
-    thumbnail: "/images/blog/nyt-archive.webp",
-    originalUrl: "https://rd.nytimes.com/projects/using-computer-vision-to-create-a-more-accurate-digital-archive/",
-    author: AUTHOR
-  },
-  {
-    slug: "cockroachdb-sql-in-browser",
-    title: "Executing SQL queries from the browser",
-    date: "2023-11-09",
-    thumbnail: "/images/blog/cockroach-browser.avif",
-    originalUrl: "https://www.cockroachlabs.com/blog/cockroachdb-sql-in-browser/",
-    author: AUTHOR
-  }
-];
-
-const rootDir = path.resolve(__dirname, '..');
-const publicDir = path.join(rootDir, 'public');
-const contentDir = path.join(rootDir, 'content', 'blog');
+// Add author to posts
+const posts = postsData.map(post => ({
+  ...post,
+  author: post.hasAuthor === false ? undefined : DEFAULT_AUTHOR
+}));
 
 function formatDate(dateString) {
   const [year, month, day] = dateString.split('-').map(Number);
@@ -118,7 +50,7 @@ function loadMarkdown(slug) {
     const contentMatch = text.match(/^---[\s\S]*?---\s*([\s\S]*)$/);
     return contentMatch ? contentMatch[1].trim() : text.trim();
   } catch (err) {
-    console.warn(`Warning: Could not load ${slug}.md`);
+    // No markdown file - might be an external link post
     return '';
   }
 }
