@@ -5,3 +5,5 @@ public
 
 # macOS system files
 .DS_Store
+.vercel
+.env*.local

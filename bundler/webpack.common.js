@@ -6,10 +6,11 @@ const path = require("path");
 module.exports = {
   entry: {
     main: path.resolve(__dirname, "../src/script.js"),
+    tasks: path.resolve(__dirname, "../src/tasks.js"),
   },
   output: {
     hashFunction: "xxhash64",
-    filename: "bundle.[contenthash].js",
+    filename: "[name].bundle.[contenthash].js",
     path: path.resolve(__dirname, "../public"),
     publicPath: "/",
   },
@@ -25,6 +26,12 @@ module.exports = {
       template: path.resolve(__dirname, "../src/index.html"),
       filename: 'index.html',
       chunks: ['main'],
+      minify: true,
+    }),
+    new HtmlWebpackPlugin({
+      template: path.resolve(__dirname, "../src/tasks.html"),
+      filename: 'tasks.html',
+      chunks: ['tasks'],
       minify: true,
     }),
     new MiniCSSExtractPlugin(),

@@ -1,0 +1,279 @@
+/*
+ * Tasks Page Styles
+ * Matches the existing site aesthetic - minimal, developer-focused, dark theme
+ */
+
+html {
+  background: black;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+}
+
+/* Container */
+.tasks-container {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 48px 24px;
+  box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+  .tasks-container {
+    padding: 32px 16px;
+  }
+}
+
+/* Header */
+.tasks-header {
+  width: 100%;
+  max-width: 608px;
+  margin-bottom: 24px;
+}
+
+.back-link {
+  display: inline-block;
+  font-size: 0.75rem;
+  color: white;
+  text-decoration: none;
+  margin-bottom: 24px;
+  opacity: 0.7;
+  transition: opacity 0.2s ease;
+}
+
+.back-link:hover {
+  opacity: 1;
+  text-decoration: underline;
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.tasks-title {
+  font-size: 1rem;
+  color: white;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .tasks-title {
+    font-size: 0.9rem;
+  }
+}
+
+/* Refresh Indicator */
+.refresh-indicator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.refresh-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #7ed321;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.refresh-dot.pulse {
+  animation: pulse 1s ease-out;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.5);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.refresh-text {
+  font-size: 0.65rem;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Divider */
+.tasks-divider {
+  width: 100%;
+  height: 1px;
+  background: white;
+}
+
+/* Content */
+.tasks-content {
+  width: 100%;
+  max-width: 608px;
+}
+
+/* Tasks List */
+.tasks-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-top: 24px;
+}
+
+/* Task Card */
+.task-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.task-card:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* Status styles on card */
+.task-card[data-status="in_progress"] {
+  border-left: 2px solid #4a90d9;
+}
+
+.task-card[data-status="completed"] {
+  opacity: 0.6;
+}
+
+.task-card[data-status="failed"] {
+  border-left: 2px solid #d0021b;
+}
+
+/* Task Status */
+.task-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.status-label {
+  font-size: 0.65rem;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Task Content */
+.task-content {
+  font-size: 0.8rem;
+  color: white;
+  line-height: 1.5;
+  word-break: break-word;
+}
+
+@media (max-width: 768px) {
+  .task-content {
+    font-size: 0.75rem;
+  }
+}
+
+/* Task Meta */
+.task-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.task-project {
+  font-size: 0.65rem;
+  color: #4a90d9;
+  background: rgba(74, 144, 217, 0.1);
+  padding: 2px 8px;
+  border-radius: 2px;
+}
+
+.task-time {
+  font-size: 0.65rem;
+  color: #666;
+}
+
+/* Loading State */
+.loading {
+  font-size: 0.8rem;
+  color: #666;
+  padding: 32px 0;
+  text-align: center;
+}
+
+/* Empty State */
+.empty-state {
+  font-size: 0.8rem;
+  color: #666;
+  padding: 48px 0;
+  text-align: center;
+}
+
+/* Error State */
+.error-state {
+  font-size: 0.8rem;
+  color: #d0021b;
+  padding: 32px 0;
+  text-align: center;
+}
+
+/* Mobile optimizations for iPhone */
+@media (max-width: 480px) {
+  .tasks-container {
+    padding: 24px 16px;
+  }
+
+  .task-card {
+    padding: 14px;
+  }
+
+  .header-content {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .refresh-indicator {
+    flex-shrink: 0;
+  }
+}
+
+/* Safe area insets for iPhone notch/home indicator */
+@supports (padding: max(0px)) {
+  .tasks-container {
+    padding-top: max(48px, env(safe-area-inset-top) + 24px);
+    padding-bottom: max(48px, env(safe-area-inset-bottom) + 24px);
+    padding-left: max(24px, env(safe-area-inset-left) + 16px);
+    padding-right: max(24px, env(safe-area-inset-right) + 16px);
+  }
+
+  @media (max-width: 768px) {
+    .tasks-container {
+      padding-top: max(32px, env(safe-area-inset-top) + 16px);
+      padding-bottom: max(32px, env(safe-area-inset-bottom) + 16px);
+    }
+  }
+}
