@@ -20,5 +20,6 @@ dist
 # Turbo
 .turbo
 
-# Pico secrets
+# Pico device config (contains env + credentials)
 packages/pico/secrets.py
+packages/pico/config.py

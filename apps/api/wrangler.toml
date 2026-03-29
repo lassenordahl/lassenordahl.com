@@ -2,7 +2,11 @@ name = "lassenordahl-api"
 main = "src/index.ts"
 compatibility_date = "2024-01-01"
 
-[[d1_databases]]
-binding = "DB"
-database_name = "lassenordahl"
-database_id = "TODO"
+[[kv_namespaces]]
+binding = "DISPLAY_STATE"
+id = "ed0138164e7d4c8bbdf958e6208dadd7"
+
+# [[d1_databases]]
+# binding = "DB"
+# database_name = "lassenordahl"
+# database_id = "TODO"

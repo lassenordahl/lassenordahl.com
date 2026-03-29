@@ -4,7 +4,10 @@
   "scripts": {
     "dev": "turbo dev",
     "build": "turbo build",
-    "deploy": "turbo deploy"
+    "deploy": "turbo deploy",
+    "deploy:pico": "mpremote cp packages/pico/secrets.py packages/pico/config.py packages/pico/main.py packages/pico/display.py packages/pico/urequests.py : && mpremote reset",
+    "deploy:all": "pnpm deploy && pnpm deploy:pico",
+    "display": "node -e \"fetch('https://lassenordahl-api.lasseanordahl.workers.dev/display',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text:process.argv[1]})}).then(r=>r.json()).then(console.log)\" --"
   },
   "devDependencies": {
     "turbo": "^2.0.0"
