@@ -1,9 +1,24 @@
 node_modules
 
-# Webpack build for deployment.
+# Build outputs
 public
+dist
 
 # macOS system files
 .DS_Store
+
+# Vercel
 .vercel
+
+# Env files
 .env*.local
+.env
+
+# Wrangler
+.wrangler
+
+# Turbo
+.turbo
+
+# Pico secrets
+packages/pico/secrets.py
