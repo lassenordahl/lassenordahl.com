@@ -149,6 +149,55 @@ mpremote rm :filename.py           # delete file from device
 
 ---
 
+## Display Modes
+
+The Pico cycles through 3 modes via buttons A (next) / B (prev):
+
+| Mode | Button | Color | API endpoint | Status |
+|------|--------|-------|--------------|--------|
+| `text` | — | cyan | `GET/POST /display` | ✅ working |
+| `trains` | A once | orange | `GET /trains` | 🚧 stub — needs MTA integration |
+| `pixels` | A twice | raw RGB | `GET/POST /pixels` | 🚧 stub — needs draw UI |
+
+---
+
+## Incomplete Tasks
+
+### 🚧 Trains mode — MTA L/G arrivals
+**Goal**: Show next few L and G train arrivals (e.g. "L 3m  G 8m  L 12m") scrolling in orange on the display.
+
+**What's needed**:
+- Sign up for MTA API key at https://api.mta.info
+- Add `MTA_API_KEY` secret to the Cloudflare Worker (`wrangler secret put MTA_API_KEY`)
+- Implement `GET /trains` in `apps/api/src/index.ts`:
+  - Fetch GTFS-RT feed for L train (stop: `L17` = DeKalb Av, Brooklyn) and G train (stop: `G35` = Flushing Av or nearest)
+  - Parse next 3 arrivals, format as scrollable string like `"L 3m  G 8m  L 12m"`
+  - Cache result in KV with 30s TTL to avoid hammering the feed
+- The Pico already polls `/trains` and scrolls `data.text` in orange — no Pico changes needed
+
+**Suggested stop IDs** (confirm with MTA GTFS stop_times):
+- L train near apartment: `L17` (DeKalb Av) or `L16` (Myrtle-Wyckoff)
+- G train near apartment: `G35` (Flushing Av) or `G36` (Nassau Av)
+
+---
+
+### 🚧 Pixels mode — collaborative pixel draw
+**Goal**: A page at `lassenordahl.com/draw` where anyone can click pixels on a 16×7 grid and it updates the physical display in real time.
+
+**What's built**:
+- `apps/web/src/draw.html` + `draw.js` + `draw.css` — functional stub (grid renders, polls API, click-to-paint works)
+- `GET /pixels`, `POST /pixels`, `DELETE /pixels` endpoints in the Worker
+- Pico polls `/pixels` and renders raw RGB values
+
+**What needs polish**:
+- Visual style: match `lassenordahl.com` aesthetic — square outlines like site SVGs, dark background, Poppins font (already in stub)
+- Palette: user wants square outline swatches (not filled squares) to match SVG style elsewhere on the site
+- Touch support: add touch events so mobile works
+- Add a link/button to the draw page from the main site (or leave as a secret URL for friends)
+- Consider Cloudflare Durable Objects for true real-time sync instead of 2s polling (optional)
+
+---
+
 ## Common Commands
 
 ```bash

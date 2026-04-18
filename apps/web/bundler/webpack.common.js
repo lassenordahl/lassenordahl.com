@@ -7,6 +7,7 @@ module.exports = {
   entry: {
     main: path.resolve(__dirname, "../src/script.js"),
     tasks: path.resolve(__dirname, "../src/tasks.js"),
+    draw: path.resolve(__dirname, "../src/draw.js"),
   },
   output: {
     hashFunction: "xxhash64",
@@ -32,6 +33,12 @@ module.exports = {
       template: path.resolve(__dirname, "../src/tasks.html"),
       filename: 'tasks.html',
       chunks: ['tasks'],
+      minify: true,
+    }),
+    new HtmlWebpackPlugin({
+      template: path.resolve(__dirname, "../src/draw.html"),
+      filename: 'draw.html',
+      chunks: ['draw'],
       minify: true,
     }),
     new MiniCSSExtractPlugin(),

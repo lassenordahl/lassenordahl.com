@@ -1,41 +1,44 @@
 """
-Display controller - polls the API and drives the Pico Unicorn Pack.
+Display controller - multi-mode display for Pico 2 W + Unicorn Pack.
 
-Upload alongside main.py to the Pico 2 W.
-Requires WiFi credentials in secrets.py:
-  WIFI_SSID = "..."
-  WIFI_PASSWORD = "..."
+Modes (cycle with A=next, B=prev):
+  0 text   - scrolling text pushed via API
+  1 trains - upcoming MTA L/G train times
+  2 pixels - live pixel art from lassenordahl.com/draw
+
+Upload alongside main.py, config.py, secrets.py, urequests.py.
 """
 import network
 import urequests
 import time
 import picounicorn
-from config import API_URL, POLL_INTERVAL_MS
+from config import API_BASE, POLL_INTERVAL_MS
 
 unicorn = picounicorn.PicoUnicorn()
 WIDTH = picounicorn.WIDTH   # 16
 HEIGHT = picounicorn.HEIGHT # 7
 
-buf = bytearray(WIDTH * HEIGHT * 3)
+# ── Modes ──────────────────────────────────────────────────────────────────────
+MODES = ["text", "trains", "pixels"]
+mode_idx = 0
 
 
+def current_mode():
+    return MODES[mode_idx]
+
+
+# ── Low-level pixel ops ────────────────────────────────────────────────────────
 def set_pixel(x, y, r, g, b):
-    i = (y * WIDTH + x) * 3
-    buf[i] = r
-    buf[i + 1] = g
-    buf[i + 2] = b
-
-
-def flush():
-    unicorn.update(buf)
+    unicorn.set_pixel(x, y, r, g, b)
 
 
 def clear():
-    for i in range(len(buf)):
-        buf[i] = 0
-    flush()
+    for x in range(WIDTH):
+        for y in range(HEIGHT):
+            unicorn.set_pixel(x, y, 0, 0, 0)
 
 
+# ── Font ───────────────────────────────────────────────────────────────────────
 # 5-tall bitmap font. Each char is a list of column bitmasks (bit0=top row).
 # Centered vertically with FONT_Y_OFFSET=1 in the 7-row display.
 FONT_Y_OFFSET = 1
@@ -82,9 +85,32 @@ FONT = {
     ',': [0, 24, 8],
     '-': [4, 4, 4],
     ':': [0, 10, 0],
+    'm': [28, 4, 28, 4, 28],
 }
 
 
+def text_to_columns(text):
+    cols = []
+    for ch in text.upper():
+        glyph = FONT.get(ch, [31, 0, 31])
+        cols.extend(glyph)
+        cols.append(0)  # 1-pixel gap
+    return cols
+
+
+def render_scroll(cols, offset, r=0, g=200, b=255):
+    clear()
+    n = len(cols)
+    if n == 0:
+        return
+    for x in range(WIDTH):
+        col_bits = cols[(offset + x) % n]
+        for row in range(5):
+            if col_bits & (1 << row):
+                set_pixel(x, row + FONT_Y_OFFSET, r, g, b)
+
+
+# ── Network ────────────────────────────────────────────────────────────────────
 def connect_wifi():
     from secrets import WIFI_SSID, WIFI_PASSWORD
     wlan = network.WLAN(network.STA_IF)
@@ -99,74 +125,135 @@ def connect_wifi():
     return False
 
 
-def poll():
+def poll(path):
     try:
-        res = urequests.get(API_URL, timeout=5)
+        res = urequests.get(API_BASE + path, timeout=5)
         data = res.json()
         res.close()
         return data
     except Exception as e:
-        print("Poll error:", e)
+        print("Poll error:", path, e)
         return None
 
 
-def text_to_columns(text):
-    cols = []
-    for ch in text.upper():
-        glyph = FONT.get(ch, [31, 0, 31])
-        cols.extend(glyph)
-        cols.append(0)  # 1-pixel gap
-    return cols
+# ── Mode: text ─────────────────────────────────────────────────────────────────
+def poll_text():
+    return poll("/display")
 
 
-def render_scroll(cols, offset):
-    for i in range(len(buf)):
-        buf[i] = 0
-    n = len(cols)
-    if n == 0:
-        flush()
+# ── Mode: trains ───────────────────────────────────────────────────────────────
+# TODO: implement MTA L/G train fetching in API
+# Returns {"text": "L 3m  G 8m"} or similar scrollable string
+def poll_trains():
+    return poll("/trains")
+
+
+# ── Mode: pixels ───────────────────────────────────────────────────────────────
+# TODO: implement collaborative pixel draw on lassenordahl.com/draw
+# Returns {"pixels": [[r,g,b], ...]} — flat list of WIDTH*HEIGHT entries
+def poll_pixels():
+    return poll("/pixels")
+
+
+def render_pixels(data):
+    if not data or "pixels" not in data:
+        clear()
         return
-    for x in range(WIDTH):
-        col_bits = cols[(offset + x) % n]
-        for row in range(5):
-            if col_bits & (1 << row):
-                set_pixel(x, row + FONT_Y_OFFSET, 0, 200, 255)
-    flush()
+    pixels = data["pixels"]
+    for idx in range(min(len(pixels), WIDTH * HEIGHT)):
+        rgb = pixels[idx]
+        x = idx % WIDTH
+        y = idx // WIDTH
+        set_pixel(x, y, rgb[0], rgb[1], rgb[2])
 
 
+# ── Buttons ────────────────────────────────────────────────────────────────────
+btn_a_prev = False
+btn_b_prev = False
+
+
+def handle_buttons():
+    """Check A/B buttons. Returns True if mode changed."""
+    global mode_idx, btn_a_prev, btn_b_prev
+    a = unicorn.is_pressed(picounicorn.BUTTON_A)
+    b = unicorn.is_pressed(picounicorn.BUTTON_B)
+    changed = False
+    if a and not btn_a_prev:
+        mode_idx = (mode_idx + 1) % len(MODES)
+        changed = True
+        print("Mode ->", MODES[mode_idx])
+    elif b and not btn_b_prev:
+        mode_idx = (mode_idx - 1) % len(MODES)
+        changed = True
+        print("Mode ->", MODES[mode_idx])
+    btn_a_prev = a
+    btn_b_prev = b
+    return changed
+
+
+# ── Main loop ──────────────────────────────────────────────────────────────────
 def run():
     if not connect_wifi():
         for _ in range(5):
             for x in range(WIDTH):
                 for y in range(HEIGHT):
                     set_pixel(x, y, 255, 0, 0)
-            flush()
             time.sleep(0.3)
             clear()
             time.sleep(0.3)
         return
 
-    state = None
-    last_poll = time.ticks_ms() - POLL_INTERVAL_MS
-    scroll_cols = []
-    scroll_offset = 0
+    # Per-mode state
+    states = {m: None for m in MODES}
+    last_polls = {m: time.ticks_ms() - POLL_INTERVAL_MS for m in MODES}
+    scroll_cols = {m: [] for m in MODES}
+    scroll_offsets = {m: 0 for m in MODES}
+
+    # Train mode color: orange. Text mode: cyan. Pixels: raw.
+    mode_colors = {
+        "text":   (0, 200, 255),
+        "trains": (255, 165, 0),
+    }
 
     while True:
         now = time.ticks_ms()
+        mode = current_mode()
 
-        if time.ticks_diff(now, last_poll) >= POLL_INTERVAL_MS:
-            new_state = poll()
+        # Button handling — reset scroll on mode change
+        if handle_buttons():
+            mode = current_mode()
+            scroll_offsets[mode] = 0
+
+        # Poll active mode on interval
+        if time.ticks_diff(now, last_polls[mode]) >= POLL_INTERVAL_MS:
+            if mode == "text":
+                new_state = poll_text()
+            elif mode == "trains":
+                new_state = poll_trains()
+            else:
+                new_state = poll_pixels()
+
             if new_state is not None:
-                if new_state.get("text") != (state or {}).get("text"):
-                    scroll_cols = text_to_columns(new_state.get("text", ""))
-                    scroll_offset = 0
-                state = new_state
-            last_poll = now
+                if mode in ("text", "trains"):
+                    new_text = new_state.get("text", "")
+                    old_text = (states[mode] or {}).get("text", "")
+                    if new_text != old_text:
+                        scroll_cols[mode] = text_to_columns(new_text)
+                        scroll_offsets[mode] = 0
+                states[mode] = new_state
+            last_polls[mode] = now
 
-        if state and state.get("mode") == "text" and scroll_cols:
-            render_scroll(scroll_cols, scroll_offset)
-            scroll_offset = (scroll_offset + 1) % len(scroll_cols)
-        else:
-            clear()
+        # Render
+        state = states[mode]
+        if mode in ("text", "trains"):
+            cols = scroll_cols[mode]
+            if state and cols:
+                cr, cg, cb = mode_colors[mode]
+                render_scroll(cols, scroll_offsets[mode], cr, cg, cb)
+                scroll_offsets[mode] = (scroll_offsets[mode] + 1) % len(cols)
+            else:
+                clear()
+        elif mode == "pixels":
+            render_pixels(state)
 
         time.sleep_ms(80)

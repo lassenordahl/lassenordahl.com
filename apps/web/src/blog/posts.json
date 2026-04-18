@@ -66,5 +66,12 @@
     "date": "2023-11-09",
     "thumbnail": "/images/blog/cockroach-browser.avif",
     "originalUrl": "https://www.cockroachlabs.com/blog/cockroachdb-sql-in-browser/"
+  },
+  {
+    "slug": "palantir-plotlines-threejs",
+    "title": "Frontend Engineering at Palantir: Plotlines in Three.js",
+    "date": "2026-04-07",
+    "originalUrl": "https://blog.palantir.com/frontend-engineering-at-palantir-plotlines-in-three-js-c0c47f310715",
+    "hasAuthor": false
   }
 ]
