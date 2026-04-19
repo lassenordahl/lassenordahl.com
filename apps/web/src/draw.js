@@ -1,5 +1,6 @@
 import "./style.css";
 import "./draw.css";
+import { detectPhallic } from "./phallic-detect";
 
 const IS_LOCAL = location.hostname === "localhost" || location.hostname === "127.0.0.1";
 const API_BASE = IS_LOCAL
@@ -13,9 +14,12 @@ const HEIGHT = 7;
 
 const PALETTE = [
   [0, 200, 255],   // cyan (default)
-  [255, 60, 60],   // red
+  [40, 80, 255],   // blue
   [60, 255, 120],  // green
+  [255, 220, 0],   // yellow
   [255, 165, 0],   // orange
+  [255, 60, 60],   // red
+  [255, 60, 180],  // hot pink
   [180, 60, 255],  // purple
   [255, 255, 255], // white
   [0, 0, 0],       // black (erase)
@@ -93,6 +97,13 @@ function renderCell(idx) {
 
 function renderAll() {
   for (let i = 0; i < pixels.length; i++) renderCell(i);
+  updateAlert();
+}
+
+function updateAlert() {
+  const page = document.querySelector(".draw-page");
+  if (!page) return;
+  page.classList.toggle("alert", detectPhallic(pixels, WIDTH, HEIGHT));
 }
 
 // ── Paint (local + send) ───────────────────────────────────────────────────────
@@ -100,6 +111,7 @@ function paintPixel(idx) {
   const [r, g, b] = selectedColor;
   pixels[idx] = [r, g, b];
   renderCell(idx);
+  updateAlert();
 
   const x = idx % WIDTH;
   const y = Math.floor(idx / WIDTH);
@@ -134,6 +146,7 @@ function connectWS() {
     } else if (msg.type === "paint") {
       pixels[msg.y * WIDTH + msg.x] = [msg.r, msg.g, msg.b];
       renderCell(msg.y * WIDTH + msg.x);
+      updateAlert();
     } else if (msg.type === "clear") {
       pixels = Array.from({ length: WIDTH * HEIGHT }, () => [0, 0, 0]);
       renderAll();

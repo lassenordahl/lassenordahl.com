@@ -37,6 +37,29 @@ body {
   font-weight: normal;
 }
 
+.title-alert {
+  display: none;
+  color: #ff3b3b;
+}
+
+.draw-page.alert .title-default {
+  display: none;
+}
+
+.draw-page.alert .title-alert {
+  display: inline;
+}
+
+.draw-page.alert .draw-divider,
+.draw-page.alert .draw-divider::before,
+.draw-page.alert .draw-divider::after {
+  background: #ff3b3b;
+}
+
+.draw-page.alert .pixel-grid {
+  outline-color: #ff3b3b;
+}
+
 .draw-divider {
   width: 100%;
   height: 1px;
