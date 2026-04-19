@@ -74,7 +74,7 @@ body {
 .draw-subtitle {
   font-size: 0.7rem;
   color: #666;
-  margin: -12px 0 0;
+  margin: 0;
 }
 
 .pixel-grid {
@@ -113,8 +113,8 @@ body {
 .swatch {
   width: 20px;
   height: 20px;
-  background: transparent;
-  border: 1px solid var(--swatch-color, white);
+  background: var(--swatch-color, white);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   cursor: pointer;
   padding: 0;
   outline: none;

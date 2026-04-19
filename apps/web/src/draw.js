@@ -1,7 +1,13 @@
 import "./style.css";
 import "./draw.css";
 
-const API_BASE = "https://lassenordahl-api.lasseanordahl.workers.dev";
+const IS_LOCAL = location.hostname === "localhost" || location.hostname === "127.0.0.1";
+const API_BASE = IS_LOCAL
+  ? "http://localhost:8787"
+  : "https://lassenordahl-api.lasseanordahl.workers.dev";
+const WS_URL = IS_LOCAL
+  ? "ws://localhost:8787/pixels/ws"
+  : "wss://lassenordahl-api.lasseanordahl.workers.dev/pixels/ws";
 const WIDTH = 16;
 const HEIGHT = 7;
 
@@ -18,7 +24,8 @@ const PALETTE = [
 let selectedColor = PALETTE[0];
 let pixels = Array.from({ length: WIDTH * HEIGHT }, () => [0, 0, 0]);
 let isMouseDown = false;
-let pollInterval = null;
+let ws = null;
+let reconnectDelay = 500;
 
 // ── Build grid ─────────────────────────────────────────────────────────────────
 function buildGrid() {
@@ -42,7 +49,6 @@ function buildGrid() {
 
   document.addEventListener("mouseup", () => { isMouseDown = false; });
 
-  // Touch support
   grid.addEventListener("touchstart", (e) => {
     e.preventDefault();
     isMouseDown = true;
@@ -68,10 +74,6 @@ function buildPalette() {
     swatch.className = "swatch" + (i === 0 ? " selected" : "");
     const hex = `rgb(${color[0]},${color[1]},${color[2]})`;
     swatch.style.setProperty("--swatch-color", hex);
-    // Black swatch uses white outline so it's visible
-    if (color[0] === 0 && color[1] === 0 && color[2] === 0) {
-      swatch.style.setProperty("--swatch-color", "rgba(255,255,255,0.3)");
-    }
     swatch.addEventListener("click", () => {
       document.querySelectorAll(".swatch").forEach(s => s.classList.remove("selected"));
       swatch.classList.add("selected");
@@ -81,21 +83,7 @@ function buildPalette() {
   });
 }
 
-// ── Pixel ops ──────────────────────────────────────────────────────────────────
-function paintPixel(idx) {
-  const [r, g, b] = selectedColor;
-  pixels[idx] = [r, g, b];
-  renderCell(idx);
-
-  const x = idx % WIDTH;
-  const y = Math.floor(idx / WIDTH);
-  fetch(`${API_BASE}/pixels`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ x, y, r, g, b }),
-  }).catch(console.error);
-}
-
+// ── Local render ───────────────────────────────────────────────────────────────
 function renderCell(idx) {
   const cell = document.querySelector(`[data-idx="${idx}"]`);
   if (!cell) return;
@@ -104,33 +92,74 @@ function renderCell(idx) {
 }
 
 function renderAll() {
-  for (let i = 0; i < pixels.length; i++) {
-    renderCell(i);
+  for (let i = 0; i < pixels.length; i++) renderCell(i);
+}
+
+// ── Paint (local + send) ───────────────────────────────────────────────────────
+function paintPixel(idx) {
+  const [r, g, b] = selectedColor;
+  pixels[idx] = [r, g, b];
+  renderCell(idx);
+
+  const x = idx % WIDTH;
+  const y = Math.floor(idx / WIDTH);
+  const payload = { type: "paint", x, y, r, g, b };
+
+  if (ws && ws.readyState === WebSocket.OPEN) {
+    ws.send(JSON.stringify(payload));
+  } else {
+    // Fallback if socket isn't up yet — still goes through the DO.
+    fetch(`${API_BASE}/pixels`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ x, y, r, g, b }),
+    }).catch(console.error);
   }
 }
 
-// ── Poll API ───────────────────────────────────────────────────────────────────
-async function fetchPixels() {
-  try {
-    const res = await fetch(`${API_BASE}/pixels`);
-    const data = await res.json();
-    if (data.pixels) {
-      pixels = data.pixels;
+// ── WebSocket ──────────────────────────────────────────────────────────────────
+function connectWS() {
+  ws = new WebSocket(WS_URL);
+
+  ws.addEventListener("open", () => {
+    reconnectDelay = 500;
+  });
+
+  ws.addEventListener("message", (ev) => {
+    let msg;
+    try { msg = JSON.parse(ev.data); } catch { return; }
+    if (msg.type === "snapshot") {
+      pixels = msg.pixels;
+      renderAll();
+    } else if (msg.type === "paint") {
+      pixels[msg.y * WIDTH + msg.x] = [msg.r, msg.g, msg.b];
+      renderCell(msg.y * WIDTH + msg.x);
+    } else if (msg.type === "clear") {
+      pixels = Array.from({ length: WIDTH * HEIGHT }, () => [0, 0, 0]);
       renderAll();
     }
-  } catch (e) {
-    console.error("fetch pixels:", e);
-  }
+  });
+
+  ws.addEventListener("close", () => {
+    setTimeout(connectWS, reconnectDelay);
+    reconnectDelay = Math.min(reconnectDelay * 2, 10000);
+  });
+
+  ws.addEventListener("error", () => {
+    try { ws.close(); } catch {}
+  });
 }
 
 // ── Clear ──────────────────────────────────────────────────────────────────────
-document.getElementById("clear-btn").addEventListener("click", async () => {
-  await fetch(`${API_BASE}/pixels`, { method: "DELETE" });
-  await fetchPixels();
+document.getElementById("clear-btn").addEventListener("click", () => {
+  if (ws && ws.readyState === WebSocket.OPEN) {
+    ws.send(JSON.stringify({ type: "clear" }));
+  } else {
+    fetch(`${API_BASE}/pixels`, { method: "DELETE" }).catch(console.error);
+  }
 });
 
 // ── Init ───────────────────────────────────────────────────────────────────────
 buildGrid();
 buildPalette();
-fetchPixels();
-pollInterval = setInterval(fetchPixels, 2000);
+connectWS();
