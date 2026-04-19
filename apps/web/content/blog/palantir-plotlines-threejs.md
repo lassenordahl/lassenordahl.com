@@ -1,6 +1,7 @@
 ---
 title: "Frontend Engineering at Palantir: Plotlines in Three.js"
 date: "2026-04-07"
+thumbnail: "/images/blog/palantir-threejs.avif"
 originalUrl: "https://blog.palantir.com/frontend-engineering-at-palantir-plotlines-in-three-js-c0c47f310715"
 ---
 
