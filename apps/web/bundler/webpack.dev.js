@@ -30,7 +30,16 @@ module.exports = merge(commonConfiguration, {
       overlay: true,
       progress: false,
     },
-    historyApiFallback: true,
+    historyApiFallback: {
+      // Mirror Cloudflare Pages' clean-URL behavior so /trains → /trains.html
+      // locally without refreshing prod. Keep the default SPA fallback too.
+      rewrites: [
+        { from: /^\/text$/, to: "/text.html" },
+        { from: /^\/trains$/, to: "/trains.html" },
+        { from: /^\/draw$/, to: "/draw.html" },
+        { from: /^\/tasks$/, to: "/tasks.html" },
+      ],
+    },
     setupMiddlewares: function (middlewares, devServer) {
       console.log(
         "------------------------------------------------------------"

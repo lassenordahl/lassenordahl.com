@@ -1,0 +1,29 @@
+# bullets.txt — hand-drawn MTA-style badges, 7 wide × 7 tall.
+#
+# Each block is:
+#   <key> [color=#rrggbb]
+#   7 rows of 7 characters from:
+#     .  = off (black, shows through behind the bullet)
+#     #  = the bullet's color (bg)
+#     *  = white (letter)
+#
+# Comment lines start with `#` followed by space (or are empty).
+# Edit freely — both /text and /trains pick up changes on refresh.
+
+L color=#a7a9ac
+.#####.
+#######
+##*####
+##*####
+##*####
+##****#
+.#####.
+
+G color=#6cbe45
+.#####.
+##***##
+##*####
+##*.***
+##*..*#
+##****#
+.#####.

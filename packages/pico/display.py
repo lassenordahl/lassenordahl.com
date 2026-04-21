@@ -112,6 +112,76 @@ def render_scroll(cols, offset, r=0, g=200, b=255):
                 set_pixel(x, row + FONT_Y_OFFSET, r, g, b)
 
 
+# ── Colored-column rendering (for /trains segments) ───────────────────────────
+# Each entry in the column list is (bg_bits, bg_color, fg_bits, fg_color).
+# fg overrides bg per-pixel — this lets an MTA bullet render a white letter
+# on top of a colored circle without per-pixel color arrays.
+#
+# 9×7 filled ellipse, column-major (bit0 = top row) — wider than tall so the
+# 4-col letter has breathing room inside the colored ring.
+BULLET_BG_COLS = [28, 62, 127, 127, 127, 127, 127, 62, 28]
+BULLET_WIDTH = len(BULLET_BG_COLS)
+LETTER_START_COL = 3
+WHITE = (255, 255, 255)
+_BLACK = (0, 0, 0)
+
+
+def _bullet_overlay(glyph):
+    """4-wide FONT glyph placed at bullet cols 3-6 so the colored ring stays
+    intact on the outer columns."""
+    overlay = [0] * BULLET_WIDTH
+    for i in range(min(len(glyph), 4)):
+        overlay[LETTER_START_COL + i] = glyph[i] << FONT_Y_OFFSET
+    return overlay
+
+
+def segments_to_colored_cols(segments, default_color=WHITE):
+    cols = []
+    for seg in segments:
+        if not seg:
+            continue
+        kind = seg.get("kind")
+        if kind == "bullet":
+            c = seg.get("color") or [255, 255, 255]
+            color = (int(c[0]), int(c[1]), int(c[2]))
+            line = (seg.get("line") or "").upper()
+            # Custom drawn glyph (4 column bitmasks) beats the font lookup.
+            custom = seg.get("glyph")
+            if isinstance(custom, list) and custom:
+                glyph = [int(v) & 0x1F for v in custom]
+            else:
+                glyph = FONT.get(line, [31, 0, 31])
+            overlay = _bullet_overlay(glyph)
+            for i in range(BULLET_WIDTH):
+                cols.append((BULLET_BG_COLS[i], color, overlay[i], WHITE))
+        elif kind == "text":
+            text = seg.get("value", "") or ""
+            for ch in text:
+                glyph_key = ch if ch == "m" else ch.upper()
+                glyph = FONT.get(glyph_key, [31, 0, 31])
+                for g in glyph:
+                    cols.append((0, _BLACK, g << FONT_Y_OFFSET, default_color))
+                cols.append((0, _BLACK, 0, default_color))
+    return cols
+
+
+def render_scroll_colored(cols, offset):
+    clear()
+    n = len(cols)
+    if n == 0:
+        return
+    for x in range(WIDTH):
+        bg_bits, bg_color, fg_bits, fg_color = cols[(offset + x) % n]
+        for row in range(HEIGHT):
+            mask = 1 << row
+            if fg_bits & mask:
+                r, g, b = fg_color
+                set_pixel(x, row, r, g, b)
+            elif bg_bits & mask:
+                r, g, b = bg_color
+                set_pixel(x, row, r, g, b)
+
+
 # ── Network ────────────────────────────────────────────────────────────────────
 def connect_wifi():
     from secrets import WIFI_SSID, WIFI_PASSWORD
@@ -273,14 +343,9 @@ def run():
     # Per-mode state
     states = {m: None for m in MODES}
     last_polls = {m: time.ticks_ms() - POLL_INTERVAL_MS for m in MODES}
+    # Both modes use colored cols now: [(bits, (r, g, b)), ...]
     scroll_cols = {m: [] for m in MODES}
     scroll_offsets = {m: 0 for m in MODES}
-
-    # Train mode color: orange. Text mode: cyan. Pixels: raw.
-    mode_colors = {
-        "text":   (0, 200, 255),
-        "trains": (255, 165, 0),
-    }
 
     last_diag = time.ticks_ms()
     while True:
@@ -310,8 +375,15 @@ def run():
             if new_state is not None:
                 new_text = new_state.get("text", "")
                 old_text = (states[mode] or {}).get("text", "")
-                if new_text != old_text:
-                    scroll_cols[mode] = text_to_columns(new_text)
+                if new_text != old_text or states[mode] is None:
+                    segments = new_state.get("segments")
+                    if isinstance(segments, list) and segments:
+                        scroll_cols[mode] = segments_to_colored_cols(segments)
+                    else:
+                        # Fallback: wrap plain text as a single white text segment.
+                        scroll_cols[mode] = segments_to_colored_cols(
+                            [{"kind": "text", "value": new_text}]
+                        )
                     scroll_offsets[mode] = 0
                 states[mode] = new_state
             last_polls[mode] = now
@@ -320,8 +392,7 @@ def run():
         if mode in ("text", "trains"):
             cols = scroll_cols[mode]
             if states[mode] and cols:
-                cr, cg, cb = mode_colors[mode]
-                render_scroll(cols, scroll_offsets[mode], cr, cg, cb)
+                render_scroll_colored(cols, scroll_offsets[mode])
                 scroll_offsets[mode] = (scroll_offsets[mode] + 1) % len(cols)
             else:
                 clear()

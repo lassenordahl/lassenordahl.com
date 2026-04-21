@@ -9,7 +9,7 @@ const API_BASE = IS_LOCAL
   : "https://lassenordahl-api.lasseanordahl.workers.dev";
 
 const preview = mountPreview(document.getElementById("preview"), {
-  color: [255, 165, 0],
+  color: [255, 255, 255],
 });
 const previewNote = document.getElementById("preview-note");
 
@@ -108,7 +108,11 @@ async function loadCurrentTrainsText() {
   try {
     const res = await fetch(`${API_BASE}/trains`);
     const data = await res.json();
-    if (data && typeof data.text === "string" && data.text.length > 0) {
+    if (data && Array.isArray(data.segments) && data.segments.length > 0) {
+      preview.setSegments(data.segments);
+      previewNote.textContent = data.text ? `current: ${data.text}` : "";
+    } else if (data && typeof data.text === "string" && data.text.length > 0) {
+      // Fallback if the server hasn't been updated with segments yet.
       preview.setText(data.text);
       previewNote.textContent = `current: ${data.text}`;
     } else {

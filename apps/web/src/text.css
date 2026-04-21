@@ -13,3 +13,74 @@
 #send-btn {
   margin-left: auto;
 }
+
+.display-subtitle code {
+  background: rgba(255, 255, 255, 0.08);
+  padding: 1px 5px;
+  font-size: 0.9em;
+}
+
+.badge-builder {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.badge-field-bullet {
+  flex: 1 1 300px;
+}
+
+.badge-field-color {
+  flex: 0 0 auto;
+}
+
+.bullet-picker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.bullet-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 6px 10px;
+  font-family: inherit;
+  font-size: 0.75rem;
+  cursor: pointer;
+}
+
+.bullet-chip:hover {
+  border-color: white;
+}
+
+.bullet-chip.selected {
+  border-color: white;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.bullet-chip-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.badge-color-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.badge-color-input {
+  width: 36px;
+  height: 36px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+}

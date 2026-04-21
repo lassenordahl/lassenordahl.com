@@ -14,9 +14,29 @@
         <div class="display-divider"></div>
       </div>
 
-      <p class="display-subtitle">this will scroll on the display in brooklyn</p>
+      <p class="display-subtitle">
+        this will scroll on the display in brooklyn — edit
+        <code>src/bullets.txt</code> to add or tweak badges
+      </p>
 
       <div class="display-preview" id="preview"></div>
+
+      <div class="badge-builder">
+        <div class="display-field badge-field-bullet">
+          <label class="display-field-label" for="bullet-picker">badge</label>
+          <div class="bullet-picker" id="bullet-picker"></div>
+        </div>
+
+        <div class="display-field badge-field-color">
+          <label class="display-field-label" for="badge-color">color override</label>
+          <div class="badge-color-row">
+            <input type="color" id="badge-color" class="badge-color-input" />
+            <button type="button" class="display-action-btn" id="color-reset">
+              use file color
+            </button>
+          </div>
+        </div>
+      </div>
 
       <div class="display-field">
         <label class="display-field-label" for="text-input">message</label>

@@ -1,6 +1,6 @@
 import { Hono } from "hono";
 import { cors } from "hono/cors";
-import { getTrainsText, DEFAULT_TRAINS_CONFIG, type TrainsConfig } from "./trains";
+import { getTrainsData, DEFAULT_TRAINS_CONFIG, type TrainsConfig } from "./trains";
 
 export { PixelCanvas } from "./pixel-canvas";
 
@@ -37,7 +37,13 @@ app.get("/display", async (c) => {
 
 app.post("/display", async (c) => {
   const body = await c.req.json();
-  const state = { mode: "text", text: body.text ?? "" };
+  const state: { mode: string; text: string; segments?: unknown[] } = {
+    mode: "text",
+    text: body.text ?? "",
+  };
+  if (Array.isArray(body.segments) && body.segments.length > 0) {
+    state.segments = body.segments;
+  }
   await c.env.DISPLAY_STATE.put("state", JSON.stringify(state));
   return c.json({ ok: true });
 });
@@ -60,15 +66,14 @@ app.get("/trains", async (c) => {
   if (cached) return c.json(JSON.parse(cached));
   try {
     const config = await loadTrainsConfig(c.env.DISPLAY_STATE);
-    const text = await getTrainsText(config);
-    const state = { text };
+    const data = await getTrainsData(config);
     c.executionCtx.waitUntil(
-      c.env.DISPLAY_STATE.put("trains", JSON.stringify(state), { expirationTtl: 60 })
+      c.env.DISPLAY_STATE.put("trains", JSON.stringify(data), { expirationTtl: 60 })
     );
-    return c.json(state);
+    return c.json(data);
   } catch (e: any) {
     console.log("trains err:", e);
-    return c.json({ text: "TRAINS ERR" }, 200);
+    return c.json({ text: "TRAINS ERR", segments: [{ kind: "text", value: "TRAINS ERR" }] }, 200);
   }
 });
 

@@ -29,10 +29,31 @@ const FEED_BY_LINE: Record<string, string> = {
   SI: "nyct%2Fgtfs-si",
 };
 
+// Official MTA line colors → approximate 8-bit RGB. Values from
+// https://new.mta.info/document/2331 (design standards manual).
+const MTA_COLORS: Record<string, [number, number, number]> = {
+  A: [0, 57, 166], C: [0, 57, 166], E: [0, 57, 166],
+  B: [255, 99, 25], D: [255, 99, 25], F: [255, 99, 25], M: [255, 99, 25],
+  G: [108, 190, 69],
+  J: [153, 102, 51], Z: [153, 102, 51],
+  L: [167, 169, 172],
+  N: [252, 204, 10], Q: [252, 204, 10], R: [252, 204, 10], W: [252, 204, 10],
+  "1": [238, 53, 46], "2": [238, 53, 46], "3": [238, 53, 46],
+  "4": [0, 147, 60], "5": [0, 147, 60], "6": [0, 147, 60],
+  "7": [185, 51, 173],
+  SI: [0, 57, 166],
+};
+
 const FEED_BASE = "https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/";
 
 export type TrainFeed = { line: string; stopIds: string[] };
 export type TrainsConfig = { address: string; feeds: TrainFeed[] };
+
+export type TrainSegment =
+  | { kind: "bullet"; line: string; color: [number, number, number] }
+  | { kind: "text"; value: string };
+
+export type TrainsResult = { text: string; segments: TrainSegment[] };
 
 export const DEFAULT_TRAINS_CONFIG: TrainsConfig = {
   address: "240 Meeker Ave, Brooklyn",
@@ -70,27 +91,43 @@ async function fetchArrivalsMinutes(
   return minutes.sort((a, b) => a - b);
 }
 
-function formatLine(label: string, mins: number[]): string {
-  if (mins.length === 0) return `${label} --`;
-  return `${label} ${mins.slice(0, 2).map((m) => `${m}M`).join(" ")}`;
+function formatMinutes(mins: number[]): string {
+  if (mins.length === 0) return "--";
+  return mins.slice(0, 2).map((m) => `${m}M`).join(" ");
 }
 
-export async function getTrainsText(
+export async function getTrainsData(
   config: TrainsConfig = DEFAULT_TRAINS_CONFIG,
-): Promise<string> {
+): Promise<TrainsResult> {
   const now = Date.now();
   const results = await Promise.all(
     config.feeds.map(async (f) => {
-      const slug = FEED_BY_LINE[f.line.toUpperCase()];
-      if (!slug) return { line: f.line.toUpperCase(), mins: [] as number[] };
+      const line = f.line.toUpperCase();
+      const slug = FEED_BY_LINE[line];
+      if (!slug) return { line, mins: [] as number[] };
       const url = FEED_BASE + slug;
       const mins = await fetchArrivalsMinutes(url, new Set(f.stopIds), now).catch((e) => {
-        console.log(`feed err ${f.line}:`, e);
+        console.log(`feed err ${line}:`, e);
         return [] as number[];
       });
-      return { line: f.line.toUpperCase(), mins };
+      return { line, mins };
     }),
   );
-  if (results.length === 0) return "NO FEEDS";
-  return results.map(({ line, mins }) => formatLine(line, mins)).join("  ");
+
+  if (results.length === 0) {
+    return { text: "NO FEEDS", segments: [{ kind: "text", value: "NO FEEDS" }] };
+  }
+
+  const segments: TrainSegment[] = [];
+  const textParts: string[] = [];
+  results.forEach(({ line, mins }, i) => {
+    const color = MTA_COLORS[line] ?? [255, 255, 255];
+    const minsText = formatMinutes(mins);
+    // Leading gap between feeds is handled by the text segment padding.
+    segments.push({ kind: "bullet", line, color });
+    segments.push({ kind: "text", value: ` ${minsText}${i < results.length - 1 ? "  " : " "}` });
+    textParts.push(`${line} ${minsText}`);
+  });
+
+  return { text: textParts.join("  "), segments };
 }

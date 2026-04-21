@@ -77,6 +77,12 @@ module.exports = {
         use: [require.resolve("raw-loader"), require.resolve("glslify-loader")],
       },
 
+      // Plain text (bullets.txt, etc.) — import as raw string.
+      {
+        test: /\.txt$/,
+        type: "asset/source",
+      },
+
       // CSS
       {
         test: /\.css$/,
