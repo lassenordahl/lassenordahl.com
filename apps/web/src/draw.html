@@ -9,10 +9,7 @@
     <div class="draw-page">
       <div class="draw-header">
         <div class="draw-title-row">
-          <h2 class="draw-title">
-            <span class="title-default">draw a picture please</span>
-            <span class="title-alert">stop it!</span>
-          </h2>
+          <h2 class="draw-title">draw a picture please</h2>
         </div>
         <div class="draw-divider"></div>
       </div>
@@ -23,8 +20,15 @@
 
       <div class="draw-controls">
         <div class="palette" id="palette"></div>
-        <button class="clear-btn" id="clear-btn">clear</button>
+        <button class="action-btn" id="save-btn">save</button>
+        <button class="action-btn" id="clear-btn">clear</button>
       </div>
+
+      <section class="saves-panel" aria-labelledby="saves-label">
+        <div class="saves-label" id="saves-label">— previous drawings —</div>
+        <div class="saves-list" id="saves-list"></div>
+        <p class="saves-empty" id="saves-empty">no saves yet</p>
+      </section>
     </div>
   </body>
 </html>

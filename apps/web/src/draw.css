@@ -37,29 +37,6 @@ body {
   font-weight: normal;
 }
 
-.title-alert {
-  display: none;
-  color: #ff3b3b;
-}
-
-.draw-page.alert .title-default {
-  display: none;
-}
-
-.draw-page.alert .title-alert {
-  display: inline;
-}
-
-.draw-page.alert .draw-divider,
-.draw-page.alert .draw-divider::before,
-.draw-page.alert .draw-divider::after {
-  background: #ff3b3b;
-}
-
-.draw-page.alert .pixel-grid {
-  outline-color: #ff3b3b;
-}
-
 .draw-divider {
   width: 100%;
   height: 1px;
@@ -137,10 +114,14 @@ body {
   width: 20px;
   height: 20px;
   background: var(--swatch-color, white);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  border: none;
   cursor: pointer;
   padding: 0;
   outline: none;
+}
+
+.swatch.is-black {
+  border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .swatch.selected {
@@ -148,7 +129,7 @@ body {
   outline-offset: 2px;
 }
 
-.clear-btn {
+.action-btn {
   background: transparent;
   border: none;
   color: #666;
@@ -157,9 +138,96 @@ body {
   cursor: pointer;
   padding: 0;
   text-decoration: underline;
+}
+
+.action-btn:hover {
+  color: white;
+}
+
+#save-btn {
   margin-left: auto;
 }
 
-.clear-btn:hover {
-  color: white;
+.saves-panel {
+  width: 80%;
+  max-width: 460px;
+  margin: 40px auto 0;
+  padding: 20px 0 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  box-sizing: border-box;
+}
+
+.saves-label {
+  font-size: 0.65rem;
+  color: #555;
+  letter-spacing: 0.1em;
+  text-transform: lowercase;
+}
+
+.saves-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+  width: 100%;
+}
+
+.saves-empty {
+  font-size: 0.65rem;
+  color: #444;
+  margin: 0;
+  font-style: italic;
+}
+
+.saves-empty.hidden {
+  display: none;
+}
+
+.save-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: none;
+  padding: 0;
+  font-family: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+.save-grid {
+  display: grid;
+  grid-template-columns: repeat(16, 1fr);
+  gap: 1px;
+  outline: 1px solid rgba(255, 255, 255, 0.4);
+  width: 200px;
+  transition: outline-color 0.1s;
+}
+
+.save-item:hover .save-grid,
+.save-item:focus-visible .save-grid {
+  outline-color: rgba(255, 255, 255, 0.9);
+}
+
+.save-item:focus-visible {
+  outline: none;
+}
+
+.save-item:hover .save-time {
+  color: #888;
+}
+
+.save-grid .pixel-cell {
+  border: none;
+  transition: none;
+}
+
+.save-time {
+  font-size: 0.6rem;
+  color: #555;
+  font-variant-numeric: tabular-nums;
 }

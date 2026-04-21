@@ -1,5 +1,6 @@
 import { Hono } from "hono";
 import { cors } from "hono/cors";
+import { getTrainsText } from "./trains";
 
 export { PixelCanvas } from "./pixel-canvas";
 
@@ -42,15 +43,23 @@ app.post("/display", async (c) => {
 });
 
 // ── Trains mode ────────────────────────────────────────────────────────────────
-// TODO: Fetch real MTA L/G arrival times and format as scrollable text string.
-// Suggested format: "L 3m  G 8m  L 12m"
-// MTA feeds: https://api.mta.info (requires API key stored in Worker secret)
+// L/G arrivals for the Lorimer/Metropolitan Av complex (nearest to 240 Meeker).
+// KV-cached for 30s to avoid hammering MTA feeds.
 app.get("/trains", async (c) => {
-  const stored = await c.env.DISPLAY_STATE.get("trains");
-  if (stored) {
-    return c.json(JSON.parse(stored));
+  const cached = await c.env.DISPLAY_STATE.get("trains");
+  if (cached) return c.json(JSON.parse(cached));
+  try {
+    const text = await getTrainsText();
+    const state = { text };
+    // KV min TTL is 60s; that's fine for train arrivals.
+    c.executionCtx.waitUntil(
+      c.env.DISPLAY_STATE.put("trains", JSON.stringify(state), { expirationTtl: 60 })
+    );
+    return c.json(state);
+  } catch (e: any) {
+    console.log("trains err:", e);
+    return c.json({ text: "TRAINS ERR" }, 200);
   }
-  return c.json({ text: "No trains configured" });
 });
 
 // ── Pixels mode ────────────────────────────────────────────────────────────────
@@ -59,6 +68,16 @@ app.get("/trains", async (c) => {
 // broadcast; HTTP POST still works for non-WS clients (e.g. Pico if we ever write
 // from it). The DO serializes writes so fast drags no longer clobber each other.
 app.all("/pixels", async (c) => {
+  const stub = c.env.PIXEL_CANVAS.get(c.env.PIXEL_CANVAS.idFromName("main"));
+  return stub.fetch(c.req.raw);
+});
+
+app.all("/pixels/saves", async (c) => {
+  const stub = c.env.PIXEL_CANVAS.get(c.env.PIXEL_CANVAS.idFromName("main"));
+  return stub.fetch(c.req.raw);
+});
+
+app.all("/pixels/restore", async (c) => {
   const stub = c.env.PIXEL_CANVAS.get(c.env.PIXEL_CANVAS.idFromName("main"));
   return stub.fetch(c.req.raw);
 });

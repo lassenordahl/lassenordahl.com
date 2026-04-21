@@ -11,15 +11,17 @@ Upload alongside main.py, config.py, secrets.py, urequests.py.
 import network
 import urequests
 import time
+import json
 import picounicorn
 from config import API_BASE, POLL_INTERVAL_MS
+from wsclient import WebSocket
 
 unicorn = picounicorn.PicoUnicorn()
 WIDTH = picounicorn.WIDTH   # 16
 HEIGHT = picounicorn.HEIGHT # 7
 
 # ── Modes ──────────────────────────────────────────────────────────────────────
-MODES = ["text", "trains", "pixels"]
+MODES = ["pixels", "text", "trains"]
 mode_idx = 0
 
 
@@ -114,14 +116,21 @@ def render_scroll(cols, offset, r=0, g=200, b=255):
 def connect_wifi():
     from secrets import WIFI_SSID, WIFI_PASSWORD
     wlan = network.WLAN(network.STA_IF)
+    if wlan.isconnected():
+        print("WiFi already up:", wlan.ifconfig()[0])
+        return True
     wlan.active(True)
+    time.sleep(1)  # chip needs a moment after activation
+    print("Connecting to %r..." % WIFI_SSID)
     wlan.connect(WIFI_SSID, WIFI_PASSWORD)
-    for _ in range(20):
+    for i in range(60):  # 30s total
         if wlan.isconnected():
             print("WiFi connected:", wlan.ifconfig()[0])
             return True
+        if i and i % 6 == 0:
+            print("  ...still waiting (status=%d)" % wlan.status())
         time.sleep(0.5)
-    print("WiFi connection failed")
+    print("WiFi connection failed, final status=%d" % wlan.status())
     return False
 
 
@@ -148,23 +157,81 @@ def poll_trains():
     return poll("/trains")
 
 
-# ── Mode: pixels ───────────────────────────────────────────────────────────────
-# TODO: implement collaborative pixel draw on lassenordahl.com/draw
-# Returns {"pixels": [[r,g,b], ...]} — flat list of WIDTH*HEIGHT entries
-def poll_pixels():
-    return poll("/pixels")
+# ── Mode: pixels (WebSocket) ───────────────────────────────────────────────────
+# Subscribes to /pixels/ws on the Worker's PixelCanvas Durable Object.
+# Server sends JSON frames:
+#   {"type":"snapshot","pixels":[[r,g,b],...]}  — on connect
+#   {"type":"paint","x":_,"y":_,"r":_,"g":_,"b":_}
+#   {"type":"clear"}
+pixels_buf = [(0, 0, 0)] * (WIDTH * HEIGHT)
+pixels_ws = WebSocket()
+ws_next_retry_at = 0
+WS_BACKOFF_MS = 5000
 
 
-def render_pixels(data):
-    if not data or "pixels" not in data:
-        clear()
+def pixels_ws_url():
+    base = API_BASE
+    if base.startswith("https://"):
+        base = "wss://" + base[8:]
+    elif base.startswith("http://"):
+        base = "ws://" + base[7:]
+    return base + "/pixels/ws"
+
+
+def ensure_pixels_ws(now):
+    global ws_next_retry_at
+    if not pixels_ws.closed:
         return
-    pixels = data["pixels"]
-    for idx in range(min(len(pixels), WIDTH * HEIGHT)):
-        rgb = pixels[idx]
-        x = idx % WIDTH
-        y = idx // WIDTH
-        set_pixel(x, y, rgb[0], rgb[1], rgb[2])
+    if time.ticks_diff(now, ws_next_retry_at) < 0:
+        return
+    try:
+        pixels_ws.connect(pixels_ws_url(), timeout=10)
+        print("pixels WS connected")
+        # Snapshot is sent immediately; TLS buffers it so select.poll misses it.
+        # Drain synchronously once, then rely on poll for incremental frames.
+        snap = pixels_ws.recv_blocking(timeout_s=3)
+        if snap:
+            _apply_ws_msg(snap)
+    except Exception as e:
+        print("pixels WS connect failed:", e)
+        ws_next_retry_at = time.ticks_add(now, WS_BACKOFF_MS)
+
+
+def _apply_ws_msg(msg):
+    global pixels_buf
+    try:
+        data = json.loads(msg)
+    except Exception:
+        return
+    t = data.get("type")
+    if t == "snapshot":
+        px = data.get("pixels") or []
+        buf = [(0, 0, 0)] * (WIDTH * HEIGHT)
+        for i in range(min(len(px), WIDTH * HEIGHT)):
+            p = px[i]
+            buf[i] = (p[0], p[1], p[2])
+        pixels_buf = buf
+    elif t == "paint":
+        x, y = data.get("x", 0), data.get("y", 0)
+        if 0 <= x < WIDTH and 0 <= y < HEIGHT:
+            pixels_buf[y * WIDTH + x] = (data.get("r", 0), data.get("g", 0), data.get("b", 0))
+    elif t == "clear":
+        pixels_buf = [(0, 0, 0)] * (WIDTH * HEIGHT)
+
+
+def pump_pixels_ws():
+    """Drain any pending WS messages into pixels_buf. Non-blocking."""
+    while True:
+        msg = pixels_ws.recv(timeout_ms=0)
+        if msg is None:
+            return
+        _apply_ws_msg(msg)
+
+
+def render_pixels_buf():
+    for idx in range(WIDTH * HEIGHT):
+        r, g, b = pixels_buf[idx]
+        set_pixel(idx % WIDTH, idx // WIDTH, r, g, b)
 
 
 # ── Buttons ────────────────────────────────────────────────────────────────────
@@ -215,6 +282,7 @@ def run():
         "trains": (255, 165, 0),
     }
 
+    last_diag = time.ticks_ms()
     while True:
         now = time.ticks_ms()
         mode = current_mode()
@@ -224,36 +292,40 @@ def run():
             mode = current_mode()
             scroll_offsets[mode] = 0
 
-        # Poll active mode on interval
-        if time.ticks_diff(now, last_polls[mode]) >= POLL_INTERVAL_MS:
-            if mode == "text":
-                new_state = poll_text()
-            elif mode == "trains":
-                new_state = poll_trains()
-            else:
-                new_state = poll_pixels()
+        # Keep WS alive + drain whenever we're in pixels mode
+        if mode == "pixels":
+            ensure_pixels_ws(now)
+            if not pixels_ws.closed:
+                pump_pixels_ws()
 
+        # Debug heartbeat every 2s
+        if time.ticks_diff(now, last_diag) >= 2000:
+            nb = sum(1 for p in pixels_buf if p != (0, 0, 0))
+            print("[diag] mode=%s ws_closed=%s nonblack=%d" % (mode, pixels_ws.closed, nb))
+            last_diag = now
+
+        # Poll text/trains on interval
+        if mode in ("text", "trains") and time.ticks_diff(now, last_polls[mode]) >= POLL_INTERVAL_MS:
+            new_state = poll_text() if mode == "text" else poll_trains()
             if new_state is not None:
-                if mode in ("text", "trains"):
-                    new_text = new_state.get("text", "")
-                    old_text = (states[mode] or {}).get("text", "")
-                    if new_text != old_text:
-                        scroll_cols[mode] = text_to_columns(new_text)
-                        scroll_offsets[mode] = 0
+                new_text = new_state.get("text", "")
+                old_text = (states[mode] or {}).get("text", "")
+                if new_text != old_text:
+                    scroll_cols[mode] = text_to_columns(new_text)
+                    scroll_offsets[mode] = 0
                 states[mode] = new_state
             last_polls[mode] = now
 
         # Render
-        state = states[mode]
         if mode in ("text", "trains"):
             cols = scroll_cols[mode]
-            if state and cols:
+            if states[mode] and cols:
                 cr, cg, cb = mode_colors[mode]
                 render_scroll(cols, scroll_offsets[mode], cr, cg, cb)
                 scroll_offsets[mode] = (scroll_offsets[mode] + 1) % len(cols)
             else:
                 clear()
         elif mode == "pixels":
-            render_pixels(state)
+            render_pixels_buf()
 
         time.sleep_ms(80)
