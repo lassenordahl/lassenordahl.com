@@ -2,16 +2,53 @@ import GtfsRealtimeBindings from "gtfs-realtime-bindings";
 
 const { transit_realtime } = GtfsRealtimeBindings;
 
-// 240 Meeker Ave is closest to the Lorimer St (L) / Metropolitan Av (G) complex.
-// Stop IDs include direction suffix: N = northbound, S = southbound.
-//   Lorimer St (L): L08 — N = 8 Av / Manhattan-bound, S = Canarsie-bound
-//   Metropolitan Av (G): G29 — N = Court Sq / Queens-bound, S = Church Av-bound
-const L_FEED = "https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-l";
-const G_FEED = "https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-g";
-const L_STOPS = new Set(["L08N", "L08S"]);
-const G_STOPS = new Set(["G29N", "G29S"]);
+// MTA GTFS-RT feeds are grouped by line-family. Add more lines as needed.
+const FEED_BY_LINE: Record<string, string> = {
+  A: "nyct%2Fgtfs-ace",
+  C: "nyct%2Fgtfs-ace",
+  E: "nyct%2Fgtfs-ace",
+  B: "nyct%2Fgtfs-bdfm",
+  D: "nyct%2Fgtfs-bdfm",
+  F: "nyct%2Fgtfs-bdfm",
+  M: "nyct%2Fgtfs-bdfm",
+  G: "nyct%2Fgtfs-g",
+  J: "nyct%2Fgtfs-jz",
+  Z: "nyct%2Fgtfs-jz",
+  N: "nyct%2Fgtfs-nqrw",
+  Q: "nyct%2Fgtfs-nqrw",
+  R: "nyct%2Fgtfs-nqrw",
+  W: "nyct%2Fgtfs-nqrw",
+  L: "nyct%2Fgtfs-l",
+  "1": "nyct%2Fgtfs",
+  "2": "nyct%2Fgtfs",
+  "3": "nyct%2Fgtfs",
+  "4": "nyct%2Fgtfs",
+  "5": "nyct%2Fgtfs",
+  "6": "nyct%2Fgtfs",
+  "7": "nyct%2Fgtfs",
+  SI: "nyct%2Fgtfs-si",
+};
 
-async function fetchArrivalsMinutes(feedUrl: string, stopIds: Set<string>, nowMs: number): Promise<number[]> {
+const FEED_BASE = "https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/";
+
+export type TrainFeed = { line: string; stopIds: string[] };
+export type TrainsConfig = { address: string; feeds: TrainFeed[] };
+
+export const DEFAULT_TRAINS_CONFIG: TrainsConfig = {
+  address: "240 Meeker Ave, Brooklyn",
+  feeds: [
+    { line: "L", stopIds: ["L08N", "L08S"] },
+    { line: "G", stopIds: ["G29N", "G29S"] },
+  ],
+};
+
+async function fetchArrivalsMinutes(
+  feedUrl: string,
+  stopIds: Set<string>,
+  nowMs: number,
+): Promise<number[]> {
+  // cf.cacheTtl lets the edge dedup repeat fetches across lines that share
+  // a feed family (e.g. B/D/F/M all hit the same gtfs-bdfm URL).
   const res = await fetch(feedUrl, { cf: { cacheTtl: 15 } as any });
   if (!res.ok) throw new Error(`feed ${feedUrl} -> ${res.status}`);
   const buf = new Uint8Array(await res.arrayBuffer());
@@ -38,17 +75,22 @@ function formatLine(label: string, mins: number[]): string {
   return `${label} ${mins.slice(0, 2).map((m) => `${m}M`).join(" ")}`;
 }
 
-export async function getTrainsText(): Promise<string> {
+export async function getTrainsText(
+  config: TrainsConfig = DEFAULT_TRAINS_CONFIG,
+): Promise<string> {
   const now = Date.now();
-  const [l, g] = await Promise.all([
-    fetchArrivalsMinutes(L_FEED, L_STOPS, now).catch((e) => {
-      console.log("L feed err:", e);
-      return [] as number[];
+  const results = await Promise.all(
+    config.feeds.map(async (f) => {
+      const slug = FEED_BY_LINE[f.line.toUpperCase()];
+      if (!slug) return { line: f.line.toUpperCase(), mins: [] as number[] };
+      const url = FEED_BASE + slug;
+      const mins = await fetchArrivalsMinutes(url, new Set(f.stopIds), now).catch((e) => {
+        console.log(`feed err ${f.line}:`, e);
+        return [] as number[];
+      });
+      return { line: f.line.toUpperCase(), mins };
     }),
-    fetchArrivalsMinutes(G_FEED, G_STOPS, now).catch((e) => {
-      console.log("G feed err:", e);
-      return [] as number[];
-    }),
-  ]);
-  return `${formatLine("L", l)}  ${formatLine("G", g)}`;
+  );
+  if (results.length === 0) return "NO FEEDS";
+  return results.map(({ line, mins }) => formatLine(line, mins)).join("  ");
 }

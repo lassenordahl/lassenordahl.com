@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>trains — lasse's display</title>
+  </head>
+  <body>
+    <div class="display-page">
+      <div class="display-header">
+        <div class="display-title-row">
+          <h2 class="display-title">trains please</h2>
+        </div>
+        <div class="display-divider"></div>
+      </div>
+
+      <p class="display-subtitle">configure which stops show up on the display</p>
+
+      <div class="display-preview" id="preview"></div>
+      <p class="display-note" id="preview-note">loading current arrivals…</p>
+
+      <div class="display-field">
+        <label class="display-field-label" for="address-input">home address (label only)</label>
+        <input
+          id="address-input"
+          class="display-input"
+          type="text"
+          placeholder="240 Meeker Ave, Brooklyn"
+        />
+      </div>
+
+      <section class="trains-feeds">
+        <div class="trains-feeds-header">
+          <span class="display-field-label">train feeds</span>
+          <button class="display-action-btn" id="add-feed-btn">+ add feed</button>
+        </div>
+        <div class="trains-feed-list" id="feed-list"></div>
+        <p class="display-note">
+          stop IDs are MTA GTFS stop codes. Direction suffix: N = uptown/queens-bound,
+          S = downtown/brooklyn-bound. Examples: L08N/L08S (Lorimer L), G29N/G29S
+          (Metropolitan G).
+        </p>
+      </section>
+
+      <div class="trains-actions">
+        <span class="trains-status" id="status"></span>
+        <button class="display-action-btn" id="save-btn">save</button>
+      </div>
+    </div>
+  </body>
+</html>

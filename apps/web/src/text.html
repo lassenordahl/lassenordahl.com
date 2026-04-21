@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>text — lasse's display</title>
+  </head>
+  <body>
+    <div class="display-page">
+      <div class="display-header">
+        <div class="display-title-row">
+          <h2 class="display-title">write something please</h2>
+        </div>
+        <div class="display-divider"></div>
+      </div>
+
+      <p class="display-subtitle">this will scroll on the display in brooklyn</p>
+
+      <div class="display-preview" id="preview"></div>
+
+      <div class="display-field">
+        <label class="display-field-label" for="text-input">message</label>
+        <textarea
+          id="text-input"
+          class="display-textarea"
+          rows="2"
+          maxlength="200"
+          placeholder="hello world"
+        ></textarea>
+      </div>
+
+      <div class="text-actions">
+        <span class="text-status" id="status"></span>
+        <button class="display-action-btn" id="send-btn">send</button>
+      </div>
+    </div>
+  </body>
+</html>

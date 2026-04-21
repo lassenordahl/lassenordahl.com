@@ -1,0 +1,88 @@
+.trains-feeds {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.trains-feeds-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.trains-feed-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.trains-feed {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.trains-feed-line {
+  width: 40px;
+  flex-shrink: 0;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  font-family: inherit;
+  font-size: 0.85rem;
+  padding: 6px 8px;
+  box-sizing: border-box;
+  outline: none;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.trains-feed-stops {
+  flex: 1;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  font-family: inherit;
+  font-size: 0.85rem;
+  padding: 6px 8px;
+  box-sizing: border-box;
+  outline: none;
+  letter-spacing: 0.04em;
+}
+
+.trains-feed-line:focus,
+.trains-feed-stops:focus {
+  border-color: white;
+}
+
+.trains-feed-remove {
+  background: transparent;
+  border: none;
+  color: #666;
+  font-family: inherit;
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 0 4px;
+}
+
+.trains-feed-remove:hover {
+  color: white;
+}
+
+.trains-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.trains-status {
+  font-size: 0.65rem;
+  color: #555;
+  font-style: italic;
+}
+
+#save-btn {
+  margin-left: auto;
+}
