@@ -149,7 +149,7 @@ async function send() {
     .map((s) => (s.kind === "bullet" ? s.line : s.value))
     .join("")
     .trim();
-  sendBtn.disabled = true;
+'  sendBtn.disabled = true;
   setStatus("sending…", 0);
   try {
     const res = await fetch(`${API_BASE}/display`, {
