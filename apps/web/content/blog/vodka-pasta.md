@@ -5,7 +5,7 @@ date: "2026-05-23"
 
 # Background
 
-I use this vodka pasta recipe a lot.
+I use this vodka pasta recipe a lot!
 
 ## Ingredients
 
