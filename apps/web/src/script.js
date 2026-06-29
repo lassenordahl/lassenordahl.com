@@ -16,97 +16,101 @@ import { createIcons, icons } from "lucide";
 inject();
 injectSpeedInsights();
 
-// Scroll down button
-const scrollDownBtn = document.getElementById("scroll-down");
-scrollDownBtn.addEventListener("click", () => {
-  const blogSection = document.querySelector(".blog-section");
-  if (blogSection) {
-    blogSection.scrollIntoView({ behavior: "smooth" });
-  }
-});
+const onPostPage = window.location.pathname.startsWith('/post/');
 
-// Canvas
-const canvas = document.querySelector("canvas.webgl");
+if (!onPostPage) {
+  // Scroll down button
+  const scrollDownBtn = document.getElementById("scroll-down");
+  scrollDownBtn.addEventListener("click", () => {
+    const blogSection = document.querySelector(".blog-section");
+    if (blogSection) {
+      blogSection.scrollIntoView({ behavior: "smooth" });
+    }
+  });
 
-// Scene
-const scene = new THREE.Scene();
+  // Canvas
+  const canvas = document.querySelector("canvas.webgl");
 
-// Get container size for responsive canvas
-const glowContainer = document.querySelector(".glow-container");
-const containerRect = glowContainer.getBoundingClientRect();
+  // Scene
+  const scene = new THREE.Scene();
 
-const sizes = {
-  width: containerRect.width,
-  height: containerRect.height,
-};
-
-const camera = new THREE.PerspectiveCamera(50, sizes.width / sizes.height);
-camera.position.z = 11;
-scene.add(camera);
-
-// Objects
-const geometry = new THREE.PlaneGeometry(14, 9);
-const material = new THREE.ShaderMaterial({
-  vertexShader,
-  fragmentShader,
-  uniforms: {
-    uTime: { value: 0.0 },
-    uTexture: { value: new THREE.TextureLoader().load(one) },
-    uIntensity: 2.0
-  },
-  wireframe: false,
-});
-const mesh = new THREE.Mesh(geometry, material);
-scene.add(mesh);
-
-// Controls
-const controls = new OrbitControls(camera, canvas);
-controls.enableRotate = false;
-controls.enableZoom = false;
-controls.enablePan = false;
-
-const renderer = new THREE.WebGLRenderer({
-  canvas: canvas,
-  alpha: true,
-});
-renderer.setSize(sizes.width, sizes.height);
-renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-
-const clock = new THREE.Clock();
-
-// Handle resize
-window.addEventListener("resize", () => {
+  // Get container size for responsive canvas
+  const glowContainer = document.querySelector(".glow-container");
   const containerRect = glowContainer.getBoundingClientRect();
 
-  // Update sizes
-  sizes.width = containerRect.width;
-  sizes.height = containerRect.height;
+  const sizes = {
+    width: containerRect.width,
+    height: containerRect.height,
+  };
 
-  // Update camera
-  camera.aspect = sizes.width / sizes.height;
-  camera.updateProjectionMatrix();
+  const camera = new THREE.PerspectiveCamera(50, sizes.width / sizes.height);
+  camera.position.z = 11;
+  scene.add(camera);
 
-  // Update renderer
+  // Objects
+  const geometry = new THREE.PlaneGeometry(14, 9);
+  const material = new THREE.ShaderMaterial({
+    vertexShader,
+    fragmentShader,
+    uniforms: {
+      uTime: { value: 0.0 },
+      uTexture: { value: new THREE.TextureLoader().load(one) },
+      uIntensity: 2.0
+    },
+    wireframe: false,
+  });
+  const mesh = new THREE.Mesh(geometry, material);
+  scene.add(mesh);
+
+  // Controls
+  const controls = new OrbitControls(camera, canvas);
+  controls.enableRotate = false;
+  controls.enableZoom = false;
+  controls.enablePan = false;
+
+  const renderer = new THREE.WebGLRenderer({
+    canvas: canvas,
+    alpha: true,
+  });
   renderer.setSize(sizes.width, sizes.height);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-});
 
-const tick = () => {
-  const elapsedTime = clock.getElapsedTime();
+  const clock = new THREE.Clock();
 
-  material.uniforms.uTime.value = elapsedTime;
+  // Handle resize
+  window.addEventListener("resize", () => {
+    const containerRect = glowContainer.getBoundingClientRect();
 
-  // Update controls
-  controls.update();
+    // Update sizes
+    sizes.width = containerRect.width;
+    sizes.height = containerRect.height;
 
-  // Render
-  renderer.render(scene, camera);
+    // Update camera
+    camera.aspect = sizes.width / sizes.height;
+    camera.updateProjectionMatrix();
 
-  // Call tick again on the next frame
-  window.requestAnimationFrame(tick);
-};
+    // Update renderer
+    renderer.setSize(sizes.width, sizes.height);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  });
 
-tick();
+  const tick = () => {
+    const elapsedTime = clock.getElapsedTime();
+
+    material.uniforms.uTime.value = elapsedTime;
+
+    // Update controls
+    controls.update();
+
+    // Render
+    renderer.render(scene, camera);
+
+    // Call tick again on the next frame
+    window.requestAnimationFrame(tick);
+  };
+
+  tick();
+}
 
 // Expose Lucide globally for dynamic content
 window.lucide = { createIcons, icons };

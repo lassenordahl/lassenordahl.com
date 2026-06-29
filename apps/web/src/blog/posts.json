@@ -1,5 +1,11 @@
 [
   {
+    "slug": "cockroach-labs-design",
+    "title": "Cockroach Labs Design",
+    "date": "2026-06-28",
+    "icon": "pen-line"
+  },
+  {
     "slug": "figconf-2026",
     "title": "Config 2026",
     "date": "2026-06-27",

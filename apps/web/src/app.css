@@ -69,6 +69,56 @@ body {
 }
 
 
+/* Color palette swatches embedded in a blog post */
+.palette {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+  margin: 32px auto;
+}
+
+.palette-swatch {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.palette-chip {
+  width: 32px;
+  height: 32px;
+}
+
+.palette-hex {
+  font-size: 0.7rem;
+  font-family: monospace;
+  letter-spacing: 0.02em;
+}
+
+/* Three.js canvas embedded in a blog post — mirrors the hero canvas sizing */
+.blog-canvas {
+  position: relative;
+  width: 100%;
+  max-width: 608px;
+  aspect-ratio: 608 / 460;
+  margin: 32px auto;
+  background: black;
+}
+
+@media (max-width: 768px) {
+  .blog-canvas {
+    aspect-ratio: 4 / 3;
+  }
+}
+
+.blog-canvas-gl {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+  outline: none;
+}
+
 .content {
   width: 100%;
   max-width: 608px;
@@ -540,6 +590,13 @@ html.is-post-page .post-detail {
   background-color: white;
   padding: 24px;
   box-sizing: border-box;
+}
+
+/* Crop website screenshots that have busy backgrounds to just the centered content */
+.post-detail-thumbnail[src*="download-zip.webp"] {
+  max-height: 220px;
+  object-fit: cover;
+  object-position: center 30%;
 }
 
 .post-detail-title-container {

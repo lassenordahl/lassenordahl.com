@@ -1,5 +1,6 @@
 import { marked } from "marked";
 import { getSortedPosts, getPostBySlug, loadPostContent } from "./posts.js";
+import { mountBlogCanvases, unmountBlogCanvases } from "./canvases.js";
 
 // Store scroll position before navigating to a post
 let savedScrollPosition = 0;
@@ -226,6 +227,9 @@ async function renderPost(slug) {
 
   if (!post || !container) return;
 
+  // Tear down any canvases from a previously viewed post
+  unmountBlogCanvases();
+
   // Hide hero and blog feed, show post detail
   if (heroSection) heroSection.style.display = "none";
   if (blogSection) blogSection.style.display = "none";
@@ -277,12 +281,14 @@ async function renderPost(slug) {
     const contentContainer = container.querySelector('.post-content');
     if (contentContainer) {
       contentContainer.innerHTML = htmlContent;
+      // Boot any <div class="blog-canvas"> Three.js sketches in the post
+      mountBlogCanvases(contentContainer);
     }
   }
 
   // Re-initialize Lucide icons after rendering
   if (window.lucide) {
-    window.lucide.createIcons();
+    window.lucide.createIcons({ icons: window.lucide.icons });
   }
 }
 
@@ -291,6 +297,9 @@ function showMainView() {
   const container = document.getElementById("post-detail");
   const blogSection = document.querySelector(".blog-section");
   const heroSection = document.querySelector(".container.hero");
+
+  // Tear down any post canvases when leaving a post
+  unmountBlogCanvases();
 
   // Remove post-page class when navigating back
   document.documentElement.classList.remove('is-post-page');
