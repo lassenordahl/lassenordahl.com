@@ -9,8 +9,6 @@ I felt pretty inspired by Arsiliaths twitter posts on using web compute shaders 
 
 Anyway, fast forward 2-3 years and I don't work there anymore, but I do regret not going ahead and making it without asking. This is meant to be a redesign path for what I would have wanted there.
 
-These are the six strongest colors pulled from their site — the palette I'll work with across the designs.
-
 <div class="palette">
   <div class="palette-swatch"><div class="palette-chip" style="background:#0037A5"></div><span class="palette-hex" style="color:#0037A5">#0037A5</span></div>
   <div class="palette-swatch"><div class="palette-chip" style="background:#6933FF"></div><span class="palette-hex" style="color:#6933FF">#6933FF</span></div>
@@ -23,3 +21,15 @@ These are the six strongest colors pulled from their site — the palette I'll w
 For example, smoothlife can provide some more organic gradients than the general translated 2D meshes viewed at an angle.
 
 <div class="blog-canvas" data-sketch="smoothlife"></div>
+
+We can also seed it with various starting sizes of a fragment, but provided the same settings we'll eventually stabilize on the same view.
+
+<div class="blog-canvas" data-sketch="single-cell"></div>
+
+
+
+<div class="blog-canvas" data-sketch="lenia"></div>
+
+We can even take it fully volumetric. Apply the same rule running in three dimensions, one organism growing inside a cube, raymarched.
+
+<div class="blog-canvas" data-sketch="volume-cell"></div>

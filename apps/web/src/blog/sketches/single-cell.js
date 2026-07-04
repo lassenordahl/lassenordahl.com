@@ -1,49 +1,40 @@
-// SmoothLife — a continuous-domain generalization of Conway's Game of Life
-// (Rafler 2011), run as a WebGL fragment-shader cellular automaton.
+// Single-cell SmoothLife — the same continuous cellular automaton as
+// `smoothlife.js`, but seeded with one centered disk instead of a field of
+// value-noise blobs. Instead of a whole ecosystem linking up into the ring /
+// tendril network, you get a single organism that grows, wobbles, and
+// self-organizes on its own — "one guy."
 //
-// The state is a single scalar field f in [0,1] stored in a render target.
-// Each step samples a neighborhood (inner disk + outer annulus), computes the
-// two local averages (m = inner fill, n = outer fill), and feeds them through
-// a stack of sigmoids to decide birth/death. We ping-pong between two float
-// targets so each frame reads the previous state and writes the next.
-//
-// Returned to the canvas manager as { render, dispose } so this sketch owns
-// its multi-pass render loop instead of the manager's single render call.
-//
-// This is the reference example for the shared kit: seed / step / display are
-// all fullscreen passes on `stage`, the two float targets come from
-// `createPingPong`, and the color language reuses GLSL.palette. What's unique to
-// SmoothLife is only the seed noise and the SIM_FRAG rule below.
+// Everything about the rule (SIM_FRAG), the palette display, and the ping-pong
+// plumbing is identical to smoothlife.js; see that file for the full annotated
+// walkthrough. What's unique here is only SEED_FRAG (a single soft disk) and a
+// live "seed size" slider that drops a fresh organism into the field.
 
 import * as THREE from "three";
 import { createStage, createPingPong, GLSL } from "./kit.js";
 
-// Simulation grid. Aspect ~matches the hero canvas (608/460). Run at high res
-// so structure is fine-grained, then bicubic-upscaled on display so there are
-// no visible texels. The neighborhood loop is the expensive part.
+// Simulation grid. Aspect ~matches the hero canvas. Run high-res then
+// bicubic-upscale on display so a single organism stays smooth up close.
 const SIM_W = 720;
 const SIM_H = 540;
+const ASPECT = SIM_W / SIM_H;
 
-// Seed the field with soft value-noise blobs (~organism scale) so structure
-// has something to organize out of rather than uniform static.
+// Seed a single soft disk in the middle of the field. uRadius is the organism's
+// starting size (uv units); the 0.03 feather keeps its edge from being a hard
+// circle so the rule has a gradient to grab onto. Aspect-corrected so the seed
+// is a true circle, not an ellipse, on the non-square grid.
 const SEED_FRAG = /* glsl */ `
   precision highp float;
   varying vec2 vUv;
-  uniform float uSeed;
-  ${GLSL.noise}
+  uniform float uRadius;
+  uniform float uAspect;
   void main() {
-    float n = vnoise(vUv * 14.0 + uSeed);
-    n += 0.5 * vnoise(vUv * 28.0 + uSeed * 1.7);
-    n /= 1.5;
-    float s = smoothstep(0.46, 0.62, n);
+    float d = length((vUv - 0.5) * vec2(uAspect, 1.0));
+    float s = smoothstep(uRadius, uRadius - 0.03, d);
     gl_FragColor = vec4(vec3(s), 1.0);
   }
 `;
 
-// One SmoothLife step. Rafler "SmoothTimestepRules": linearized birth/death
-// intervals, hard alive/dead split on the inner disk, and euler integration
-// toward the transition target — this is what makes the field evolve as smooth,
-// fluid organisms that hold mid-tones (instead of snapping to 0/1).
+// One SmoothLife step — identical rule to smoothlife.js.
 const SIM_FRAG = /* glsl */ `
   precision highp float;
   varying vec2 vUv;
@@ -105,8 +96,7 @@ const SIM_FRAG = /* glsl */ `
   }
 `;
 
-// Map the continuous state through the shared palette, bicubic-upscaled and
-// gamma-spread, fading to black where the field is empty.
+// Palette display — identical to smoothlife.js.
 const DISPLAY_FRAG = /* glsl */ `
   precision highp float;
   varying vec2 vUv;
@@ -122,7 +112,7 @@ const DISPLAY_FRAG = /* glsl */ `
   }
 `;
 
-export function smoothlife({ renderer }) {
+export function singleCell({ renderer }) {
   const stage = createStage(renderer);
   // Toroidal world — wrap the neighborhood sampling at the edges.
   const targets = createPingPong(SIM_W, SIM_H, {
@@ -132,10 +122,10 @@ export function smoothlife({ renderer }) {
 
   const resolution = new THREE.Vector2(SIM_W, SIM_H);
   const seedMat = stage.shader(SEED_FRAG, {
-    uSeed: { value: Math.random() * 1000.0 },
+    uRadius: { value: 0.05 },
+    uAspect: { value: ASPECT },
   });
-  // Slow evolution. dt is the main "time" knob — lower is slower & smoother.
-  const LIVE_DT = 0.05;
+  const LIVE_DT = 0.06;
   const simMat = stage.shader(SIM_FRAG, {
     uState: { value: null },
     uResolution: { value: resolution },
@@ -151,26 +141,36 @@ export function smoothlife({ renderer }) {
     uResolution: { value: resolution },
   });
 
-  // Seed the initial state into the read target.
-  stage.pass(seedMat, targets.read);
-
   const step = () => {
     simMat.uniforms.uState.value = targets.read.texture;
     stage.pass(simMat, targets.write);
     targets.swap();
   };
 
-  // Warm up at a faster dt so the field is already organized on first paint,
-  // then drop to the slow live dt.
-  simMat.uniforms.uDt.value = 0.15;
-  for (let i = 0; i < 30; i++) step();
-  simMat.uniforms.uDt.value = LIVE_DT;
+  // Drop a fresh single organism into the field: paint the seed disk into the
+  // read target, then a few warm-up steps so it reads as a living cell rather
+  // than a flat circle on first paint.
+  const reseed = () => {
+    stage.pass(seedMat, targets.read);
+    const dt = simMat.uniforms.uDt.value;
+    simMat.uniforms.uDt.value = 0.15;
+    for (let i = 0; i < 8; i++) step();
+    simMat.uniforms.uDt.value = dt;
+  };
+  reseed();
 
-  // Live-tunable parameters, surfaced by the canvas manager as a slider panel.
-  // `info` is the hover text for the (i) icon; ranges match the sim's useful
-  // operating window.
   const u = simMat.uniforms;
   const controls = [
+    {
+      label: "seed size",
+      min: 0.03, max: 0.3, step: 0.005,
+      get: () => seedMat.uniforms.uRadius.value,
+      set: (v) => {
+        seedMat.uniforms.uRadius.value = v;
+        reseed(); // re-drop a fresh single organism at the new size
+      },
+      info: "Starting radius of the single seeded organism. Drag to drop a fresh cell — small seeds may die out, larger ones split or grow.",
+    },
     {
       label: "dt",
       min: 0.01, max: 0.3, step: 0.005,
@@ -187,25 +187,25 @@ export function smoothlife({ renderer }) {
       label: "birth ↑ (b2)",
       min: 0.0, max: 0.5, step: 0.001,
       get: () => u.uB2.value, set: (v) => (u.uB2.value = v),
-      info: "Birth window upper bound. Above this it's too crowded to be born. A narrow b1–b2 means fewer spontaneous new blobs.",
+      info: "Birth window upper bound. Above this it's too crowded to be born. Narrow b1–b2 keeps the cell from spawning new blobs around itself.",
     },
     {
       label: "survive ↓ (d1)",
       min: 0.0, max: 0.7, step: 0.001,
       get: () => u.uD1.value, set: (v) => (u.uD1.value = v),
-      info: "Survival floor. A live cell whose outer fill drops below this dies of loneliness. Lower it so thin edges hold together and blobs coalesce.",
+      info: "Survival floor. Raise it to kill thin, lonely edges so the cell stays compact instead of throwing out tendrils.",
     },
     {
       label: "survive ↑ (d2)",
       min: 0.0, max: 0.9, step: 0.001,
       get: () => u.uD2.value, set: (v) => (u.uD2.value = v),
-      info: "Over-crowding ceiling. A live cell whose outer fill exceeds this dies. Raise it to fatten blobs; too high and the field freezes into a labyrinth.",
+      info: "Over-crowding ceiling. A live cell whose outer fill exceeds this dies. Raise it to fatten the cell; too high and it freezes.",
     },
     {
       label: "softness (αN)",
       min: 0.005, max: 0.1, step: 0.001,
       get: () => u.uAlphaN.value, set: (v) => (u.uAlphaN.value = v),
-      info: "Interval softness. How gradual the birth/death thresholds are. Higher is softer, blobbier, more gradient; lower is crisp and thready.",
+      info: "Interval softness. How gradual the birth/death thresholds are. Higher is softer and blobbier; lower is crisp and thready.",
     },
   ];
 
@@ -213,8 +213,6 @@ export function smoothlife({ renderer }) {
     controls,
     render() {
       step();
-
-      // Draw the current state to the screen through the palette.
       displayMat.uniforms.uState.value = targets.read.texture;
       stage.pass(displayMat, null);
     },

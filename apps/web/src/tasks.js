@@ -1,11 +1,5 @@
 import "./style.css";
 import "./tasks.css";
-import { inject } from "@vercel/analytics";
-import { injectSpeedInsights } from "@vercel/speed-insights";
-
-// Initialize Vercel Analytics & Speed Insights
-inject();
-injectSpeedInsights();
 
 const API_URL = "https://cmd-worker.lasseanordahl.workers.dev/tasks";
 const REFRESH_INTERVAL = 5000; // 5 seconds

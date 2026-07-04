@@ -119,6 +119,114 @@ body {
   outline: none;
 }
 
+/* Live-tuning slider panel under a blog canvas. Three aligned columns:
+   label + (i) tooltip · slider · value. Black & white, Berkeley Mono. */
+.bc-presets {
+  width: 100%;
+  max-width: 608px;
+  margin: -20px auto 0 auto;
+  box-sizing: border-box;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.bc-preset {
+  padding: 6px 12px;
+  background: #000;
+  border: 1px solid #fff;
+  color: #fff;
+  font-family: "Berkeley Mono Regular", monospace;
+  font-size: 11px;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+}
+
+.bc-preset:hover {
+  background: #fff;
+  color: #000;
+}
+
+.bc-panel {
+  width: 100%;
+  max-width: 608px;
+  margin: -20px auto 40px auto;
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 8px 12px;
+  padding: 14px 16px;
+  border: 1px solid #fff;
+  background: #000;
+  font-family: "Berkeley Mono Regular", monospace;
+  font-size: 11px;
+  color: #fff;
+}
+
+/* When a preset bar sits above the slider panel, don't tuck the panel up too. */
+.bc-presets + .bc-panel {
+  margin-top: 10px;
+}
+
+.bc-label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.bc-panel input[type="range"] {
+  width: 100%;
+  accent-color: #fff;
+  cursor: pointer;
+}
+
+.bc-val {
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+.bc-info-wrap {
+  position: relative;
+  display: inline-flex;
+}
+
+.bc-info {
+  width: 12px;
+  height: 12px;
+  opacity: 0.55;
+  cursor: help;
+}
+
+.bc-info-wrap:hover .bc-info {
+  opacity: 1;
+}
+
+.bc-tip {
+  position: absolute;
+  bottom: 150%;
+  left: 0;
+  display: none;
+  width: 200px;
+  padding: 8px 10px;
+  background: #000;
+  border: 1px solid #fff;
+  font-size: 10px;
+  line-height: 1.4;
+  text-transform: none;
+  letter-spacing: 0;
+  white-space: normal;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.bc-info-wrap:hover .bc-tip {
+  display: block;
+}
+
 .content {
   width: 100%;
   max-width: 608px;

@@ -12,35 +12,108 @@
 // manager render) or an object `{ update?, render?, dispose? }` for sketches
 // that need to own their render loop (e.g. ping-pong framebuffer sims). The
 // manager owns renderer creation, resize handling, the animation loop, and
-// teardown. This is the seam where compute-style shader experiments plug in —
-// add a new entry to SKETCHES.
+// teardown. This file is the engine and shouldn't need to change as sketches
+// are added — the registry and shared helpers live in ./sketches/.
 
 import * as THREE from "three";
-import { smoothlife } from "./sketches/smoothlife.js";
-
-// --- Sketch registry -------------------------------------------------------
-
-const SKETCHES = {
-  "spinning-cube": ({ scene, camera }) => {
-    camera.position.z = 4;
-
-    const geometry = new THREE.BoxGeometry(1.6, 1.6, 1.6);
-    const material = new THREE.MeshNormalMaterial();
-    const cube = new THREE.Mesh(geometry, material);
-    scene.add(cube);
-
-    return (elapsed) => {
-      cube.rotation.x = elapsed * 0.6;
-      cube.rotation.y = elapsed * 0.8;
-    };
-  },
-  smoothlife,
-};
+import { SKETCHES } from "./sketches/index.js";
 
 // --- Manager ---------------------------------------------------------------
 
 // Active sketch instances, so we can dispose them on navigation.
 let mounted = [];
+
+// Build a dense slider panel from a sketch's `controls` descriptor (see
+// smoothlife.js). Each control is { label, min, max, step, get(), set(v), info }.
+// Three aligned columns: label + lucide (i) tooltip · native range · live value.
+// Inserted directly after the canvas host so it sits underneath the canvas.
+// Returns the panel element.
+function buildControls(host, controls) {
+  const panel = document.createElement("div");
+  panel.className = "bc-panel";
+
+  // Track each row so presets can push new values back into the sliders.
+  const rows = [];
+
+  controls.forEach((c) => {
+    const label = document.createElement("div");
+    label.className = "bc-label";
+    const name = document.createElement("span");
+    name.textContent = c.label;
+    label.appendChild(name);
+    if (c.info) {
+      // lucide converts the <i data-lucide> into an <svg>; tooltip is a sibling.
+      const wrap = document.createElement("span");
+      wrap.className = "bc-info-wrap";
+      const icon = document.createElement("i");
+      icon.setAttribute("data-lucide", "info");
+      icon.className = "bc-info";
+      const tip = document.createElement("span");
+      tip.className = "bc-tip";
+      tip.textContent = c.info;
+      wrap.append(icon, tip);
+      label.appendChild(wrap);
+    }
+
+    const input = document.createElement("input");
+    input.type = "range";
+    input.min = c.min;
+    input.max = c.max;
+    input.step = c.step;
+    input.value = c.get();
+
+    const val = document.createElement("span");
+    val.className = "bc-val";
+    const fmt = (v) => Number(v).toFixed(String(c.step).includes(".") ? 3 : 0);
+    val.textContent = fmt(c.get());
+
+    input.addEventListener("input", () => {
+      const v = parseFloat(input.value);
+      c.set(v);
+      val.textContent = fmt(v);
+    });
+
+    panel.append(label, input, val);
+    rows.push({ c, input, val, fmt });
+  });
+
+  host.insertAdjacentElement("afterend", panel);
+
+  // Pull each slider back in line with its control's current value — called
+  // after a preset applies, so the sliders reflect the new state.
+  const sync = () => {
+    rows.forEach(({ c, input, val, fmt }) => {
+      const v = c.get();
+      input.value = v;
+      val.textContent = fmt(v);
+    });
+  };
+
+  return { panel, sync };
+}
+
+// A row of preset buttons rendered above the slider panel. Each preset is
+// { label, apply() }; clicking it applies the preset then re-syncs the sliders.
+function buildPresets(host, presets, sync) {
+  const bar = document.createElement("div");
+  bar.className = "bc-presets";
+
+  presets.forEach((p) => {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "bc-preset";
+    btn.textContent = p.label;
+    btn.addEventListener("click", () => {
+      p.apply();
+      if (sync) sync();
+    });
+    bar.appendChild(btn);
+  });
+
+  // Insert directly after the host so it sits above the slider panel.
+  host.insertAdjacentElement("afterend", bar);
+  return bar;
+}
 
 function createSketch(host) {
   const name = host.dataset.sketch || "spinning-cube";
@@ -82,6 +155,16 @@ function createSketch(host) {
   const customRender = isFn ? null : api.render;
   const customDispose = isFn ? null : api.dispose;
 
+  // Optional live-tuning slider panel, if the sketch exposes `controls`.
+  const controlsApi =
+    !isFn && api.controls ? buildControls(host, api.controls) : null;
+  // Optional preset buttons, if the sketch exposes `presets`. Inserted after the
+  // panel build so it lands between the canvas and the sliders.
+  const presetsBar =
+    !isFn && api.presets
+      ? buildPresets(host, api.presets, controlsApi && controlsApi.sync)
+      : null;
+
   const clock = new THREE.Clock();
   let frameId = null;
 
@@ -92,7 +175,27 @@ function createSketch(host) {
     else renderer.render(scene, camera);
     frameId = window.requestAnimationFrame(tick);
   };
-  tick();
+  const start = () => {
+    if (frameId === null) frameId = window.requestAnimationFrame(tick);
+  };
+  const stop = () => {
+    if (frameId !== null) {
+      window.cancelAnimationFrame(frameId);
+      frameId = null;
+    }
+  };
+
+  // Pause the render loop entirely while the canvas is scrolled out of view —
+  // no GPU work happens for off-screen sketches. Fires immediately on observe
+  // with the initial intersection state, so `start()` below is just a fallback.
+  const visibility = new IntersectionObserver((entries) => {
+    for (const entry of entries) {
+      if (entry.isIntersecting) start();
+      else stop();
+    }
+  });
+  visibility.observe(host);
+  start();
 
   // Keep the drawing buffer in sync with the (responsive) host size.
   const resizeObserver = new ResizeObserver(() => {
@@ -109,7 +212,8 @@ function createSketch(host) {
 
   return {
     dispose() {
-      if (frameId !== null) window.cancelAnimationFrame(frameId);
+      stop();
+      visibility.disconnect();
       resizeObserver.disconnect();
       if (customDispose) customDispose();
       scene.traverse((obj) => {
@@ -122,6 +226,8 @@ function createSketch(host) {
         }
       });
       renderer.dispose();
+      if (presetsBar) presetsBar.remove();
+      if (controlsApi) controlsApi.panel.remove();
       canvas.remove();
     },
   };
