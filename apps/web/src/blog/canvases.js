@@ -92,6 +92,33 @@ function buildControls(host, controls) {
   return { panel, sync };
 }
 
+// A row of effect-toggle buttons — like presets, but each is an independent
+// on/off that stays lit (white) while active, and several can be on at once.
+// Used for stackable post-process shader effects (dithering, halftone, …). Each
+// toggle is { label, get(): bool, set(on: bool) }; clicking flips it and repaints
+// the button. Add more toggles to a sketch's `toggles` array to grow the row.
+function buildToggles(host, toggles) {
+  const bar = document.createElement("div");
+  bar.className = "bc-toggles";
+
+  toggles.forEach((t) => {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "bc-toggle";
+    btn.textContent = t.label;
+    const paint = () => btn.classList.toggle("is-on", !!t.get());
+    paint();
+    btn.addEventListener("click", () => {
+      t.set(!t.get());
+      paint();
+    });
+    bar.appendChild(btn);
+  });
+
+  host.insertAdjacentElement("afterend", bar);
+  return bar;
+}
+
 // A row of preset buttons rendered above the slider panel. Each preset is
 // { label, apply() }; clicking it applies the preset then re-syncs the sliders.
 function buildPresets(host, presets, sync) {
@@ -158,6 +185,10 @@ function createSketch(host) {
   // Optional live-tuning slider panel, if the sketch exposes `controls`.
   const controlsApi =
     !isFn && api.controls ? buildControls(host, api.controls) : null;
+  // Optional effect-toggle bar, if the sketch exposes `toggles`. Built before
+  // presets so the stack reads presets · toggles · sliders, top to bottom.
+  const togglesBar =
+    !isFn && api.toggles ? buildToggles(host, api.toggles) : null;
   // Optional preset buttons, if the sketch exposes `presets`. Inserted after the
   // panel build so it lands between the canvas and the sliders.
   const presetsBar =
@@ -227,6 +258,7 @@ function createSketch(host) {
       });
       renderer.dispose();
       if (presetsBar) presetsBar.remove();
+      if (togglesBar) togglesBar.remove();
       if (controlsApi) controlsApi.panel.remove();
       canvas.remove();
     },

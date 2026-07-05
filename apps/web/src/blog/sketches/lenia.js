@@ -65,15 +65,19 @@ const SIM_FRAG = /* glsl */ `
     vec2 px = 1.0 / uResolution;
     float u = 0.0, w = 0.0;
 
-    // Convolve with the ring kernel. Fixed loop bounds (GLSL requires constant
-    // bounds); uR scales the normalized distance so it stays a live slider.
+    // Convolve with the ring kernel. We sample a fixed 33x33 grid that always
+    // spans the kernel radius uR (step = uR/RES pixels), so the cost is constant
+    // no matter how large R gets — uR just scales the sampling footprint,
+    // relying on the texture's linear filtering between texels. This is what
+    // lets R go well past the ±16px the loop could otherwise reach.
+    const float RES = 16.0;
     for (int dy = -16; dy <= 16; dy++) {
       for (int dx = -16; dx <= 16; dx++) {
-        float d = length(vec2(float(dx), float(dy)));
-        if (d > uR) continue;            // outside the kernel disk
-        float r = d / uR;                // normalized radius in [0,1]
+        vec2 g = vec2(float(dx), float(dy)) / RES; // normalized grid in [-1,1]
+        float r = length(g);             // normalized radius
+        if (r > 1.0) continue;           // outside the kernel disk
         float k = bell(r, uKMu, uKSigma);
-        float val = texture2D(uState, vUv + vec2(float(dx), float(dy)) * px).r;
+        float val = texture2D(uState, vUv + g * uR * px).r;
         u += val * k; w += k;
       }
     }
@@ -125,10 +129,10 @@ export function lenia({ renderer }) {
     uState: { value: null },
     uResolution: { value: resolution },
     uDt: { value: LIVE_DT },
-    uR: { value: 13.0 },
+    uR: { value: 112.0 },
     uMu: { value: 0.15 },
     uSigma: { value: 0.017 },
-    uKMu: { value: 0.5 },
+    uKMu: { value: 0.6 },
     uKSigma: { value: 0.15 },
   });
   const displayMat = stage.shader(DISPLAY_FRAG, {
@@ -165,9 +169,9 @@ export function lenia({ renderer }) {
     },
     {
       label: "kernel R",
-      min: 6.0, max: 16.0, step: 0.5,
+      min: 6.0, max: 128.0, step: 0.5,
       get: () => u.uR.value, set: (v) => (u.uR.value = v),
-      info: "Kernel radius in pixels — the reach of each cell's neighborhood. Bigger R makes larger, slower creatures.",
+      info: "Kernel radius in pixels — the reach of each cell's neighborhood. Bigger R makes larger, slower creatures. Sampled at a fixed resolution, so cost stays flat as R grows (very large R will undersample fine detail).",
     },
     {
       label: "growth μ",

@@ -13,6 +13,8 @@ import { spinningCube } from "./spinning-cube.js";
 import { smoothlife } from "./smoothlife.js";
 import { singleCell } from "./single-cell.js";
 import { volumeCell } from "./volume-cell.js";
+import { volumeLenia } from "./volume-lenia.js";
+import { volumeTunnel } from "./volume-tunnel.js";
 import { lenia } from "./lenia.js";
 
 export const SKETCHES = {
@@ -21,4 +23,6 @@ export const SKETCHES = {
   "single-cell": singleCell,
   lenia,
   "volume-cell": volumeCell,
+  "volume-lenia": volumeLenia,
+  "volume-tunnel": volumeTunnel,
 };

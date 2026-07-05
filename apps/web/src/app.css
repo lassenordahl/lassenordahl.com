@@ -69,6 +69,33 @@ body {
 }
 
 
+/* Cockroach Labs logo (bug + wordmark) sitting above the palette */
+.palette-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin: 32px auto 4px;
+}
+
+/* .post-content img sets margin-bottom + height:auto — override both so the
+   bug isn't nudged off-center inside the flex row. */
+.palette-logo .palette-logo-bug {
+  width: 44px;
+  height: 44px;
+  margin: 0;
+  flex: none;
+}
+
+.palette-logo-word {
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  font-size: 1.5rem;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  color: #fff;
+}
+
 /* Color palette swatches embedded in a blog post */
 .palette {
   display: flex;
@@ -145,6 +172,53 @@ body {
 .bc-preset:hover {
   background: #fff;
   color: #000;
+}
+
+/* Stackable effect toggles — same chip as a preset, but each stays lit while
+   its effect is on, and several can be on at once. */
+.bc-toggles {
+  width: 100%;
+  max-width: 608px;
+  margin: -20px auto 0 auto;
+  box-sizing: border-box;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* When a preset bar sits above the toggle bar, don't tuck the toggles up too. */
+.bc-presets + .bc-toggles {
+  margin-top: 10px;
+}
+
+.bc-toggle {
+  padding: 6px 12px;
+  background: #000;
+  border: 1px solid #fff;
+  color: #fff;
+  font-family: "Berkeley Mono Regular", monospace;
+  font-size: 11px;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+}
+
+.bc-toggle:hover {
+  background: #222;
+}
+
+/* Lit = effect is on. */
+.bc-toggle.is-on {
+  background: #fff;
+  color: #000;
+}
+
+.bc-toggle.is-on:hover {
+  background: #e6e6e6;
+}
+
+/* Toggles sitting above the slider panel: give the panel a normal gap. */
+.bc-toggles + .bc-panel {
+  margin-top: 10px;
 }
 
 .bc-panel {
