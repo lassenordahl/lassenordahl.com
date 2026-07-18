@@ -1,5 +1,11 @@
 [
   {
+    "slug": "engagement-photos",
+    "title": "Engagement Photos",
+    "date": "2026-07-12",
+    "icon": "pen-line"
+  },
+  {
     "slug": "cockroach-labs-design",
     "title": "Cockroach Labs Design",
     "date": "2026-06-28",

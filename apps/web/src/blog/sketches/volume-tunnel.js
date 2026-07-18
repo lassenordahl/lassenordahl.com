@@ -57,6 +57,8 @@ const TUNNEL_FRAG = /* glsl */ `
   uniform float uFog;      // distance fog strength (depth fade)
   uniform float uDither;   // ray-start jitter to kill slice banding
   uniform float uHalftone; // >0.5 renders the frame as a grid of dots
+  uniform float uHalfCell; // halftone dot spacing, in device px (bigger = bigger dots + more gap)
+  uniform float uHalfFill; // halftone max dot radius as a fraction of the cell (lower = more black space)
   uniform float uStars;    // >0.5 speckles stars into the empty background
   ${ATLAS_GLSL}
   ${GLSL.palette}
@@ -122,11 +124,11 @@ const TUNNEL_FRAG = /* glsl */ `
     // to black. Screen-space, applied last, so it stacks cleanly on top of the
     // raymarch (and on top of dithering). Color is kept per dot.
     if (uHalftone > 0.5) {
-      float cellPx = 6.0;                          // dot spacing, in device px
+      float cellPx = uHalfCell;                    // dot spacing, in device px
       float lum = clamp(max(max(col.r, col.g), col.b), 0.0, 1.0);
       vec2 g = fract(gl_FragCoord.xy / cellPx) - 0.5;
       float dist = length(g) * 2.0;                // 0 at center → ~1.41 at corner
-      float radius = sqrt(lum) * 0.75;             // brightness → dot radius (×gap)
+      float radius = sqrt(lum) * uHalfFill;        // brightness → dot radius (×gap)
       float aa = 2.0 / cellPx;                     // ~1px soft edge
       float mask = 1.0 - smoothstep(radius - aa, radius + aa, dist);
       col *= mask;
@@ -204,6 +206,8 @@ export function volumeTunnel({ renderer, sizes }) {
     uFog: { value: 0.6 },
     uDither: { value: 0.0 },   // toggled on via the effect bar (sets 0.7)
     uHalftone: { value: 1.0 }, // on by default; toggled via the effect bar
+    uHalfCell: { value: 7.5 },  // dot spacing (px) — bigger dots + more gap
+    uHalfFill: { value: 0.72 }, // max dot radius vs cell — lower = more black
     uStars: { value: 1.0 },    // on by default; toggled via the effect bar
   });
 
@@ -349,6 +353,18 @@ export function volumeTunnel({ renderer, sizes }) {
       min: 0.0, max: 2.0, step: 0.02,
       get: () => d.uFog.value, set: (v) => (d.uFog.value = v),
       info: "Distance fade. Higher pulls the far tunnels into black for depth; 0 shows everything flat.",
+    },
+    {
+      label: "dot size",
+      min: 3.0, max: 28.0, step: 0.5,
+      get: () => d.uHalfCell.value, set: (v) => (d.uHalfCell.value = v),
+      info: "Halftone dot spacing, in pixels (needs the HALFTONE button). Bigger spreads the grid out into larger, chunkier dots with more black between them.",
+    },
+    {
+      label: "dot fill",
+      min: 0.2, max: 1.0, step: 0.01,
+      get: () => d.uHalfFill.value, set: (v) => (d.uHalfFill.value = v),
+      info: "How much of each halftone cell a full-brightness dot fills. Lower leaves more black space around every dot; 1.0 lets the brightest dots touch their neighbors.",
     },
     {
       label: "dither amt",

@@ -45,7 +45,11 @@ import PNG_DEC_WASM from "@jsquash/png/codec/pkg/squoosh_png_bg.wasm";
 // @ts-expect-error
 import RESIZE_WASM from "@jsquash/resize/lib/resize/pkg/squoosh_resize_bg.wasm";
 
-const KEY_PREFIX = "assets/";
+// The bucket is dedicated to these images and served publicly at a custom
+// domain, so objects live at the bucket root (no key prefix) for clean URLs
+// like https://assets.lassenordahl.com/<name>.webp. We identify "our" objects
+// by the .webp extension when listing.
+const PUBLIC_BASE = "https://assets.lassenordahl.com";
 const MAX_EDGE = 1600; // longest side, px — plenty for a web canvas, keeps CPU low
 const WEBP_QUALITY = 80;
 const MAX_UPLOAD_BYTES = 25 * 1024 * 1024; // 25 MB guard on the raw upload
@@ -109,7 +113,15 @@ function randomId(): string {
 export type AssetsEnv = {
   ASSETS: R2Bucket;
   ASSETS_TOKEN?: string;
+  ASSETS_PUBLIC_BASE?: string; // overrides PUBLIC_BASE (e.g. for local dev)
 };
+
+/** Public CDN URL for an object — served straight from R2 via the custom
+ *  domain, so image loads never invoke this Worker. */
+function publicUrl(env: AssetsEnv, name: string): string {
+  const base = (env.ASSETS_PUBLIC_BASE || PUBLIC_BASE).replace(/\/$/, "");
+  return `${base}/${name}`;
+}
 
 /** POST /assets — auth'd. Body is the raw image bytes. */
 export async function handleUpload(req: Request, env: AssetsEnv): Promise<Response> {
@@ -137,8 +149,7 @@ export async function handleUpload(req: Request, env: AssetsEnv): Promise<Respon
   const createdAt = Date.now();
   // Zero-padded timestamp keeps keys lexically sorted by time.
   const name = `${String(createdAt).padStart(15, "0")}-${randomId()}.webp`;
-  const key = KEY_PREFIX + name;
-  await env.ASSETS.put(key, out.webp, {
+  await env.ASSETS.put(name, out.webp, {
     httpMetadata: { contentType: "image/webp", cacheControl: "public, max-age=31536000, immutable" },
     customMetadata: {
       createdAt: String(createdAt),
@@ -150,7 +161,7 @@ export async function handleUpload(req: Request, env: AssetsEnv): Promise<Respon
   return Response.json({
     ok: true,
     name,
-    url: `/assets/img/${name}`,
+    url: publicUrl(env, name),
     createdAt,
     width: out.width,
     height: out.height,
@@ -160,14 +171,15 @@ export async function handleUpload(req: Request, env: AssetsEnv): Promise<Respon
 
 /** GET /assets — public listing, newest first. */
 export async function handleList(env: AssetsEnv): Promise<Response> {
-  const listed = await env.ASSETS.list({ prefix: KEY_PREFIX, include: ["customMetadata"] });
+  const listed = await env.ASSETS.list({ include: ["customMetadata"] });
   const items = listed.objects
+    .filter((o) => o.key.endsWith(".webp"))
     .map((o) => {
-      const name = o.key.slice(KEY_PREFIX.length);
+      const name = o.key;
       const createdAt = Number(o.customMetadata?.createdAt) || o.uploaded.getTime();
       return {
         name,
-        url: `/assets/img/${name}`,
+        url: publicUrl(env, name),
         createdAt,
         width: Number(o.customMetadata?.width) || null,
         height: Number(o.customMetadata?.height) || null,
@@ -178,12 +190,13 @@ export async function handleList(env: AssetsEnv): Promise<Response> {
   return Response.json({ ok: true, count: items.length, items });
 }
 
-/** GET /assets/img/:name — public WebP bytes. */
+/** GET /assets/img/:name — public WebP bytes. Fallback path; production reads
+ *  go straight to the R2 custom domain and never invoke this Worker. */
 export async function handleImage(name: string, env: AssetsEnv): Promise<Response> {
   if (!/^[\w.\-]+\.webp$/.test(name)) {
     return new Response("bad name", { status: 400 });
   }
-  const obj = await env.ASSETS.get(KEY_PREFIX + name);
+  const obj = await env.ASSETS.get(name);
   if (!obj) return new Response("not found", { status: 404 });
   const headers = new Headers();
   obj.writeHttpMetadata(headers);
@@ -199,6 +212,6 @@ export async function handleDelete(req: Request, name: string, env: AssetsEnv): 
   if (!/^[\w.\-]+\.webp$/.test(name)) {
     return Response.json({ ok: false, error: "bad name" }, { status: 400 });
   }
-  await env.ASSETS.delete(KEY_PREFIX + name);
+  await env.ASSETS.delete(name);
   return Response.json({ ok: true });
 }
