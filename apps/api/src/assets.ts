@@ -54,26 +54,28 @@ const MAX_EDGE = 1600; // longest side, px — plenty for a web canvas, keeps CP
 const WEBP_QUALITY = 80;
 const MAX_UPLOAD_BYTES = 25 * 1024 * 1024; // 25 MB guard on the raw upload
 
-let wasmReady: Promise<void> | null = null;
-function ensureWasm(): Promise<void> {
-  if (!wasmReady) {
-    wasmReady = (async () => {
-      await Promise.all([
-        initJpeg(JPEG_DEC_WASM),
-        initPng(PNG_DEC_WASM),
-        initWebp(WEBP_ENC_WASM),
-        initResize(RESIZE_WASM),
-      ]);
-    })();
-  }
-  return wasmReady;
-}
+// Each codec's WASM is instantiated at most once, and only when an upload
+// actually needs it — a JPEG upload never loads the PNG decoder. Eagerly
+// instantiating all four in one request was enough extra cold-start CPU to
+// occasionally trip the limit.
+let jpegReady: Promise<unknown> | null = null;
+let pngReady: Promise<unknown> | null = null;
+let webpReady: Promise<unknown> | null = null;
+let resizeReady: Promise<unknown> | null = null;
+const initJpegOnce = () => (jpegReady ??= initJpeg(JPEG_DEC_WASM));
+const initPngOnce = () => (pngReady ??= initPng(PNG_DEC_WASM));
+const initWebpOnce = () => (webpReady ??= initWebp(WEBP_ENC_WASM));
+const initResizeOnce = () => (resizeReady ??= initResize(RESIZE_WASM));
 
 type ImageDataLike = { data: Uint8ClampedArray; width: number; height: number };
 
 async function decode(bytes: ArrayBuffer, contentType: string): Promise<ImageDataLike> {
-  if (contentType.includes("png")) return (await decodePng(bytes)) as ImageDataLike;
+  if (contentType.includes("png")) {
+    await initPngOnce();
+    return (await decodePng(bytes)) as ImageDataLike;
+  }
   // Default to JPEG for image/jpeg and anything unrecognized.
+  await initJpegOnce();
   return (await decodeJpeg(bytes)) as ImageDataLike;
 }
 
@@ -89,12 +91,15 @@ async function toWebp(
   bytes: ArrayBuffer,
   contentType: string,
 ): Promise<{ webp: ArrayBuffer; width: number; height: number }> {
-  await ensureWasm();
   let image = await decode(bytes, contentType);
   const { width, height } = targetSize(image.width, image.height);
   if (width !== image.width || height !== image.height) {
-    image = (await resize(image as any, { width, height })) as ImageDataLike;
+    await initResizeOnce();
+    // 'triangle' is the cheapest kernel — plenty for downscaling to a web canvas
+    // and far less CPU than the default lanczos3.
+    image = (await resize(image as any, { width, height, method: "triangle" })) as ImageDataLike;
   }
+  await initWebpOnce();
   const webp = await encodeWebp(image as any, { quality: WEBP_QUALITY });
   return { webp, width: image.width, height: image.height };
 }
