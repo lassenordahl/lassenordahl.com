@@ -6,6 +6,10 @@ compatibility_date = "2024-09-23"
 binding = "DISPLAY_STATE"
 id = "ed0138164e7d4c8bbdf958e6208dadd7"
 
+[[r2_buckets]]
+binding = "ASSETS"
+bucket_name = "lassenordahl-assets"
+
 [[durable_objects.bindings]]
 name = "PIXEL_CANVAS"
 class_name = "PixelCanvas"

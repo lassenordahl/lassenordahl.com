@@ -1,12 +1,20 @@
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { getTrainsData, DEFAULT_TRAINS_CONFIG, type TrainsConfig } from "./trains";
+import {
+  handleUpload,
+  handleList,
+  handleImage,
+  handleDelete,
+} from "./assets";
 
 export { PixelCanvas } from "./pixel-canvas";
 
 type Bindings = {
   DISPLAY_STATE: KVNamespace;
   PIXEL_CANVAS: DurableObjectNamespace;
+  ASSETS: R2Bucket;
+  ASSETS_TOKEN?: string;
 };
 
 const app = new Hono<{ Bindings: Bindings }>();
@@ -129,5 +137,13 @@ app.get("/pixels/ws", async (c) => {
   const stub = c.env.PIXEL_CANVAS.get(c.env.PIXEL_CANVAS.idFromName("main"));
   return stub.fetch(c.req.raw);
 });
+
+// ── Assets ───────────────────────────────────────────────────────────────────
+// POST an image (auth'd) -> resized WebP stored in R2. GET lists them; a page
+// renders from /assets/img/:name. Metadata lives on the R2 objects.
+app.post("/assets", (c) => handleUpload(c.req.raw, c.env));
+app.get("/assets", (c) => handleList(c.env));
+app.get("/assets/img/:name", (c) => handleImage(c.req.param("name"), c.env));
+app.delete("/assets/img/:name", (c) => handleDelete(c.req.raw, c.req.param("name"), c.env));
 
 export default app;
