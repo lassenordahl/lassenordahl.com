@@ -58,6 +58,23 @@ cd apps/web && npm run build      # build → apps/web/public/
 wrangler pages deploy public --project-name lassenordahl-web --branch main
 ```
 
+### Deploying to prod (agents)
+
+**To ship a change to prod, just commit and push to `master`.** You do NOT
+need Cloudflare credentials and must not add any to the repo. The GitHub
+Actions workflow at `.github/workflows/deploy.yml` builds `apps/web` and runs
+the `wrangler pages deploy` above using credentials stored as GitHub repo
+secrets (`CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`).
+
+```bash
+git add -A && git commit -m "..." && git push origin master
+```
+
+Watch/verify the deploy under the repo's GitHub → Actions tab (workflow
+"Deploy web to prod"). It runs on pushes that touch `apps/web/**` and can also
+be triggered manually via "Run workflow". Running `wrangler pages deploy`
+directly is only for a maintainer on a machine with Cloudflare auth.
+
 ---
 
 ## packages/pico — Pico dev cycle

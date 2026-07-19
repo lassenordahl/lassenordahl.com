@@ -123,8 +123,21 @@
           <div class="timeline-line"></div>
           <div id="posts-container" class="posts-container"></div>
         </div>
+        <button id="scroll-to-board" class="scroll-down scroll-down--board" aria-label="Scroll to board">
+          <svg width="20" height="8" viewBox="0 0 20 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M1 1L10 7L19 1" stroke="currentColor" stroke-width="1"/>
+          </svg>
+        </button>
       </div>
     </div>
+
+    <!-- Board Section (infinite-scroll image wall) — no header, just black -->
+    <section class="board-section" id="board-section">
+      <div class="board-content">
+        <div id="board-grid" class="board-grid"></div>
+        <div id="board-sentinel" class="board-sentinel"></div>
+      </div>
+    </section>
 
     <!-- Post Detail View (hidden by default) -->
     <div id="post-detail" class="post-detail"></div>

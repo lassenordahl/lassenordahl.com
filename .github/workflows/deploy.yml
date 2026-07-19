@@ -1,0 +1,59 @@
+name: Deploy web to prod
+
+# Deploys apps/web to Cloudflare Pages (lassenordahl-web).
+#
+# Triggers on any push to master that touches the web app (or on a manual
+# "Run workflow" click). An agent or human only needs to push to master —
+# the Cloudflare credentials live in GitHub repo secrets, never in the repo.
+#
+# Required repo secrets (Settings → Secrets and variables → Actions):
+#   CLOUDFLARE_API_TOKEN   — token with "Cloudflare Pages: Edit" permission
+#   CLOUDFLARE_ACCOUNT_ID  — your Cloudflare account id
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - "apps/web/**"
+      - "package.json"
+      - "pnpm-lock.yaml"
+      - "pnpm-workspace.yaml"
+      - "turbo.json"
+      - ".github/workflows/deploy.yml"
+  workflow_dispatch: {}
+
+concurrency:
+  group: deploy-web-prod
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build web
+        run: pnpm --filter @lassenordahl/web build
+
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          workingDirectory: apps/web
+          command: pages deploy public --project-name lassenordahl-web --branch main

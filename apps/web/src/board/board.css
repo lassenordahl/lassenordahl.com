@@ -1,0 +1,110 @@
+/* ==================== */
+/* Board (image wall)   */
+/* ==================== */
+
+/* Chevron between the Notes feed and the board. Sits in normal flow (not
+   absolute like the hero one). Its top margin matches the space above the Notes
+   header — i.e. the hero caret's 32px offset + the blog section's 64px top
+   padding = 96px — so the gap after the last note is even with the gap above
+   the Notes header (24px + 48px = 72px on mobile). */
+.scroll-down--board {
+  position: static;
+  transform: none;
+  left: auto;
+  bottom: auto;
+  margin: 96px auto 0;
+  color: white;
+}
+
+@media (max-width: 768px) {
+  .scroll-down--board {
+    margin-top: 72px;
+  }
+}
+
+/* Just black. No header, no divider — the images carry the section. */
+.board-section {
+  width: 100vw;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  padding: 64px 48px 120px;
+  box-sizing: border-box;
+}
+
+/* Wider than the Notes column so the frames get real room, but still held off
+   the edges by generous left/right margin. Widen/narrow here. */
+.board-content {
+  width: 100%;
+  max-width: 960px;
+}
+
+@media (max-width: 768px) {
+  .board-section {
+    padding: 48px 24px 80px;
+  }
+}
+
+/* Masonry: fixed columns, roomy even gutters. Column count managed in JS. */
+.board-grid {
+  display: flex;
+  align-items: flex-start;
+  gap: 32px;
+}
+
+.board-column {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+@media (max-width: 768px) {
+  .board-grid,
+  .board-column {
+    gap: 20px;
+  }
+}
+
+/* Each item: the image, then a tiny timestamp beneath it. No frame/border —
+   the image floats on black. */
+.board-tile {
+  margin: 0;
+  width: 100%;
+}
+
+/* Ratio box reserves the image's exact space so the layout never shifts. */
+.board-frame {
+  width: 100%;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.board-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Fade in once loaded (class toggled in JS) for a smooth pop-in. */
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.board-tile.is-loaded .board-img {
+  opacity: 1;
+}
+
+/* Muted date · time under each image, echoing the Notes date styling. */
+.board-caption {
+  margin-top: 8px;
+  font-size: 0.65rem;
+  color: #666;
+  letter-spacing: 0.01em;
+}
+
+/* Invisible tripwire below the grid; when it nears the viewport we load more. */
+.board-sentinel {
+  width: 100%;
+  height: 1px;
+}

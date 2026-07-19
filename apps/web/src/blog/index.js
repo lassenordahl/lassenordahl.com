@@ -224,15 +224,19 @@ async function renderPost(slug) {
   const container = document.getElementById("post-detail");
   const blogSection = document.querySelector(".blog-section");
   const heroSection = document.querySelector(".container.hero");
+  const boardSection = document.getElementById("board-section");
 
   if (!post || !container) return;
 
   // Tear down any canvases from a previously viewed post
   unmountBlogCanvases();
 
-  // Hide hero and blog feed, show post detail
+  // Hide hero, blog feed and image board; show post detail. (The board must be
+  // hidden explicitly here: the is-post-page CSS only applies on direct loads,
+  // not in-app navigation, so without this the board sits under every post.)
   if (heroSection) heroSection.style.display = "none";
   if (blogSection) blogSection.style.display = "none";
+  if (boardSection) boardSection.style.display = "none";
   container.style.display = "block";
 
   // Scroll to top
@@ -297,6 +301,7 @@ function showMainView() {
   const container = document.getElementById("post-detail");
   const blogSection = document.querySelector(".blog-section");
   const heroSection = document.querySelector(".container.hero");
+  const boardSection = document.getElementById("board-section");
 
   // Tear down any post canvases when leaving a post
   unmountBlogCanvases();
@@ -307,6 +312,8 @@ function showMainView() {
   if (container) container.style.display = "none";
   if (heroSection) heroSection.style.display = "flex";
   if (blogSection) blogSection.style.display = "flex";
+  // Clear the inline hide so the board returns to its stylesheet display.
+  if (boardSection) boardSection.style.display = "";
 
   // Reset page title
   document.title = "lasse's website";

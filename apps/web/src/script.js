@@ -7,11 +7,19 @@ import vertexShader from "./shaders/test/vertex.glsl";
 import fragmentShader from "./shaders/test/fragment.glsl";
 
 import { initBlog } from "./blog/index.js";
+import { initBoard } from "./board/index.js";
+import "./board/board.css";
 import { createIcons, icons } from "lucide";
 
 const onPostPage = window.location.pathname.startsWith('/post/');
 
 if (!onPostPage) {
+  // Hero WebGL background. Wrapped in try/catch so a failed GL context — common
+  // on phones under memory pressure, low-power mode, or with many Safari tabs
+  // open — can't throw at module-eval time and take the Notes feed + image board
+  // (initialized below) down with it. Without this, a phone that can't create a
+  // WebGL context renders almost nothing.
+  try {
   // Scroll down button
   const scrollDownBtn = document.getElementById("scroll-down");
   scrollDownBtn.addEventListener("click", () => {
@@ -137,6 +145,10 @@ if (!onPostPage) {
   });
   visibility.observe(glowContainer);
   start();
+  } catch (err) {
+    // Hero canvas is decorative — the rest of the page must still initialize.
+    console.warn("hero canvas unavailable, continuing without it:", err);
+  }
 }
 
 // Expose Lucide globally for dynamic content
@@ -147,3 +159,8 @@ createIcons({ icons });
 
 // Initialize blog (this will call createIcons again after rendering blog content)
 initBlog();
+
+// Initialize the image board below the Notes feed (skip on post detail pages)
+if (!onPostPage) {
+  initBoard();
+}
