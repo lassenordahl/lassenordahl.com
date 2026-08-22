@@ -44,3 +44,7 @@ mpremote cp secrets.py :secrets.py
 - `display.py` — WiFi connection + API polling + render logic
 - `secrets.py` — WiFi credentials (not committed)
 - `examples/` — standalone pattern demos
+
+## Cursor cloud agent smoke test
+
+This line is a no-op documentation change to verify PR creation against this repo. Safe to revert.
