@@ -1,6 +1,12 @@
 import { Hono } from "hono";
 import { cors } from "hono/cors";
-import { getTrainsData, DEFAULT_TRAINS_CONFIG, type TrainsConfig } from "./trains";
+import {
+  getTrainsData,
+  getTrainsStatus,
+  normalizeMaxArrivals,
+  DEFAULT_TRAINS_CONFIG,
+  type TrainsConfig,
+} from "./trains";
 import {
   handleUpload,
   handleList,
@@ -90,6 +96,19 @@ app.get("/trains/config", async (c) => {
   return c.json({ config });
 });
 
+// Live per-feed health. Not cached — always hits the MTA feeds so you get the
+// real current state when debugging a blank display.
+app.get("/trains/status", async (c) => {
+  try {
+    const config = await loadTrainsConfig(c.env.DISPLAY_STATE);
+    const feeds = await getTrainsStatus(config);
+    return c.json({ ok: feeds.every((f) => f.ok), feeds });
+  } catch (e: any) {
+    console.log("trains status err:", e);
+    return c.json({ ok: false, feeds: [], error: String(e?.message ?? e) }, 200);
+  }
+});
+
 app.post("/trains/config", async (c) => {
   const body = (await c.req.json().catch(() => null)) as TrainsConfig | null;
   if (!body || !Array.isArray(body.feeds)) {
@@ -97,6 +116,7 @@ app.post("/trains/config", async (c) => {
   }
   const sanitized: TrainsConfig = {
     address: typeof body.address === "string" ? body.address.slice(0, 200) : "",
+    maxArrivals: normalizeMaxArrivals(body.maxArrivals),
     feeds: body.feeds
       .filter((f) => f && typeof f.line === "string" && Array.isArray(f.stopIds))
       .map((f) => ({
@@ -104,6 +124,10 @@ app.post("/trains/config", async (c) => {
         stopIds: f.stopIds
           .filter((s) => typeof s === "string")
           .map((s) => s.toUpperCase().slice(0, 8)),
+        walkMinutes:
+          typeof f.walkMinutes === "number" && Number.isFinite(f.walkMinutes)
+            ? Math.min(30, Math.max(0, Math.round(f.walkMinutes)))
+            : undefined,
       }))
       .filter((f) => f.line.length > 0 && f.stopIds.length > 0),
   };
