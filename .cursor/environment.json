@@ -1,0 +1,20 @@
+{
+  "name": "lassenordahl.com",
+  "install": "pnpm install",
+  "terminals": [
+    {
+      "name": "api",
+      "command": "cd apps/api && pnpm dev",
+      "description": "Cloudflare Worker (Hono) via wrangler dev on http://localhost:8787 — KV, R2, and Durable Objects are simulated locally by Miniflare."
+    },
+    {
+      "name": "web",
+      "command": "cd apps/web && pnpm dev",
+      "description": "Portfolio site (Webpack dev server) on http://localhost:8080."
+    }
+  ],
+  "ports": [
+    { "name": "web", "port": 8080 },
+    { "name": "api", "port": 8787 }
+  ]
+}
