@@ -34,9 +34,12 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup pnpm
+        # No `version:` here on purpose. action-setup@v4 hard-errors with
+        # "Multiple versions of pnpm specified" when the version is given both
+        # as an input and as package.json#packageManager, which is what broke
+        # every deploy from 2026-07-19 on. Root package.json pins
+        # pnpm@9.0.0 — that's the single source of truth.
         uses: pnpm/action-setup@v4
-        with:
-          version: 9
 
       - name: Setup Node
         uses: actions/setup-node@v4
