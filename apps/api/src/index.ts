@@ -21,8 +21,12 @@ const app = new Hono<{ Bindings: Bindings }>();
 
 app.use("*", cors({
   origin: (origin) => {
+    // www.lassenordahl.com serves the site directly (Pages custom domain, no
+    // redirect to the apex), so visitors who arrive via a www link send that
+    // origin and must be allowed explicitly.
     const allowed = [
       "https://lassenordahl.com",
+      "https://www.lassenordahl.com",
       "https://lassenordahl-web.pages.dev",
       "http://localhost:8080",
     ];
@@ -30,7 +34,10 @@ app.use("*", cors({
     if (allowed.includes(origin)) return origin;
     // Allow Cloudflare Pages branch preview URLs
     if (origin.endsWith(".lassenordahl-web.pages.dev")) return origin;
-    return allowed[0];
+    // Unknown origin: send no header at all. Echoing back a *different*
+    // allowed origin looks like a match to us but fails in the browser, which
+    // is how the www breakage hid for so long.
+    return null;
   },
 }));
 
