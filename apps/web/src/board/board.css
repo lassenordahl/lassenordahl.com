@@ -2,6 +2,12 @@
 /* Board (image wall)   */
 /* ==================== */
 
+:root {
+  /* How much bite the board images get back at render time. 1 = untouched,
+     1.1 = +10%. See the note on .board-img for why they need it. */
+  --board-saturation: 1.1;
+}
+
 /* Chevron between the Notes feed and the board. Sits in normal flow (not
    absolute like the hero one). Its top margin matches the space above the Notes
    header — i.e. the hero caret's 32px offset + the blog section's 64px top
@@ -89,6 +95,13 @@
   /* Fade in once loaded (class toggled in JS) for a smooth pop-in. */
   opacity: 0;
   transition: opacity 0.4s ease;
+  /* Uploads come back flatter than the originals: the worker's WebP is written
+     untagged (no ICCP chunk), so a Display P3 phone photo's pixel values get
+     read as sRGB and lose their punch. Correcting that properly means carrying
+     the ICC profile through apps/api/src/assets.ts; until then this puts the
+     bite back at render time. Applies to every image already in the bucket,
+     and is a one-number tweak — raise/lower --board-saturation to taste. */
+  filter: saturate(var(--board-saturation));
 }
 
 .board-tile.is-loaded .board-img {
