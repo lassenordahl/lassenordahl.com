@@ -7,7 +7,7 @@ When I was at Cockroach working on the growth team, I remember having a few conv
 
 I felt pretty inspired by Arsiliaths twitter posts on using web compute shaders to simulate cellular automata. This felt like something subtle that would match the feeling of what CockroachDB was supposed to do, iteratively grow and resize to fit any need.
 
-Anyway, fast forward 2-3 years and I don't work there anymore, but I do regret not going ahead and making it without asking. This is meant to be a redesign path for what I would have wanted there.
+Anyway, fast forward 2-3 years and I don't work there anymore, but I do regret not going ahead and making it without asking.
 
 <div class="palette-logo">
   <img class="palette-logo-bug" src="/images/blog/cockroach-labs/logo-bug.svg" alt="" />
