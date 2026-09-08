@@ -327,7 +327,12 @@ async function handleRoute() {
   const path = window.location.pathname;
 
   if (path.startsWith("/post/")) {
-    const slug = path.replace("/post/", "");
+    // Strip the trailing slash before looking the post up. Feed links are
+    // /post/<slug>, but a direct load gets 308'd to /post/<slug>/ by
+    // Cloudflare, and the slash used to survive into the slug — so
+    // getPostBySlug missed, renderPost bailed, and the post's canvases never
+    // mounted on any direct visit or refresh.
+    const slug = path.replace("/post/", "").replace(/\/+$/, "");
     await renderPost(slug);
   } else {
     showMainView();
