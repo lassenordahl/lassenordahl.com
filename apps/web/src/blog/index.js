@@ -1,21 +1,11 @@
 import { marked } from "marked";
 import { getSortedPosts, getPostBySlug, loadPostContent } from "./posts.js";
 import { mountBlogCanvases, unmountBlogCanvases } from "./canvases.js";
+import { formatDate, postDetailHtml } from "./post-template.js";
 
 // Store scroll position before navigating to a post
 let savedScrollPosition = 0;
 
-// Format date for display
-function formatDate(dateString) {
-  // Parse date components to avoid timezone issues
-  const [year, month, day] = dateString.split('-').map(Number);
-  const date = new Date(year, month - 1, day);
-  return date.toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric"
-  });
-}
 
 // Extract domain from URL
 function getDomain(url) {
@@ -246,37 +236,7 @@ async function renderPost(slug) {
   document.title = `${post.title} - lasse's website`;
 
   // Immediately render post header (no flash of old content)
-  container.innerHTML = `
-    <div class="post-detail-content">
-      <a href="/" class="back-link">&larr; Back</a>
-
-      ${post.thumbnail ? `
-        <div class="post-detail-thumbnail-container">
-          <img src="${post.thumbnail}" alt="" class="post-detail-thumbnail-glow" aria-hidden="true" />
-          <img src="${post.thumbnail}" alt="${post.title}" class="post-detail-thumbnail" />
-        </div>
-      ` : ""}
-
-      <h1 class="post-detail-title">${post.title}</h1>
-      ${post.author ? `
-        <div class="post-author">
-          <a href="${post.author.url}" target="_blank" rel="noopener noreferrer">${post.author.name}</a> on ${formatDate(post.date)}
-        </div>
-      ` : `
-        <span class="post-detail-date">${formatDate(post.date)}</span>
-      `}
-
-      ${post.originalUrl ? `
-        <a href="${post.originalUrl}" target="_blank" rel="noopener noreferrer" class="post-original-link">
-          View Original &rarr;
-        </a>
-      ` : ""}
-
-      <div class="post-divider"></div>
-
-      <div class="post-content"></div>
-    </div>
-  `;
+  container.innerHTML = postDetailHtml(post);
 
   // Load and render markdown content
   const content = await loadPostContent(slug);
