@@ -75,6 +75,30 @@ Watch/verify the deploy under the repo's GitHub → Actions tab (workflow
 be triggered manually via "Run workflow". Running `wrangler pages deploy`
 directly is only for a maintainer on a machine with Cloudflare auth.
 
+### Blog posts and /admin
+
+A post is one file, `apps/web/content/blog/<slug>.md`. Its frontmatter
+(`title`, `date`, optional `icon`, `thumbnail`, `originalUrl`, `isOwnProject`,
+`hasAuthor`, `hidden`) is the source of truth. `src/blog/posts.json` is
+generated from it at build time and gitignored. The format rules live in
+`apps/web/scripts/post-format.mjs` (`pnpm --filter @lassenordahl/web test`).
+
+`lassenordahl.com/admin` is a browser editor for posts. It calls the API
+worker's `/admin/*` routes (`apps/api/src/blog-admin.ts`) with a bearer
+`ADMIN_TOKEN`. Drafts autosave to KV (`blog-draft:<slug>` in `DISPLAY_STATE`)
+and never touch the public repo. Publish commits the `.md` file to `master`
+with the worker's `GITHUB_TOKEN`, and the deploy workflow ships it. Images
+uploaded there go to R2 (`assets.lassenordahl.com`).
+
+One-time setup (worker secrets, then deploy the worker):
+
+```bash
+cd apps/api
+npx wrangler secret put ADMIN_TOKEN    # long random string, used to sign in at /admin
+npx wrangler secret put GITHUB_TOKEN   # fine-grained PAT, this repo only: Contents RW, Actions R
+npx wrangler deploy
+```
+
 ---
 
 ## packages/pico — Pico dev cycle

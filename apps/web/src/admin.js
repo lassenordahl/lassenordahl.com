@@ -664,8 +664,10 @@ async function uploadImage(file) {
 
 function insertAtCursor(text) {
   const { selectionStart: start, selectionEnd: end, value } = f.body;
+  // Give the image its own paragraph: a blank line before it, so it never
+  // becomes a lazy continuation of a list item or paragraph above.
   const before = value.slice(0, start);
-  const pad = before && !before.endsWith("\n") ? "\n\n" : "";
+  const pad = !before.trim() ? "" : before.endsWith("\n\n") ? "" : before.endsWith("\n") ? "\n" : "\n\n";
   f.body.setRangeText(pad + text + "\n", start, end, "end");
   f.body.focus();
   onEdit();
