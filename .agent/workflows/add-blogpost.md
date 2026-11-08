@@ -4,56 +4,37 @@ description: How to add a new blog post to the portfolio site
 
 # Adding a Blog Post
 
-## Quick Steps
+A post is one file: `apps/web/content/blog/<slug>.md`. The slug is the filename
+and the URL (`/post/<slug>`). The feed index (`src/blog/posts.json`) is
+generated from the frontmatter at build time, so don't edit it by hand. It's gitignored.
 
-1. **Get the screenshot** from the user (dropped in repo root)
-2. **Rename/move it** to `/static/images/blog/<slug>.png`
-3. **Add entry** to `/src/blog/posts.js`
-4. **Optionally create** `/content/blog/<slug>.md` for content posts
+You can also write posts in the browser at `/admin`, which commits the file for you.
 
-## Posts Registry (`/src/blog/posts.js`)
-
-Add a new entry to the `posts` array:
-
-```javascript
-{
-  slug: "my-post",              // URL-friendly slug
-  title: "Post Title",          // Display title
-  date: "YYYY-MM-DD",           // Publication date
-  thumbnail: "/images/blog/my-post.png",
-  originalUrl: "https://...",   // External URL (shows "External" badge)
-  isOwnProject: true            // Optional: hide domain from badge
-}
-```
-
-**Sorting**: Posts auto-sort by date (newest first).
-
-## Post Types
-
-1. **External-only** (like download.zip, rank-everything): Just metadata in posts.js, links to external URL
-2. **Content posts**: Also create a markdown file in `/content/blog/<slug>.md`
-
-## Markdown Content Files
-
-Create `/content/blog/<slug>.md` with frontmatter:
+## Frontmatter
 
 ```markdown
 ---
-title: "Post Title"
-date: "YYYY-MM-DD"
-thumbnail: "/images/blog/slug.png"
-originalUrl: "https://..."
+title: "Post Title"                    # required
+date: "YYYY-MM-DD"                     # required, sorts the feed (newest first)
+icon: "pen-line"                       # optional lucide icon name
+thumbnail: "/images/blog/slug.avif"    # optional, shows the post as an image card
+originalUrl: "https://..."             # optional, external post ("View Original")
+isOwnProject: true                     # optional, hide the domain on the External badge
+hasAuthor: false                       # optional, drop the "Lasse Nordahl on <date>" byline
+hidden: true                           # optional, keep the file but leave it off the site
 ---
 
 Your markdown content here...
 ```
 
-## Screenshot Processing
+External-only posts (download.zip, rank-everything) are frontmatter with no body.
 
-```bash
-# Find and move the screenshot
-for f in Screen*; do cp "$f" static/images/blog/<slug>.png; done
-rm Screen*.png
-```
+`pnpm --filter @lassenordahl/web build` fails if a post has a missing title or
+date, a bad date, or a bad slug. `pnpm --filter @lassenordahl/web test` checks
+the format (`scripts/post-format.mjs`).
 
-Note: `sips` webp conversion may not work on all macOS versions. PNG is acceptable.
+## Images
+
+Put images under `apps/web/static/images/blog/<slug>/` and reference them as
+`/images/blog/<slug>/name.avif`. Images uploaded from `/admin` go to R2 and are
+served from `https://assets.lassenordahl.com/`.

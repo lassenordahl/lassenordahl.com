@@ -1,6 +1,7 @@
 ---
-title: "Figma Config 2026"
+title: "Config 2026"
 date: "2026-06-27"
+icon: "pen-line"
 ---
 
 I went to Config for work this June. As a frontend engineer it was really cool to think more about design within my own work. One of the interesting things about Palantir is we do a little bit of everything, so some of the talks on maps, design system, edge computing, and shaders all felt pretty tangible.

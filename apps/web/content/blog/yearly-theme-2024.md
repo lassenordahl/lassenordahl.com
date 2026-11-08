@@ -1,6 +1,7 @@
 ---
 title: "Yearly Theme - Follow through"
 date: "2024-01-01"
+icon: "target"
 ---
 
 I felt like I zero'd in on a bunch of things I liked in 2023. Later in the year I was thinking a lot about JPG Coaching on Tiktok talking about how its way harder to make gym progress unless you actually really go to muscle failure.
