@@ -1,6 +1,7 @@
 ---
 title: "rank-everything.com"
 date: "2025-12-19"
+hidden: true
 ---
 
 On a trip to New Hampshire to hike Mt. Washington my friends and I were playing a game where we ranked every object and concept against each other.

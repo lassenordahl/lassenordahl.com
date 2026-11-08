@@ -1,6 +1,7 @@
 ---
-title: "2026 Egg Tarts"
+title: "Egg Tarts"
 date: "2026-01-11"
+icon: "pen-line"
 ---
 
 Will keep updating this until I figure it out.
@@ -16,5 +17,3 @@ Will keep updating this until I figure it out.
 ![](/images/blog/egg-tart/tart-4.avif)
 ![](/images/blog/egg-tart/tart-5.avif)
 ![](/images/blog/egg-tart/tart-6.avif)
-
-
