@@ -7,6 +7,7 @@ import {
   handleImage,
   handleDelete,
 } from "./assets";
+import { blogAdmin } from "./blog-admin";
 
 export { PixelCanvas } from "./pixel-canvas";
 
@@ -15,6 +16,9 @@ type Bindings = {
   PIXEL_CANVAS: DurableObjectNamespace;
   ASSETS: R2Bucket;
   ASSETS_TOKEN?: string;
+  // Blog admin (see blog-admin.ts). Secrets, set with `wrangler secret put`.
+  ADMIN_TOKEN?: string;
+  GITHUB_TOKEN?: string;
 };
 
 const app = new Hono<{ Bindings: Bindings }>();
@@ -152,5 +156,9 @@ app.post("/assets", (c) => handleUpload(c.req.raw, c.env));
 app.get("/assets", (c) => handleList(c.env));
 app.get("/assets/img/:name", (c) => handleImage(c.req.param("name"), c.env));
 app.delete("/assets/img/:name", (c) => handleDelete(c.req.raw, c.req.param("name"), c.env));
+
+// ── Blog admin ──────────────────────────────────────────────────────────────
+// Backs lassenordahl.com/admin: drafts in KV, publish = commit to GitHub.
+app.route("/admin", blogAdmin);
 
 export default app;

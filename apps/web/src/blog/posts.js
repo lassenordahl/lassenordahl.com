@@ -12,6 +12,8 @@ const DEFAULT_AUTHOR = {
 };
 
 // Add author to posts (unless hasAuthor is explicitly false)
+export { DEFAULT_AUTHOR };
+
 export const posts = postsData.map(post => ({
   ...post,
   author: post.hasAuthor === false ? undefined : DEFAULT_AUTHOR

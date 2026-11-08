@@ -1,0 +1,459 @@
+/* /admin: the blog editor. Same language as the rest of the site: black,
+   1px white rules, Berkeley Mono, small lowercase labels, underlined actions. */
+
+html {
+  background: black;
+}
+
+body {
+  margin: 0;
+  color: white;
+  min-height: 100vh;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+.admin-view {
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.admin-narrow {
+  max-width: 656px;
+  margin: 0 auto;
+  padding: 64px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.admin-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.admin-title {
+  font-size: 1rem;
+  font-weight: normal;
+  margin: 0 0 16px;
+}
+
+.admin-title-row .admin-title {
+  margin: 0;
+}
+
+.admin-divider {
+  height: 1px;
+  background: white;
+}
+
+.admin-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.admin-label {
+  font-size: 0.65rem;
+  color: #888;
+  letter-spacing: 0.06em;
+  text-transform: lowercase;
+}
+
+.admin-note {
+  font-size: 0.65rem;
+  color: #555;
+  margin: 0;
+}
+
+.admin-status {
+  font-size: 0.7rem;
+  color: #888;
+  margin: 0;
+}
+
+.admin-status.is-error {
+  color: #ff7a7a;
+}
+
+.admin-status.is-good {
+  color: #9be59b;
+}
+
+.admin-btn {
+  background: transparent;
+  border: none;
+  color: #888;
+  font-family: inherit;
+  font-size: 0.75rem;
+  cursor: pointer;
+  padding: 4px 0;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  white-space: nowrap;
+}
+
+.admin-btn:hover,
+.admin-btn:focus-visible {
+  color: white;
+}
+
+.admin-btn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.admin-btn--primary {
+  color: white;
+  border: 1px solid white;
+  padding: 6px 12px;
+  text-decoration: none;
+}
+
+.admin-btn--primary:hover:not(:disabled) {
+  background: white;
+  color: black;
+}
+
+.admin-btn--danger {
+  color: #ff7a7a;
+}
+
+.admin-btn--inline {
+  font-size: 0.65rem;
+  padding: 0 0 0 8px;
+  text-transform: lowercase;
+}
+
+.admin-input {
+  width: 100%;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 0;
+  color: white;
+  font-family: inherit;
+  font-size: 0.85rem;
+  padding: 10px 12px;
+  box-sizing: border-box;
+  outline: none;
+  color-scheme: dark;
+}
+
+.admin-input:focus {
+  border-color: white;
+}
+
+.admin-input::placeholder {
+  color: #444;
+}
+
+.admin-input:disabled {
+  color: #888;
+  border-style: dashed;
+}
+
+.admin-login {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.admin-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.admin-check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.7rem;
+  color: #bbb;
+  grid-column: 1 / -1;
+}
+
+.admin-check input {
+  accent-color: white;
+}
+
+/* ── Post list ─────────────────────────────────────────────────────────── */
+
+.admin-posts {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-post {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 4px 16px;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  color: white;
+  text-decoration: none;
+}
+
+.admin-post:hover .admin-post-title {
+  text-decoration: underline;
+}
+
+.admin-post-title {
+  font-size: 0.8rem;
+}
+
+.admin-post-date {
+  font-size: 0.7rem;
+  color: #888;
+  text-align: right;
+}
+
+.admin-post-meta {
+  grid-column: 1 / -1;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+  font-size: 0.65rem;
+  color: #555;
+}
+
+.admin-tag {
+  border: 1px solid currentColor;
+  padding: 1px 6px;
+  font-size: 0.6rem;
+  text-transform: lowercase;
+}
+
+.admin-tag--draft {
+  color: #f2c94c;
+}
+
+.admin-tag--hidden,
+.admin-tag--external {
+  color: #888;
+}
+
+/* ── Editor ────────────────────────────────────────────────────────────── */
+
+.admin-editor {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  height: 100dvh;
+}
+
+.editor-bar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 24px;
+  border-bottom: 1px solid white;
+  flex-wrap: wrap;
+}
+
+.editor-slug {
+  font-size: 0.7rem;
+  color: #666;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 30ch;
+}
+
+.editor-status {
+  flex: 1;
+  min-width: 12ch;
+}
+
+.editor-status a {
+  color: inherit;
+}
+
+.editor-actions {
+  margin-left: auto;
+}
+
+.editor-banner {
+  font-size: 0.7rem;
+  color: #f2c94c;
+  padding: 10px 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.editor-banner .admin-btn {
+  font-size: 0.7rem;
+  margin-left: 8px;
+}
+
+.editor-tabs {
+  display: none;
+}
+
+.editor-panes {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+}
+
+.editor-pane {
+  min-height: 0;
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+.editor-pane--write {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 24px;
+  border-right: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.editor-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px 16px;
+}
+
+.admin-field--wide {
+  grid-column: 1 / -1;
+}
+
+.editor-more summary {
+  cursor: pointer;
+  padding: 4px 0;
+}
+
+.editor-more[open] summary {
+  margin-bottom: 12px;
+}
+
+.icon-preview svg {
+  width: 12px;
+  height: 12px;
+  vertical-align: -2px;
+  margin-left: 4px;
+  color: white;
+}
+
+.editor-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.editor-body {
+  flex: 1;
+  min-height: 50vh;
+  resize: vertical;
+  font-size: 0.8rem;
+  line-height: 1.6;
+  tab-size: 2;
+}
+
+.editor-body.is-dropping {
+  border-color: white;
+  border-style: dashed;
+}
+
+.preview-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 24px 0;
+}
+
+/* The preview is the real post markup, styled by app.css. */
+.preview-post.post-detail {
+  display: block;
+  width: auto;
+  min-height: 0;
+  padding: 24px 24px 64px;
+}
+
+.preview-post .back-link {
+  pointer-events: none;
+  opacity: 0.4;
+}
+
+.preview-empty {
+  font-size: 0.7rem;
+  color: #555;
+}
+
+@media (max-width: 900px) {
+  .editor-bar {
+    padding: 12px 16px;
+    gap: 8px 16px;
+  }
+
+  .editor-banner {
+    padding: 10px 16px;
+  }
+
+  .editor-tabs {
+    display: flex;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .editor-tab {
+    flex: 1;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: #888;
+    font-family: inherit;
+    font-size: 0.75rem;
+    padding: 10px 0;
+    cursor: pointer;
+  }
+
+  .editor-tab[aria-selected="true"] {
+    color: white;
+    border-bottom-color: white;
+  }
+
+  .editor-panes {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .editor-panes[data-active="write"] .editor-pane--preview,
+  .editor-panes[data-active="preview"] .editor-pane--write {
+    display: none;
+  }
+
+  .editor-pane--write {
+    padding: 16px;
+    border-right: none;
+  }
+
+  .preview-bar {
+    padding: 12px 16px 0;
+  }
+
+  .preview-post.post-detail {
+    padding: 16px 16px 48px;
+  }
+
+  .editor-fields {
+    grid-template-columns: 1fr;
+  }
+
+  /* 16px inputs keep iOS Safari from zooming in on focus. */
+  .admin-input {
+    font-size: 16px;
+  }
+}

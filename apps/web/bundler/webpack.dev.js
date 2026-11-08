@@ -38,6 +38,7 @@ module.exports = merge(commonConfiguration, {
         { from: /^\/trains$/, to: "/trains.html" },
         { from: /^\/draw$/, to: "/draw.html" },
         { from: /^\/tasks$/, to: "/tasks.html" },
+        { from: /^\/admin$/, to: "/admin.html" },
       ],
     },
     setupMiddlewares: function (middlewares, devServer) {
