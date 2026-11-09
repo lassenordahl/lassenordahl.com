@@ -911,7 +911,7 @@ html.is-post-page .post-detail {
   margin-bottom: 16px;
 }
 
-/* Captioned clips and two-up photo grids (the Derailed post). */
+/* Full-width captioned photos and clips (the Derailed post). */
 .post-content figure {
   margin: 0 0 16px;
 }
@@ -924,39 +924,17 @@ html.is-post-page .post-detail {
   margin-top: 6px;
 }
 
-.post-content .clip video {
-  display: block;
-  width: 100%;
-  max-width: 80%;
-  height: auto;
+.post-content .photo-stack figure {
+  margin: 0 0 24px;
 }
 
-.post-content .photo-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
-  margin-bottom: 16px;
-}
-
-.post-content .photo-grid figure {
-  margin: 0;
-}
-
-.post-content .photo-grid img {
+.post-content .photo-stack img,
+.post-content .photo-stack video {
   display: block;
   width: 100%;
   max-width: 100%;
+  height: auto;
   margin: 0;
-}
-
-@media (max-width: 768px) {
-  .post-content .clip video {
-    max-width: 100%;
-  }
-
-  .post-content .photo-grid {
-    grid-template-columns: 1fr;
-  }
 }
 
 .post-content blockquote {

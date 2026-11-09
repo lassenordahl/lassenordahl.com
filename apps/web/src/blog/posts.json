@@ -3,7 +3,8 @@
     "slug": "derailed",
     "title": "Derailed",
     "date": "2026-11-09",
-    "icon": "train-front"
+    "icon": "train-front",
+    "thumbnail": "/images/blog/derailed/preview.jpg"
   },
   {
     "slug": "3d-prints",
