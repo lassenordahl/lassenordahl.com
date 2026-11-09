@@ -57,4 +57,5 @@ date: "2026-11-09"
   <figure><img src="/images/blog/derailed/car-casino_car-roulette.avif" alt="Roulette table in the casino car" loading="lazy" /><figcaption>Roulette table in the casino car</figcaption></figure>
   <figure><img src="/images/blog/derailed/staff-lounge.avif" alt="The crew lounge in the staff car" loading="lazy" /><figcaption>The crew lounge in the staff car</figcaption></figure>
   <figure><img src="/images/blog/derailed/spa-flooded.avif" alt="A flooded floor in the spa car" loading="lazy" /><figcaption>A flooded floor in the spa car</figcaption></figure>
+  <figure><img src="/images/blog/derailed/crew-on-the-flatcar.avif" alt="Three crew conductors on the flatcar" loading="lazy" /><figcaption>Three crew conductors on the flatcar</figcaption></figure>
 </div>
