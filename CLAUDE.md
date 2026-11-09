@@ -198,8 +198,14 @@ The Pico cycles through 3 modes via buttons A (next) / B (prev):
 
 ---
 
-### 🚧 Pixels mode — collaborative pixel draw
+### 🔒 Pixels mode — collaborative pixel draw (local only)
 **Goal**: A page at `lassenordahl.com/draw` where anyone can click pixels on a 16×7 grid and it updates the physical display in real time.
+
+**Off in production (2026-11-09)**: the routes had no auth, so anyone could draw on, clear or restore the canvas the Pico
+shows. The prod web build leaves `/draw` out (it redirects home), and the Worker answers 404 on every `/pixels*` route,
+WebSocket included, unless `PIXELS=on`. Only local `wrangler dev` sets it, from the gitignored `apps/api/.dev.vars`
+(create it with `PIXELS=on`). The canvas and its saves stay in the Durable Object. Turn it back on only with auth on the
+writes.
 
 **What's built**:
 - `apps/web/src/draw.html` + `draw.js` + `draw.css` — functional stub (grid renders, polls API, click-to-paint works)
