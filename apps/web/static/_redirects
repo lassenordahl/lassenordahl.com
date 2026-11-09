@@ -1,2 +1,5 @@
 /post/*  /index.html  200
 /tasks   /tasks.html  200
+/derailed  /post/derailed  302
+/draw  /  302
+/draw.html  /  302

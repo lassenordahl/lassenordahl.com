@@ -2,12 +2,26 @@ const path = require("path");
 const { merge } = require("webpack-merge");
 const commonConfiguration = require("./webpack.common.js");
 const portFinderSync = require("portfinder-sync");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 const infoColor = (_message) => {
   return `\u001b[1m\u001b[34m${_message}\u001b[39m\u001b[22m`;
 };
 
 module.exports = merge(commonConfiguration, {
+  // The /draw page is local-only: it opens a WebSocket to the pixels Worker, which is
+  // too easy to run up a Cloudflare bill with, so the prod build leaves it out.
+  entry: {
+    draw: path.resolve(__dirname, "../src/draw.js"),
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: path.resolve(__dirname, "../src/draw.html"),
+      filename: "draw.html",
+      chunks: ["draw"],
+      minify: true,
+    }),
+  ],
   stats: "errors-warnings",
   mode: "development",
   infrastructureLogging: {

@@ -7,7 +7,6 @@ module.exports = {
   entry: {
     main: path.resolve(__dirname, "../src/script.js"),
     tasks: path.resolve(__dirname, "../src/tasks.js"),
-    draw: path.resolve(__dirname, "../src/draw.js"),
     text: path.resolve(__dirname, "../src/text.js"),
     trains: path.resolve(__dirname, "../src/trains.js"),
   },
@@ -35,12 +34,6 @@ module.exports = {
       template: path.resolve(__dirname, "../src/tasks.html"),
       filename: 'tasks.html',
       chunks: ['tasks'],
-      minify: true,
-    }),
-    new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, "../src/draw.html"),
-      filename: 'draw.html',
-      chunks: ['draw'],
       minify: true,
     }),
     new HtmlWebpackPlugin({

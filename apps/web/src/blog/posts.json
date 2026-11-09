@@ -1,5 +1,11 @@
 [
   {
+    "slug": "derailed",
+    "title": "Derailed",
+    "date": "2026-11-09",
+    "icon": "train-front"
+  },
+  {
     "slug": "3d-prints",
     "title": "3D Prints",
     "date": "2026-11-06",
