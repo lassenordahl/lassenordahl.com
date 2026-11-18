@@ -9,6 +9,7 @@ module.exports = {
     tasks: path.resolve(__dirname, "../src/tasks.js"),
     text: path.resolve(__dirname, "../src/text.js"),
     trains: path.resolve(__dirname, "../src/trains.js"),
+    admin: path.resolve(__dirname, "../src/admin.js"),
   },
   output: {
     hashFunction: "xxhash64",
@@ -46,6 +47,12 @@ module.exports = {
       template: path.resolve(__dirname, "../src/trains.html"),
       filename: 'trains.html',
       chunks: ['trains'],
+      minify: true,
+    }),
+    new HtmlWebpackPlugin({
+      template: path.resolve(__dirname, "../src/admin.html"),
+      filename: 'admin.html',
+      chunks: ['admin'],
       minify: true,
     }),
     new MiniCSSExtractPlugin(),

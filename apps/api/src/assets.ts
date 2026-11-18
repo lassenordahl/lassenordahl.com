@@ -133,7 +133,12 @@ export async function handleUpload(req: Request, env: AssetsEnv): Promise<Respon
   if (!isAuthed(req, env.ASSETS_TOKEN)) {
     return Response.json({ ok: false, error: "unauthorized" }, { status: 401 });
   }
+  return storeImage(req, env);
+}
 
+/** Resize + store the image in the request body. Callers must check auth first
+ *  (handleUpload uses ASSETS_TOKEN; the blog admin uses ADMIN_TOKEN). */
+export async function storeImage(req: Request, env: AssetsEnv): Promise<Response> {
   const contentType = req.headers.get("content-type") ?? "image/jpeg";
   const bytes = await req.arrayBuffer();
   if (bytes.byteLength === 0) {

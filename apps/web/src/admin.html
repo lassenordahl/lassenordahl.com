@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>admin - lasse's website</title>
+  </head>
+  <body>
+    <!-- Sign in -->
+    <section class="admin-view admin-narrow" id="view-login" hidden>
+      <header class="admin-header">
+        <h2 class="admin-title">admin</h2>
+        <div class="admin-divider"></div>
+      </header>
+      <form class="admin-login" id="login-form">
+        <label class="admin-label" for="token-input">admin token</label>
+        <input class="admin-input" id="token-input" type="password" autocomplete="current-password" spellcheck="false" placeholder="paste ADMIN_TOKEN" required />
+        <div class="admin-row">
+          <button class="admin-btn admin-btn--primary" type="submit">sign in</button>
+          <span class="admin-status" id="login-status" role="status"></span>
+        </div>
+        <p class="admin-note">Stays on this device until you sign out.</p>
+      </form>
+    </section>
+
+    <!-- Post list -->
+    <section class="admin-view admin-narrow" id="view-list" hidden>
+      <header class="admin-header">
+        <div class="admin-title-row">
+          <h2 class="admin-title">posts</h2>
+          <div class="admin-row">
+            <a class="admin-btn admin-btn--primary" href="#/new">new post</a>
+            <button class="admin-btn" type="button" id="sign-out">sign out</button>
+          </div>
+        </div>
+        <div class="admin-divider"></div>
+      </header>
+      <p class="admin-status" id="list-status" role="status"></p>
+      <ul class="admin-posts" id="post-list"></ul>
+    </section>
+
+    <!-- Editor -->
+    <section class="admin-view admin-editor" id="view-edit" hidden>
+      <header class="editor-bar">
+        <a class="admin-btn" href="#/">&larr; posts</a>
+        <span class="editor-slug" id="editor-slug"></span>
+        <span class="admin-status editor-status" id="editor-status" role="status" aria-live="polite"></span>
+        <div class="admin-row editor-actions">
+          <button class="admin-btn" type="button" id="discard-draft" hidden>discard draft</button>
+          <a class="admin-btn" id="view-live" target="_blank" rel="noopener" hidden>view live</a>
+          <button class="admin-btn admin-btn--primary" type="button" id="publish">publish</button>
+        </div>
+      </header>
+
+      <div class="editor-banner" id="editor-banner" hidden></div>
+
+      <div class="editor-tabs" role="tablist">
+        <button class="editor-tab" type="button" role="tab" data-tab="write" aria-selected="true">write</button>
+        <button class="editor-tab" type="button" role="tab" data-tab="preview" aria-selected="false">preview</button>
+      </div>
+
+      <div class="editor-panes" data-active="write">
+        <div class="editor-pane editor-pane--write">
+          <div class="editor-fields">
+            <label class="admin-field admin-field--wide">
+              <span class="admin-label">title</span>
+              <input class="admin-input" id="f-title" type="text" placeholder="Post title" />
+            </label>
+            <label class="admin-field">
+              <span class="admin-label">date</span>
+              <input class="admin-input" id="f-date" type="date" />
+            </label>
+            <label class="admin-field">
+              <span class="admin-label">slug (url)</span>
+              <input class="admin-input" id="f-slug" type="text" spellcheck="false" autocapitalize="off" placeholder="my-post" />
+            </label>
+          </div>
+
+          <details class="editor-more" id="more-fields">
+            <summary class="admin-label">more: icon, thumbnail, link, byline, hidden</summary>
+            <div class="editor-fields">
+              <label class="admin-field">
+                <span class="admin-label">icon (lucide name) <span class="icon-preview" id="icon-preview"></span></span>
+                <input class="admin-input" id="f-icon" type="text" list="icon-options" spellcheck="false" autocapitalize="off" placeholder="pen-line" />
+                <datalist id="icon-options"></datalist>
+              </label>
+              <label class="admin-field admin-field--wide">
+                <span class="admin-label">thumbnail <button class="admin-btn admin-btn--inline" type="button" id="thumb-upload">upload</button></span>
+                <input class="admin-input" id="f-thumbnail" type="text" spellcheck="false" autocapitalize="off" placeholder="/images/blog/... or https://..." />
+              </label>
+              <label class="admin-field admin-field--wide">
+                <span class="admin-label">original url (makes it an external post)</span>
+                <input class="admin-input" id="f-originalUrl" type="url" spellcheck="false" autocapitalize="off" placeholder="https://..." />
+              </label>
+              <label class="admin-check"><input type="checkbox" id="f-hasAuthor" /> show "Lasse Nordahl on &lt;date&gt;" byline</label>
+              <label class="admin-check"><input type="checkbox" id="f-isOwnProject" /> own project (hide domain on External badge)</label>
+              <label class="admin-check"><input type="checkbox" id="f-hidden" /> hidden (keep in repo, leave off the site)</label>
+              <div class="admin-row">
+                <button class="admin-btn admin-btn--danger" type="button" id="delete-post" hidden>delete post</button>
+              </div>
+            </div>
+          </details>
+
+          <div class="editor-toolbar">
+            <button class="admin-btn" type="button" id="insert-image">add image</button>
+            <span class="admin-note">paste or drop images too · ctrl/cmd+s saves the draft</span>
+          </div>
+          <textarea class="admin-input editor-body" id="f-body" spellcheck="true" placeholder="Write in markdown..."></textarea>
+        </div>
+
+        <div class="editor-pane editor-pane--preview">
+          <div class="preview-bar">
+            <span class="admin-label">preview</span>
+            <button class="admin-btn" type="button" id="run-sketches" hidden>run sketches</button>
+          </div>
+          <div class="post-detail preview-post" id="preview"></div>
+        </div>
+      </div>
+
+      <input type="file" id="file-picker" accept="image/*" multiple hidden />
+    </section>
+  </body>
+</html>
