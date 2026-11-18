@@ -1,4 +1,4 @@
-import { Hono } from "hono";
+import { Hono, type Context, type Next } from "hono";
 import { cors } from "hono/cors";
 import { getTrainsData, DEFAULT_TRAINS_CONFIG, type TrainsConfig } from "./trains";
 import {
@@ -15,6 +15,8 @@ type Bindings = {
   PIXEL_CANVAS: DurableObjectNamespace;
   ASSETS: R2Bucket;
   ASSETS_TOKEN?: string;
+  /** "on" serves the pixel canvas (/pixels*). Unset in production; apps/api/.dev.vars sets it for wrangler dev. */
+  PIXELS?: string;
 };
 
 const app = new Hono<{ Bindings: Bindings }>();
@@ -125,6 +127,17 @@ app.post("/trains/config", async (c) => {
 // HTTP GET/POST/DELETE /pixels → DO fetch. WebSocket at /pixels/ws for real-time
 // broadcast; HTTP POST still works for non-WS clients (e.g. Pico if we ever write
 // from it). The DO serializes writes so fast drags no longer clobber each other.
+//
+// Off in production. The public /draw page is gone (e0314e9), and these routes have no auth: anyone could set,
+// clear, restore or delete the canvas the Pico shows. They answer 404 unless PIXELS=on, which only local
+// `wrangler dev` sets (apps/api/.dev.vars). The canvas and its saves stay stored in the Durable Object.
+const pixelsOff = async (c: Context<{ Bindings: Bindings }>, next: Next) => {
+  if (c.env.PIXELS !== "on") return c.notFound();
+  await next();
+};
+app.use("/pixels", pixelsOff);
+app.use("/pixels/*", pixelsOff);
+
 app.all("/pixels", async (c) => {
   const stub = c.env.PIXEL_CANVAS.get(c.env.PIXEL_CANVAS.idFromName("main"));
   return stub.fetch(c.req.raw);
