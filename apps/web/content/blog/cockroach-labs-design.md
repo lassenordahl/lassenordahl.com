@@ -1,6 +1,7 @@
 ---
-title: Cockroach Labs Design
-date: 2026-06-28
+title: "Cockroach Labs Design"
+date: "2026-06-28"
+icon: "pen-line"
 ---
 
 When I was at Cockroach working on the growth team, I remember having a few conversations with the head of brand design about updating the marketing website. Personally I felt that the canvases of solid color we were doing didn't really _feel_ like something CockroachDB would represent.

@@ -3,6 +3,7 @@ title: "8 new top-level domains for dads, grads and techies"
 date: "2023-05-10"
 thumbnail: "/images/blog/google-tlds.webp"
 originalUrl: "https://blog.google/products/registry/8-new-top-level-domains-for-dads-grads-tech/"
+hasAuthor: false
 ---
 
 May is also the month of Google I/O, our annual developer conference. .foo, .zip, .mov and .nexus are perfect whether you're learning to code, deploying a helpful tool, building your portfolio, or starting a new community. Check out some of the websites already using these TLDs:

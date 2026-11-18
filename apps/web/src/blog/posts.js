@@ -1,6 +1,7 @@
 // Blog posts registry
 // Posts are sorted by date (newest first) when rendered
-// Content is loaded from markdown files in /content/blog/
+// Generated at build time from the frontmatter of content/blog/*.md
+// (scripts/build-posts-index.mjs) -- edit the .md files, not posts.json.
 
 import postsData from './posts.json';
 

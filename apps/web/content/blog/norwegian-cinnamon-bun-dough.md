@@ -1,6 +1,7 @@
 ---
 title: "Norwegian Cinnamon Bun Dough"
 date: "2026-10-06"
+icon: "pen-line"
 ---
 
 ## Ingredients

@@ -1,6 +1,8 @@
 ---
 title: "Derailed"
 date: "2026-11-09"
+icon: "train-front"
+thumbnail: "/images/blog/derailed/preview.jpg"
 ---
 
 <div class="photo-stack">

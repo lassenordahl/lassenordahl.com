@@ -1,6 +1,7 @@
 ---
 title: "Yearly Theme - Make more things"
 date: "2025-01-01"
+icon: "hammer"
 ---
 
 This yearly theme was make more things. Started off buying a 3d printer to make lamps - printed some fun things, tried to do more fun coding projects in the later half of the year, inhaled way too much spray paint and microplastic.
@@ -10,4 +11,3 @@ This yearly theme was make more things. Started off buying a 3d printer to make 
 Cutting wood in the 51 Dean St, Apt 4 bullshit room was overly ambitious.
 
 I found [this video by Scott Yu-Jan](https://www.youtube.com/watch?v=9FHjfzS4BqQ) really excited me.
-

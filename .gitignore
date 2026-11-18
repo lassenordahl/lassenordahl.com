@@ -23,3 +23,6 @@ dist
 # Pico device config (contains env + credentials)
 packages/pico/secrets.py
 packages/pico/config.py
+
+# Blog feed index, generated from content/blog/*.md frontmatter
+apps/web/src/blog/posts.json

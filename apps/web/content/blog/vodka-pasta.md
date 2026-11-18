@@ -1,6 +1,7 @@
 ---
 title: "Vodka Pasta"
 date: "2026-05-23"
+icon: "pen-line"
 ---
 
 # Background

@@ -6,9 +6,11 @@
     "node": "24.x"
   },
   "scripts": {
-    "build": "webpack --config ./bundler/webpack.prod.js && node scripts/generate-posts.js",
+    "posts:index": "node scripts/build-posts-index.mjs",
+    "build": "node scripts/build-posts-index.mjs && webpack --config ./bundler/webpack.prod.js && node scripts/generate-posts.js",
     "deploy": "wrangler pages deploy public --project-name lassenordahl-web --branch main",
-    "dev": "webpack serve --config ./bundler/webpack.dev.js"
+    "dev": "node scripts/build-posts-index.mjs && webpack serve --config ./bundler/webpack.dev.js",
+    "test": "node --test scripts/*.test.mjs"
   },
   "dependencies": {
     "@babel/core": "^7.17.10",

@@ -1,6 +1,7 @@
 ---
 title: "Yearly Theme - Write more"
 date: "2026-01-01"
+icon: "pen-line"
 ---
 
 EOY break gave me a nice bit of time to reflect and write. I also bought a SECOND notebook having finished the first one I bought last November.

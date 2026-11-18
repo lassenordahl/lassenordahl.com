@@ -15,7 +15,7 @@ const rootDir = path.resolve(__dirname, '..');
 const publicDir = path.join(rootDir, 'public');
 const contentDir = path.join(rootDir, 'content', 'blog');
 
-// Load posts from the single source of truth
+// Load posts from the index build-posts-index.mjs generated from frontmatter
 const postsData = JSON.parse(
   fs.readFileSync(path.join(rootDir, 'src', 'blog', 'posts.json'), 'utf-8')
 );

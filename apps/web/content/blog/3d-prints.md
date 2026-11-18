@@ -1,6 +1,7 @@
 ---
 title: "3D Prints"
 date: "2026-11-06"
+icon: "printer"
 ---
 
 ## Theme Park Overload
