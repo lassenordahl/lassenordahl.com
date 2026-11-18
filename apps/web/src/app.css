@@ -911,6 +911,32 @@ html.is-post-page .post-detail {
   margin-bottom: 16px;
 }
 
+/* Full-width captioned photos and clips (the Derailed post). */
+.post-content figure {
+  margin: 0 0 16px;
+}
+
+.post-content figcaption {
+  color: white;
+  font-size: 0.7rem;
+  line-height: 1.4;
+  opacity: 0.7;
+  margin-top: 6px;
+}
+
+.post-content .photo-stack figure {
+  margin: 0 0 24px;
+}
+
+.post-content .photo-stack img,
+.post-content .photo-stack video {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  margin: 0;
+}
+
 .post-content blockquote {
   border-left: 2px solid white;
   padding-left: 16px;
